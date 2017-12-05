@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Date</title>
+
+    <script src="http://cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
+</head>
+
+<script>
+    webshims.setOptions('forms-ext', {types: 'date'});
+    webshims.polyfill('forms forms-ext');
+</script>
+
+<body>
+    <input type="date" />
+</body>
+</html>

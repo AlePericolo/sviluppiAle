@@ -13,17 +13,17 @@
     <!-- import angularjs -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <!-- import angularjs controller-->
-    <script type="text/javascript" src="controller/stampaController.js"></script>
+    <script type="text/javascript" src="controller/stampaControllerSelezionaColonne.js"></script>
     <!--jspdf-->
-    <script type="text/javascript" src="lib/jspdf.min.js"></script>
-    <script type="text/javascript" src="lib/jspdf.plugin.autotable.js"></script>
+    <script type="text/javascript" src="../testStampaPDFCustom/lib/jspdf.min.js"></script>
+    <script type="text/javascript" src="../testStampaPDFCustom/lib/jspdf.plugin.autotable.js"></script>
     <!--bootstrap-->
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="../testStampaPDFCustom/css/bootstrap.css">
 
     <title>Stampa</title>
 </head>
 
-<body ng-app="myApp" ng-controller="stampaController">
+<body ng-app="myApp" ng-controller="stampaControllerSelezionaColonne">
 
 <div id="functions" style="margin-top: 3%" class="col-md-11">
 

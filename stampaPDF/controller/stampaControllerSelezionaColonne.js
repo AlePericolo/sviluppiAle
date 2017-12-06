@@ -4,7 +4,7 @@
 
 var app = angular.module('myApp', []);
 
-app.controller('stampaController', function($scope) {
+app.controller('stampaControllerSelezionaColonne', function($scope) {
 
     $scope.visualizzaNome = true;
     $scope.visualizzaCognome = true;

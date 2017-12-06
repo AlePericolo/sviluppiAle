@@ -7,7 +7,7 @@ var app = angular.module('myApp', []);
 app.controller('stampaController', function ($scope, $http) {
 
     var url = window.location.href;
-    var percorso = url.split("/testStampaExcel");
+    var percorso = url.split("/stampaExcel");
 
 
     //---------------------------------------------------- DATI ----------------------------------------------------
@@ -52,10 +52,10 @@ app.controller('stampaController', function ($scope, $http) {
 
     $scope.scarica = function(){
 
-        window.open(percorso[0] + '/testStampaExcel/handler/StampaHandler.php?name=ALE');
+        window.open(percorso[0] + '/stampaExcel/handler/StampaHandler.php?name=ALE');
 
         /*
-        $http.post(percorso[0] + '/testStampaExcel/handler/StampaHandler.php',
+        $http.post(percorso[0] + '/stampaExcel/handler/StampaHandler.php',
             //{'function': 'stampaExcel', 'Header': $scope.getHeaderTable(), 'Dati': $scope.creaFileDaScaricare()}
             {'function': 'stampaExcel'}
         ).success(function (data, status, headers, config) {

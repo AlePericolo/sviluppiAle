@@ -6,117 +6,49 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="http://javascript.daypilot.org/demo/js/daypilot-all.min.js?v=3068"></script>
-
+    <link rel="stylesheet" type="text/css" media="all" href="schedulercsscustom.css" >
+    <!--import controller-->
+    <script type="text/javascript"  src="calendarioController.js"></script>
 </head>
-<body>
+<body ng-app="aleApp" ng-controller="calendarioController">
 
-<div ng-app="main" ng-controller="DemoCtrl" >
-
-    <div style="float:left; width:150px">
-        <div id="nav"></div>
+    <div style="float:left; width:160px">
+        <daypilot-navigator id="navigator" daypilot-config="navigatorConfig"></daypilot-navigator>
+    </div>
+    <div style="margin-left: 160px">
+        <daypilot-scheduler id="scheduler" daypilot-config="schedulerConfig" daypilot-events="events" ></daypilot-scheduler>
     </div>
 
-    <div style="margin-left: 150px">
-        <div id="dp"></div>
+    <div class="space">
+        New event:
+        <button ng-click="add()">Add</button>
     </div>
-
-
-</div>
-
-<script type="text/javascript">
-    var app = angular.module('main', ['daypilot']).controller('DemoCtrl', function($scope) {
-
-        var nav = new DayPilot.Navigator("nav");
-        nav.showMonths = 3;
-        nav.selectMode = "month";
-        nav.onTimeRangeSelected = function(args) {
-            dp.startDate = args.start;
-            dp.days = args.days;
-            dp.update();
-        };
-        nav.init();
-
-
-        var dp = new DayPilot.Scheduler("dp");
-
-        // view
-        dp.startDate = nav.selectionStart;  // or just dp.startDate = "2013-03-25";
-        dp.cellGroupBy = "Month";
-        dp.days = DayPilot.DateUtil.daysDiff(nav.selectionStart, nav.selectionEnd);
-        dp.scale = "Day";
-        dp.cellWidthSpec = "Auto";
-        dp.timeHeaders = [
-            {groupBy: "Month"},
-            {groupBy: "Day", format: "d"}
-        ];
-
-        dp.resources = [
-            { name: "Room A", id: "A" },
-            { name: "Room B", id: "B" },
-            { name: "Room C", id: "C" },
-            { name: "Room D", id: "D" },
-            { name: "Room E", id: "E" },
-            { name: "Room F", id: "F" },
-        ];
-
-        // generate and load events
-        for (var i = 0; i < 10; i++) {
-            var duration = Math.floor(Math.random() * 6) + 1; // 1 to 6
-            var start = Math.floor(Math.random() * 6) - 3; // -3 to 3
-
-            var e = new DayPilot.Event({
-                start: new DayPilot.Date("2016-03-25T00:00:00").addHours(start),
-                end: new DayPilot.Date("2016-03-25T12:00:00").addHours(start).addHours(duration),
-                id: DayPilot.guid(),
-                resource: "A",
-                text: "Event"
-            });
-            dp.events.add(e);
-        }
-
-        // event moving
-        dp.eventMoveHandling = "JavaScript";
-        dp.onEventMove = function (args) {
-            var e = args.e
-            e.start(args.newStart);
-            e.end(args.newEnd);
-            e.resource(args.newResource);
-            dp.events.update(e);
-            dp.message("Moved");
-        };
-
-        // event resizing
-        dp.eventResizeHandling = "JavaScript";
-        dp.onEventResize = function (args) {
-            var e = args.e;
-            e.start(args.newStart);
-            e.end(args.newEnd);
-            dp.events.update(e);
-            dp.message("Resized");
-        };
-
-        // event creating
-        dp.timeRangeSelectedHandling = "JavaScript";
-        dp.onTimeRangeSelected = function (args) {
-            var name = prompt("New event name:", "Event");
-            if (!name) return;
-            var e = new DayPilot.Event({
-                start: args.start,
-                end: args.end,
-                id: DayPilot.guid(),
-                resource: args.resource,
-                text: "Event"
-            });
-            dp.events.add(e);
-            dp.clearSelection();
-            dp.message("Created");
-        };
-
-        dp.init();
-
-    });
-
-</script>
+    <div class="space">
+        First event:
+        <button ng-click="move()">Move</button>
+        <button ng-click="rename()">Rename</button>
+    </div>
+    <div class="space">
+        <span class="bold">Scale:</span>
+        <a ng-click="scale('Day')" href="javascript:void(0)">Days</a>
+        <a ng-click="scale('Week')" href="javascript:void(0)">Weeks</a>
+        <span class="bold">Scroll to:</span>
+        <a ng-click="scrollTo('2015-01-09')" href="javascript:void(0)">2015-01-09</a>
+    </div>
+    <div class="space">
+        <div class="space">Event list:</div>
+        <ul>
+            <li ng-repeat="item in events">
+                {{item}}
+            </li>
+        </ul>
+        <div class="space">Selected events (click or Ctrl+click to select):</div>
+        <ul>
+            <li ng-repeat="item in selectedEvents">
+                {{item.text()}} - {{item.start()}}
+            </li>
+        </ul>
+    </div>
 
 
 </body>

@@ -18,13 +18,13 @@
 
     app.controller('myController', function($scope, $http) {
 
-        $scope.dati = {id: 1, descrizione: "prova"};
+        var url = "http://..";
+        $scope.dati = {id: 1, descrizione: "xxx"};
 
-        var url = "http://....";
-
-        $http.post(url,  $scope.dati)
+        $http.post(url, {headers: {'Access-Control-Allow-Origin': '*'}}, $scope.dati)
             .then(function (data, status, headers, config) {
                 alert("success");
+                console.log(data);
             },function (data, status, headers, config) {
                 alert("error");
         });

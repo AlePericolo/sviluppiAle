@@ -61,7 +61,7 @@ def get_scores():
                 high_scores.append('0')
                 high_scores.append('Cifa')
     else:
-        result = Display_text('Connessione stabilita...',360,200,15,(255,0,0))
+        result = Display_text('Connessione stabilita...',360,200,15,(255,255,255))
         all.add(result)
         repaint_screen()
         pygame.time.delay(1000)
@@ -99,7 +99,7 @@ def save_scores(high_scores, score, name='', online=0):
     
     if online:
         try:
-            dbSnake = MySQLdb.connect(host="www.freesql.org", user="xxxx", passwd="xxxx", db="Snake", connect_timeout=10)
+            dbSnake = MySQLdb.connect(host="127.0.0.1", user="root", passwd="alessandro", db="snake", connect_timeout=10)
         except:
             pass
         else:
@@ -512,7 +512,7 @@ def main(start):
             pygame.time.delay(2000)
             crash_text.kill()
             game_over = Text(5)
-            promt = Display_text('(Premi un tasto per continuare)',350,205,15,(255,0,0))
+            promt = Display_text('(Premi un tasto per continuare)',350,200,15,(255,255,255))
             all.add(game_over,promt)
             repaint_screen()
             pygame.event.clear()
@@ -528,7 +528,7 @@ def main(start):
             if bonus.alive():
                 all.remove(bonus)
             # create high scores
-            info = Display_text('Trying to connect to global High Scores',300,130,18,(255,0,0))
+            info = Display_text('Connessione al db in corso..',300,160,18,(255,255,255))
             all.add(info)
             repaint_screen()
             pygame.time.delay(1000)
@@ -553,9 +553,9 @@ def main(start):
                         break
             score_text = []
             if glob_scores:
-                score_text.append(Display_text('HIGH SCORES (ONLINE TABLE)',80,110,28,(0,0,255)))
+                score_text.append(Display_text('HIGH SCORES (DB TABLE)',80,110,28,(255,255,255)))
             else:
-                score_text.append(Display_text('HIGH SCORES (LOCAL  TABLE)',80,110,28,(0,0,255)))
+                score_text.append(Display_text('HIGH SCORES (LOCAL  TABLE)',80,110,28,(255,255,255)))
             place_pos = 190
             for i in range (0,30,3):
                 if place - 3 == i:
@@ -571,9 +571,9 @@ def main(start):
                 score_text.append(Display_text(high_scores[i+1],int(high_scores[i])*35+100,300-(len(high_scores[i+1])*12),20,colour))
                 score_text.append(Display_text(high_scores[i+2],int(high_scores[i])*35+100,340,20,colour))
             if place > 0:
-                score_text.append(Display_text('(Congratulations!! Enter your name.)',500,180,15,(255,0,0)))
+                score_text.append(Display_text('(CONGRATULAZIONI!! Inserisci il tuo nome.)',500,180,15,(255,255,255)))
             else:
-                score_text.append(Display_text('(Press any key to continue)',500,205,15,(255,0,0)))
+                score_text.append(Display_text('(Premi un tasto per continuare)',500,205,15,(255,255,255)))
             all.add(score_text)
             repaint_screen()
             line = pygame.draw.line(screen,(0,0,255),(110,120),(520,120),3)
@@ -592,8 +592,8 @@ def main(start):
                     elif event.key == K_RETURN:
                         if len(current_string) == 0:
                             current_string = 'Player 1'
-                        score_text[place].update(current_string,'',(255,0,0))
-                        score_text[31].update('Saving........ Please wait.......','',(255,0,0))
+                        score_text[place].update(current_string,'',(255,255,255))
+                        score_text[31].update('SALVATAGGIO IN CORSO..','',(255,255,255))
                         repaint_screen()
                         line = pygame.draw.line(screen,(0,0,255),(110,120),(520,120),3)
                         pygame.display.update(line) 
@@ -610,7 +610,7 @@ def main(start):
                 high_scores[place-1] = current_string
                 save_scores(high_scores, score, current_string, glob_scores)
             
-                score_text[31].update(' Saved! Press any key to continue. ','',(255,0,0))
+                score_text[31].update(' SALVATAGGIO ESEGUITO! Premi un tasto per continuare. ','',(255,255,255))
                 repaint_screen()
                 line = pygame.draw.line(screen,(0,0,255),(110,120),(520,120),3)
                 pygame.display.update(line)

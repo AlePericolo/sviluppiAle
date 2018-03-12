@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import os, pygame, sys, MySQLdb, time
+import os, pygame, sys, MySQLdb, time, datetime
+from lib import inputbox
 from pygame.locals import *
 import random
 
@@ -39,6 +40,19 @@ def load_sound(name):
     return sound
 
 def get_scores():
+
+    try:
+        dbSnake = MySQLdb.connect(host="127.0.0.1", user="root", passwd="alessandro", db="snake", connect_timeout=10)
+    except:
+        glob_scores = 0
+    else:
+        glob_scores = 1
+
+        dbSnake.close()
+
+    return glob_scores
+
+def get_punteggio():
     high_scores =[]
 
     try:
@@ -48,12 +62,11 @@ def get_scores():
         all.add(result)
         repaint_screen()
         pygame.time.delay(1000)
-        glob_scores = 0
         Filepath = os.path.join('data', 'scores.dat')
         if os.path.isfile(Filepath):
             FILE = open(Filepath,"r")
             text = FILE.readline()
-            high_scores = text.split('"') 
+            high_scores = text.split('"')
             FILE.close()
         else:
             for i in range(1,11):
@@ -65,59 +78,51 @@ def get_scores():
         all.add(result)
         repaint_screen()
         pygame.time.delay(1000)
-        glob_scores = 1
         cursor = dbSnake.cursor()
-        cursor.execute("SELECT * FROM scores ORDER BY score DESC, record_date")
-        score_data = cursor.fetchall()
-        rows = len (score_data)
-        for i in range (0,rows):
-            high_scores.append(str(i+1))
-            high_scores.append(str(score_data[i][0]))
-            high_scores.append(score_data[i][1])
-    
+        cursor.execute("SELECT score FROM scores ORDER BY score DESC, record_date LIMIT 5")
+        score_data = cursor.fetchone()
+        if(score_data):
+            rows = len(score_data)
+            for i in range (0,rows):
+                high_scores.append(int(score_data[i]))
+        else:
+            return [0,0,0,0,0]
+
         dbSnake.close()
-         
+
     all.remove(result)
-    return high_scores, glob_scores
+
+    k = 5 - len(high_scores)
+    for i in range (0,k):
+        high_scores.append(0)
+
+    return high_scores
+
+def check_scores(current_score, high_scores):
+    min_score = min(high_scores)
+    if current_score > min_score:
+        nome = inputbox.ask(screen, 'Nome')  # inp will equal whatever the input is
+        save_score(current_score, nome)
+
+def save_score(score, name):
+    try:
+        dbSnake = MySQLdb.connect(host="127.0.0.1", user="root", passwd="alessandro", db="snake", connect_timeout=10)
+    except:
+        result = Display_text('No connection - local scores only', 360, 175, 15, (255, 0, 0))
+    else:
+        result = Display_text('Connessione stabilita...', 360, 200, 15, (255, 255, 255))
+        cursor = dbSnake.cursor()
+        now = datetime.datetime.now()
+        cursor.execute("INSERT INTO scores (score, name, record_date) VALUES (%s, %s, %s)", (score, name, str(now)))
+        dbSnake.commit()
+        result = Display_text('SALVATAGGIO ESEGUITO!', 400, 200, 18, (255, 255, 255))
+        dbSnake.close()
 
 def repaint_screen():
     all.clear(screen, background) 
     dirty = all.draw(screen)
     pygame.display.update(dirty)
-    
-def save_scores(high_scores, score, name='', online=0):
-    Filepath = os.path.join('data', 'scores.dat')
-    # Create a file object:
-    # in "write" mode
-    FILE = open(Filepath,"w")
-    for i in range(0,30):
-        if i <> 29:
-            FILE.write(high_scores[i]+'"')
-        else:
-            FILE.write(high_scores[i])
-    FILE.close()
-    
-    if online:
-        try:
-            dbSnake = MySQLdb.connect(host="127.0.0.1", user="root", passwd="alessandro", db="snake", connect_timeout=10)
-        except:
-            pass
-        else:
-            cursor = dbSnake.cursor()
-            cursor.execute("SELECT * FROM scores WHERE score = %s",(score))
-            scores_data = cursor.fetchall()
-            position = len(scores_data)
-            cursor.execute("INSERT INTO scores (score, name, record_date) VALUES (%s, %s, %s)", (score, name, position))
-            dbSnake.commit()
-            cursor.execute("SELECT * FROM scores ORDER BY score DESC, record_date")
-            scores_data = cursor.fetchall()
-            rows = len(scores_data)
-            if rows > 10:
-                bottom = scores_data[9][0]
-                cursor.execute("DELETE FROM scores WHERE score < %s",(bottom,))
-                dbSnake.commit()
-            dbSnake.close()
-        
+
         
 class Centipede(pygame.sprite.Sprite):
     images = []
@@ -532,25 +537,12 @@ def main(start):
             all.add(info)
             repaint_screen()
             pygame.time.delay(1000)
-            high_scores, glob_scores = get_scores()
+            glob_scores = get_scores()
+            high_scores = get_punteggio()
             all.remove(info)
-            
-            place = 0
-            if score > int(high_scores[28]):
-                for i in range(25,-3,-3):
-                    if i < 0:
-                        high_scores[1] = str(score)
-                        high_scores[2] = "_"
-                        place = 3
-                        break
-                    if score > int(high_scores[i]):
-                        high_scores[i+3] = high_scores[i]
-                        high_scores[i+4] = high_scores[i+1]
-                    else:
-                        high_scores[i+3] = str(score)
-                        high_scores[i+4] = "_"
-                        place = i+5
-                        break
+
+            check_scores(score, high_scores)
+
             score_text = []
             if glob_scores:
                 score_text.append(Display_text('HIGH SCORES (DB TABLE)',80,110,28,(255,255,255)))

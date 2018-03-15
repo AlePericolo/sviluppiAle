@@ -30,11 +30,11 @@ class DatabaseSnake:
             print 'Error Insert Score'
             self.connection.rollback()
 
-
     def cleanScore(self):
         try:
-            query = "DELETE FROM snake.scores WHERE id NOT IN(SELECT app.id FROM (SELECT id FROM snake.scores ORDER BY score DESC LIMIT 5 )app)"
+            query = "DELETE FROM scores WHERE id NOT IN(SELECT app.id FROM (SELECT id FROM scores ORDER BY score DESC LIMIT 5 )app)"
             self.cursor.execute(query)
+            self.connection.commit()
         except ValueError:
             print 'Errore pulizia tabella'
             self.connection.rollback()

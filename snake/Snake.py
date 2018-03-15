@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import os, pygame, sys, MySQLdb, time, datetime
-from utility import inputbox, ReadConf, DatabaseSnake
+import os, pygame, sys, MySQLdb, datetime
+from utility import inputbox, ReadConf, DatabaseSnake, functions
 from pygame.locals import *
 
 import random
@@ -69,8 +69,8 @@ def check_scores(current_score, high_scores):
         nome = inputbox.ask(screen, 'Nome')
         save_score(current_score, nome)
 
-        #cancello dalla 5 posizione in poi
-        clean_scores()
+    #cancello dalla 5 posizione in poi
+    clean_scores()
 
 #connetto al db e salvo nome e punteggio del giocatore
 def save_score(score, name):
@@ -201,7 +201,7 @@ class Score(pygame.sprite.Sprite):
     def update(self):
         if score != self.lastscore:
             self.lastscore = score
-            msg = "Punteggio: %d" % score
+            msg = "Score: %d" % score
             self.image = self.font.render(msg, 0, self.color)
 
 class Text(pygame.sprite.Sprite):
@@ -268,7 +268,7 @@ def main(start):
     pygame.display.set_icon(pygame.image.load(fullname))
     screen = pygame.display.set_mode((600,600))
     pygame.display.set_caption('SNAKE')
-    background = load_image('background2.jpg')
+    background = load_image('background.jpg')
     screen.blit(background,(0,0))
     pygame.display.flip()
 
@@ -409,7 +409,7 @@ def main(start):
                     if pygame.font:
                         crash_text = Text(0)
                         all.add(crash_text)
-                        
+
         # repaint before you make snake grow
         # otherwise new body will show in default position
         # before being appended to snake                 
@@ -484,98 +484,41 @@ def main(start):
         # game over
         if snake_alive == 0:
 
-            # create high scores
-            glob_scores = check_db_connection()
-
-            high_scores = get_scores()
-
-            check_scores(score, high_scores)
-            all.add(Display_text('HIGH SCORES' ,100,210,28,(255,255,255)))
-            c = ReadConf.ReadConf()
-            db = DatabaseSnake.DatabaseSnake(c.database)
-            top = 150
-            for el in db.getHighScoresList():
-                playerPos = str(el.get('pos'))
-                playerName = str(el.get('name'))
-                playerScore = str(el.get('score')).zfill(6)
-                left = 100
-                all.add(Display_text(playerPos, top, left, 20,(255,255,255)))
-                all.add(Display_text(playerName, top, left +40, 20,(255,255,255)))
-                all.add(Display_text(playerScore, top, left +300, 20,(255,255,255)))
-                top += 30
-
-
-            # place_pos = 190
-            # for i in range (0,30,3):
-            #     if place - 3 == i:
-            #         colour = (255,0,0)
-            #     else:
-            #         colour = (0,0,255)
-            #     if i == 27:
-            #         place_pos = 180
-            #     point = high_scores[i+1].find('.')
-            #     if point > 0:
-            #         high_scores[i+1] = high_scores[i+1] [0:point]
-            #     score_text.append(Display_text(high_scores[i],int(high_scores[i])*35+100,place_pos,20,colour))
-            #     score_text.append(Display_text(high_scores[i+1],int(high_scores[i])*35+100,300-(len(high_scores[i+1])*12),20,colour))
-            #     score_text.append(Display_text(high_scores[i+2],int(high_scores[i])*35+100,340,20,colour))
-            # if place > 0:
-            #     score_text.append(Display_text('(CONGRATULAZIONI!! Inserisci il tuo nome.)',500,180,15,(255,255,255)))
-            # else:
-            #     score_text.append(Display_text('(Premi un tasto per continuare)',500,205,15,(255,255,255)))
-            # all.add(score_text)
-            # repaint_screen()
-            # line = pygame.draw.line(screen,(0,0,255),(110,120),(520,120),3)
-            # pygame.display.update(line)
-            #
-            # if place > 0:
-            #     current_string = ''
-            #     while 1:
-            #         event = pygame.event.wait()
-            #         if event.type == QUIT:
-            #             sys.exit()
-            #         if event.type != KEYDOWN:
-            #             continue
-            #         if event.key == K_BACKSPACE:
-            #             current_string = current_string[:-1]
-            #         elif event.key == K_RETURN:
-            #             if len(current_string) == 0:
-            #                 current_string = 'Player 1'
-            #             score_text[place].update(current_string,'',(255,255,255))
-            #             score_text[31].update('SALVATAGGIO IN CORSO..','',(255,255,255))
-            #             repaint_screen()
-            #             line = pygame.draw.line(screen,(0,0,255),(110,120),(520,120),3)
-            #             pygame.display.update(line)
-            #             break
-            #         elif event.unicode:
-            #             if len(current_string) <= 15:
-            #                 if event.unicode <> '"':
-            #                     current_string += event.unicode
-            #         score_text[place].update(current_string,'_',(255,0,0))
-            #         repaint_screen()
-            #         line = pygame.draw.line(screen,(0,0,255),(110,120),(520,120),3)
-            #         pygame.display.update(line)
-            #
-            #     high_scores[place-1] = current_string
-            #     save_scores(high_scores, score, current_string, glob_scores)
-            #
-            #     score_text[31].update(' SALVATAGGIO ESEGUITO! Premi un tasto per continuare. ','',(255,255,255))
-            #     repaint_screen()
-            #     line = pygame.draw.line(screen,(0,0,255),(110,120),(520,120),3)
-            #     pygame.display.update(line)
-            # else:
-            #     # update your local scores with global
-            #     if glob_scores:
-            #         save_scores(high_scores, score)
-
             while 1:
                 event = pygame.event.wait()
                 if event.type == QUIT:
                     sys.exit()
                 if event.type == KEYDOWN:
                     break
-            all.remove(crash_text)
-            all.add(Display_text('Vuoi giocare ancora? (y/n)',400,200,20,(Color('white'))))
+
+            #remove game object
+            all.remove(crash_text, centipede, bodies, food, bonus)
+
+            # create high scores
+            glob_scores = check_db_connection()
+            high_scores = get_scores()
+            check_scores(score, high_scores)
+            c = ReadConf.ReadConf()
+            db = DatabaseSnake.DatabaseSnake(c.database)
+
+            top = 250
+            for el in db.getHighScoresList():
+                playerPos = str(el.get('pos'))
+                playerName = str(el.get('name'))
+                playerScore = str(el.get('score')).zfill(6)
+                left = 100
+                colorText = functions.findPosition(playerPos)
+                all.add(Display_text(playerPos, top, left, 20, colorText))
+                all.add(Display_text(playerName.upper(), top, left +40, 20, colorText))
+                all.add(Display_text(playerScore, top, left +300, 20, colorText))
+                top += 30
+
+            repaint_screen()
+            background = load_image('highscore.jpg')
+            screen.blit(background, (0, 0))
+            pygame.display.flip()
+
+            all.add(Display_text('Vuoi giocare ancora? (y/n)',470,180,20,(255, 242, 5)))
             repaint_screen()
 
         if begin == 1:

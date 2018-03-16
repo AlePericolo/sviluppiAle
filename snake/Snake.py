@@ -66,8 +66,8 @@ def check_scores(current_score, high_scores):
     min_score = min(high_scores)
     #salvo a db il punteggio chiedendo il nome del giocatore
     if current_score > min_score:
-        nome = inputbox.ask(screen, 'Nome')
-        save_score(current_score, nome)
+        nome = inputbox.ask(screen)
+        save_score(current_score, nome[:6])
 
     #cancello dalla 5 posizione in poi
     clean_scores()

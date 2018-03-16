@@ -208,9 +208,9 @@ class Text(pygame.sprite.Sprite):
     def __init__(self,status,bonus = 0):
         pygame.sprite.Sprite.__init__(self)
         if status == 1:
-            text = "Ouch!!Attento al muro!"
+            text = "Il laser ti ha fritto!"
         elif status == 0:
-            text = "Ouch!!Ti sei mangiato da solo!!"
+            text = "Ti sei mangiato da solo!"
         elif status == 2:
             text = "Pausa"
         elif status == 3:
@@ -267,7 +267,7 @@ def main(start):
     fullname = os.path.join('data/img', 'Snake.gif')
     pygame.display.set_icon(pygame.image.load(fullname))
     screen = pygame.display.set_mode((600,600))
-    pygame.display.set_caption('SNAKE')
+    pygame.display.set_caption('SNAKE - Peril')
     background = load_image('background.png')
     screen.blit(background,(0,0))
     pygame.display.flip()
@@ -501,16 +501,16 @@ def main(start):
             c = ReadConf.ReadConf()
             db = DatabaseSnake.DatabaseSnake(c.database)
 
-            top = 250
+            top = 230
             for el in db.getHighScoresList():
                 playerPos = str(el.get('pos'))
                 playerName = str(el.get('name'))
                 playerScore = str(el.get('score')).zfill(6)
-                left = 100
+                left = 110
                 colorText = functions.findPosition(playerPos)
-                all.add(Display_text(playerPos, top, left, 20, colorText))
-                all.add(Display_text(playerName.upper(), top, left +40, 20, colorText))
-                all.add(Display_text(playerScore, top, left +300, 20, colorText))
+                all.add(Display_text(playerPos, top, left, 40, colorText))
+                all.add(Display_text(playerName.upper(), top, left +50, 40, colorText))
+                all.add(Display_text(playerScore, top, left +260, 40, colorText))
                 top += 30
 
             repaint_screen()
@@ -518,7 +518,7 @@ def main(start):
             screen.blit(background, (0, 0))
             pygame.display.flip()
 
-            all.add(Display_text('Vuoi giocare ancora? (y/n)',470,180,20,(255, 242, 5)))
+            all.add(Display_text('Vuoi giocare ancora?  (y/n)',470, 130, 30,(255, 242, 5)))
             repaint_screen()
 
         if begin == 1:

@@ -191,12 +191,12 @@ class Bonus(pygame.sprite.Sprite):
 class Score(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.font = pygame.font.Font("freesansbold.ttf", 20)
+        self.font = pygame.font.Font("data/font/8bitfont.ttf", 25)
         #self.font.set_italic(1)
         self.color = Color('white')
         self.lastscore = -1
         self.update()
-        self.rect = self.image.get_rect().move(450, 5)
+        self.rect = self.image.get_rect().move(480, 5)
 
     def update(self):
         if score != self.lastscore:
@@ -219,14 +219,14 @@ class Text(pygame.sprite.Sprite):
             text = "Vuoi giocare ancora? (y/n)"
         elif status == 5:
             text = "GAME OVER"
-        self.font = pygame.font.Font("freesansbold.ttf", 28)
+        self.font = pygame.font.Font("data/font/8bitfont.ttf", 28)
         self.image = self.font.render(text, 1, (Color('white')))
         self.rect = self.image.get_rect(centerx = background.get_width()/2,centery = background.get_height()/2)
 
 class Display_text(pygame.sprite.Sprite):
     def __init__(self,text,position_top,position_left,size,colour):
         pygame.sprite.Sprite.__init__(self)
-        self.font = pygame.font.Font("freesansbold.ttf", size)
+        self.font = pygame.font.Font("data/font/8bitfont.ttf", size)
         self.image = self.font.render(text,1,colour)
         self.rect = self.image.get_rect(left = position_left,top = position_top)
 
@@ -268,7 +268,7 @@ def main(start):
     pygame.display.set_icon(pygame.image.load(fullname))
     screen = pygame.display.set_mode((600,600))
     pygame.display.set_caption('SNAKE')
-    background = load_image('background.jpg')
+    background = load_image('background.png')
     screen.blit(background,(0,0))
     pygame.display.flip()
 
@@ -280,7 +280,7 @@ def main(start):
     Food.images = [load_image('apple.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
     Bonus.images = [load_image('mouse.gif',-1)]
-    Main_Image.images = [load_image('home.jpg')]
+    Main_Image.images = [load_image('home.png')]
     
     pygame.mouse.set_visible(0)
     
@@ -291,8 +291,8 @@ def main(start):
     if start == 0:
         start = 1
         all.add(Main_Image())
-        all.add(Display_text('PYTHON SNAKE',240,110,50,(Color('white'))))
-        all.add(Display_text('Per iniziare a giocare premere un tasto qualsiasi...',300,100,18,(Color('white'))))
+        #all.add(Display_text('PYTHON SNAKE',30,90,80,(Color(255,255,255))))
+        all.add(Display_text('Per iniziare a giocare premere un tasto qualsiasi',550,35,25,(Color(255, 138, 35))))
         repaint_screen()
         while 1:
             event = pygame.event.wait()

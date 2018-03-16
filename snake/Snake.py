@@ -219,8 +219,8 @@ class Text(pygame.sprite.Sprite):
             text = "Vuoi giocare ancora? (y/n)"
         elif status == 5:
             text = "GAME OVER"
-        self.font = pygame.font.Font("data/font/8bitfont.ttf", 28)
-        self.image = self.font.render(text, 1, (Color('white')))
+        self.font = pygame.font.Font("data/font/8bitfont.ttf", 50)
+        self.image = self.font.render(text, 1, (Color(255, 242, 5)))
         self.rect = self.image.get_rect(centerx = background.get_width()/2,centery = background.get_height()/2)
 
 class Display_text(pygame.sprite.Sprite):
@@ -232,7 +232,7 @@ class Display_text(pygame.sprite.Sprite):
 
     def update(self,text,underscore,colour):
         text = text + underscore
-        self.image = self.font.render(text,1,colour)
+        self.image = self.font.render(text, 1, colour)
 
 class Main_Image(pygame.sprite.Sprite):
     images=[]
@@ -279,7 +279,7 @@ def main(start):
     Centipede.images = load_images('head.gif','head.gif','explosion1.gif')
     Food.images = [load_image('apple.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
-    Bonus.images = [load_image('mouse.gif',-1)]
+    Bonus.images = [load_image('ufo.gif',-1)]
     Main_Image.images = [load_image('home.png')]
     
     pygame.mouse.set_visible(0)

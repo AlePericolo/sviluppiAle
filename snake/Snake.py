@@ -451,6 +451,13 @@ def main(start):
 
             #SALVATAGGIO
             save_scores(score) #controllo se il punteggio fatto rientra in classifica -> se si salvo
+
+            #visualizzo punteggi----------------------------------------------------------
+            repaint_screen()
+            background = load_image('highscore.jpg')
+            screen.blit(background, (0, 0))
+            pygame.display.flip()
+
             c = ReadConf.ReadConf()
             db = DatabaseSnake.DatabaseSnake(c.database)
 
@@ -465,11 +472,7 @@ def main(start):
                 all.add(Display_text(playerName.upper(), top, left +50, 40, colorText))
                 all.add(Display_text(playerScore, top, left +260, 40, colorText))
                 top += 30
-
-            repaint_screen()
-            background = load_image('highscore.jpg')
-            screen.blit(background, (0, 0))
-            pygame.display.flip()
+            # visualizzo punteggi----------------------------------------------------------
 
             all.add(Display_text('Vuoi giocare ancora?  (y/n)',470, 130, 30,(255, 242, 5)))
             repaint_screen()
@@ -482,7 +485,6 @@ def main(start):
 #--------------------------------------------------GESTIONE PUNTEGGI----------------------------------------------------
 def check_db_connection(conf):
     try:
-        #dbSnake = MySQLdb.connect(host="127.0.0.1", user="root", passwd="alessandro", db="snake", connect_timeout=10)
         dbSnake = MySQLdb.connect(conf['host'], conf['user'], conf['password'], conf['database'], connect_timeout=10)
     except:
         return 0

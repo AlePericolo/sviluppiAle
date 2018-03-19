@@ -27,6 +27,11 @@ def load_images(*files):
         imgs.append(load_image(file, -1))
     return imgs
 
+def repaint_screen():
+    all.clear(screen, background)
+    dirty = all.draw(screen)
+    pygame.display.update(dirty)
+
 #----------------------------------------------------CARICO SUONI-------------------------------------------------------
 def load_sound(name):
     class NoneSound:
@@ -490,8 +495,10 @@ def save_scores(current_score):
 
     c = ReadConf.ReadConf()
 
+    db_score = check_db_connection(c.database)
+
     # da db
-    if check_db_connection(c.database):
+    if db_score:
         db = DatabaseSnake.DatabaseSnake(c.database)
         high_scores = db.findScores()
     # da file
@@ -512,17 +519,6 @@ def save_scores(current_score):
         #salvo a file
         else:
             FileScoreSnake.saveScore(c, current_score, nome[:6])
-
-def repaint_screen():
-    all.clear(screen, background)
-    dirty = all.draw(screen)
-    pygame.display.update(dirty)
-
-
-
-
-
-
 
 
 

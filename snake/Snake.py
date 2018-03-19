@@ -493,34 +493,28 @@ def check_db_connection(conf):
 #controllo se il punteggio rientra in classifica e se si lo salvo
 def save_scores(current_score):
 
-    c = ReadConf.ReadConf()
+    c = ReadConf.ReadConf() #leggo le configurazioni
+    db_score = check_db_connection(c.database) #controllo se riesco a connettermi al db [1/0]
 
-    db_score = check_db_connection(c.database)
-
-    # da db
+    #recupero l'array degli highscore
     if db_score:
         db = DatabaseSnake.DatabaseSnake(c.database)
-        high_scores = db.findScores()
-    # da file
+        high_scores = db.findScores() #da db
     else:
-        high_scores = FileScoreSnake.findScores(c.file)
+        high_scores = FileScoreSnake.findScores(c.file) #da file
 
-    min_score = min(high_scores)
+    min_score = min(high_scores) #recupero il punteggio + basso tra gli highscore
 
-    #se punteggio da classifica chiedo il nome al giocatore
+    #punteggio fatto  > del + basso in classifica
     if current_score > min_score:
-        nome = inputbox.ask(screen)
-        c = ReadConf.ReadConf()
-        #salvo a db
+        nome = inputbox.ask(screen) #chiedo il nome al giocatore
+        #salvo nome e punteggio del giocatore
         if db_score:
             db = DatabaseSnake.DatabaseSnake(c.database)
-            db.saveScore(current_score, nome[:6], datetime.datetime.now())
+            db.saveScore(current_score, nome[:6], datetime.datetime.now()) #a db
             db.cleanScore() #pulisco oltre la 5 posizione
-        #salvo a file
         else:
-            FileScoreSnake.saveScore(c, current_score, nome[:6])
-
-
+            FileScoreSnake.saveScore(c.file, current_score, nome[:6]) #su file
 
 
 # start game when loaded first time              

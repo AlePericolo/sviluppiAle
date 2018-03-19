@@ -4,5 +4,8 @@
     "user": "root",
     "password": "alessandro",
     "database": "snake"
+  },
+  "file": {
+    "path": "/data/score/score.txt"
   }
 }

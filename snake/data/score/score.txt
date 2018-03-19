@@ -1,0 +1,5 @@
+1,ale,10
+2,gigi,50
+3,suka,4
+4,peril,14
+5,pippo,3

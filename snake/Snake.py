@@ -444,10 +444,8 @@ def main(start):
             #remove game object
             all.remove(crash_text, centipede, bodies, food, bonus)
 
-            # create high scores
-            db_score = check_db_connection()
-            high_scores = get_scores(db_score)
-            check_scores(score, high_scores, db_score)
+            #SALVATAGGIO
+            save_scores(score) #controllo se il punteggio fatto rientra in classifica -> se si salvo
             c = ReadConf.ReadConf()
             db = DatabaseSnake.DatabaseSnake(c.database)
 
@@ -476,60 +474,44 @@ def main(start):
             pygame.time.delay(1000)
 
 
-#-------------------------------------------------------DATABASE--------------------------------------------------------
-def check_db_connection():
+#--------------------------------------------------GESTIONE PUNTEGGI----------------------------------------------------
+def check_db_connection(conf):
     try:
-        dbSnake = MySQLdb.connect(host="127.0.0.1", user="root", passwd="alessandro", db="snake", connect_timeout=10)
+        #dbSnake = MySQLdb.connect(host="127.0.0.1", user="root", passwd="alessandro", db="snake", connect_timeout=10)
+        dbSnake = MySQLdb.connect(conf['host'], conf['user'], conf['password'], conf['database'], connect_timeout=10)
     except:
-        glob_scores = 0
+        return 0
     else:
-        glob_scores = 1
-
         dbSnake.close()
+        return 1
 
-    return glob_scores
-
-#recupero i punteggi
-def get_scores(db_score):
+#controllo se il punteggio rientra in classifica e se si lo salvo
+def save_scores(current_score):
 
     c = ReadConf.ReadConf()
 
-    #da db
-    if db_score:
+    # da db
+    if check_db_connection(c.database):
         db = DatabaseSnake.DatabaseSnake(c.database)
-        return db.findScores()
-    #da file
+        high_scores = db.findScores()
+    # da file
     else:
-        return FileScoreSnake.findScores(c.file)
+        high_scores = FileScoreSnake.findScores(c.file)
 
-#controllo se il punteggio rientra in classifica e se si lo salvo
-def check_scores(current_score, high_scores, db_score):
     min_score = min(high_scores)
+
     #se punteggio da classifica chiedo il nome al giocatore
     if current_score > min_score:
         nome = inputbox.ask(screen)
+        c = ReadConf.ReadConf()
         #salvo a db
         if db_score:
-            save_score_db(current_score, nome[:6])
+            db = DatabaseSnake.DatabaseSnake(c.database)
+            db.saveScore(current_score, nome[:6], datetime.datetime.now())
+            db.cleanScore() #pulisco oltre la 5 posizione
         #salvo a file
         else:
-            FileScoreSnake.save_score_file(current_score, nome[:6])
-
-    #cancello dalla 5 posizione in poi
-    clean_scores()
-
-#connetto al db e salvo nome e punteggio del giocatore
-def save_score_db(score, name):
-    c = ReadConf.ReadConf()
-    db = DatabaseSnake.DatabaseSnake(c.database)
-    now = datetime.datetime.now()
-    db.saveScore(score, name, now)
-
-#pulisco da db i risultati oltre il 5
-def clean_scores():
-    c = ReadConf.ReadConf()
-    db = DatabaseSnake.DatabaseSnake(c.database)
-    db.cleanScore()
+            FileScoreSnake.saveScore(c, current_score, nome[:6])
 
 def repaint_screen():
     all.clear(screen, background)

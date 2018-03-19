@@ -12,7 +12,7 @@ def findScores(conf):
 
     return high_scores
 
-def save_score_file(conf, current_score, name):
+def saveScore(conf, current_score, name):
 
     file_score = os.getcwd() + conf['path']
     with open(file_score) as f:

@@ -451,27 +451,23 @@ def main(start):
             #SAVE
             save_scores(score) #check score > lower score in highscore and save
 
-            #visualizzo punteggi----------------------------------------------------------
+            #show highscore
             repaint_screen()
             background = load_image('highscore.jpg')
             screen.blit(background, (0, 0))
             pygame.display.flip()
 
-            c = ReadConf.ReadConf()
-            db = DatabaseSnake.DatabaseSnake(c.database)
-
             top = 230
-            for el in db.getHighScoresList():
+            for el in get_ranking():
                 playerPos = str(el.get('pos'))
                 playerName = str(el.get('name'))
                 playerScore = str(el.get('score')).zfill(6)
                 left = 110
                 colorText = functions.findPosition(playerPos)
                 all.add(Display_text(playerPos, top, left, 40, colorText))
-                all.add(Display_text(playerName.upper(), top, left +50, 40, colorText))
-                all.add(Display_text(playerScore, top, left +260, 40, colorText))
+                all.add(Display_text(playerName.upper(), top, left + 50, 40, colorText))
+                all.add(Display_text(playerScore, top, left + 260, 40, colorText))
                 top += 30
-            # visualizzo punteggi----------------------------------------------------------
 
             all.add(Display_text('Vuoi giocare ancora?  (y/n)',470, 130, 30,(255, 242, 5)))
             repaint_screen()
@@ -481,7 +477,7 @@ def main(start):
             pygame.time.delay(1000)
 
 
-#--------------------------------------------------GESTIONE PUNTEGGI----------------------------------------------------
+#------------------------------------------------MANAGE SCORE [DB/FILE]-------------------------------------------------
 
 #try db connection
 def check_db_connection(conf):
@@ -493,6 +489,7 @@ def check_db_connection(conf):
         dbSnake.close()
         return 1
 
+#save score
 def save_scores(current_score):
 
     c = ReadConf.ReadConf() #get configuration fronm file
@@ -518,6 +515,17 @@ def save_scores(current_score):
         else:
             FileScoreSnake.saveScore(c.file, current_score, nome[:6]) #to file
 
+#get highscore to show the ranking
+def get_ranking():
+
+    c = ReadConf.ReadConf() #get configuration fronm file
+    db_score = check_db_connection(c.database) #check connection [1/0]
+
+    if db_score:
+        db = DatabaseSnake.DatabaseSnake(c.database)
+        return db.getHighScoresList() #from db
+    else:
+        return FileScoreSnake.getHighScoresList(c.file) #from file
 
 # start game when loaded first time              
 if __name__ == '__main__': main(0)

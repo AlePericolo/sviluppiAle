@@ -52,6 +52,7 @@ class DatabaseSnake:
                 pos += 1
                 high_scores_list.append(app)
             return high_scores_list
+
         except ValueError:
             print 'Errore recupero dati'
             self.connection.rollback()
@@ -64,13 +65,3 @@ class DatabaseSnake:
 
     def __del__(self):
         self.connection.close()
-
-    ################################################################################################################
-
-    # pulisco i contatti prima di scriverli
-    def cleanContact(self, contatto):
-        numbers = re.findall('\d+', contatto)
-        result = ''
-        for n in numbers:
-            result += n
-        return result

@@ -231,8 +231,8 @@ def main(start):
     eat_sound = load_sound('yipee.wav')
     crash_sound = load_sound('foghorn.wav')
     bonus_sound = load_sound('hey.wav')
-    Centipede.images = load_images('head.gif','head2.gif','explosion1.gif')
-    Food.images = [load_image('apple.gif',-1)]
+    Centipede.images = load_images('head.gif','head2.gif','explosion.gif')
+    Food.images = [load_image('alien.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
     Bonus.images = [load_image('ufo.gif',-1)]
     Main_Image.images = [load_image('home.png')]

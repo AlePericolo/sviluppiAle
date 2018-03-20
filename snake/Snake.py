@@ -131,8 +131,8 @@ class Food(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        self.rect[0] = (random.randrange(1,28,1)*20)+16
-        self.rect[1] = (random.randrange(1,28,1)*20)+16
+        self.rect[0] = (random.randrange(1,28,1)*20)+16 #sx
+        self.rect[1] = (random.randrange(1,28,1)*20)+16 #top
         
 class Bonus(pygame.sprite.Sprite):
     images = []
@@ -140,8 +140,17 @@ class Bonus(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        self.rect[0] = (random.randrange(1,28,1)*20)+16
-        self.rect[1] = (random.randrange(1,28,1)*20)+16
+        self.rect[0] = (random.randrange(1,28,1)*20)+16 #sx
+        self.rect[1] = (random.randrange(1,28,1)*20)+16 #top
+
+class Meteor(pygame.sprite.Sprite):
+    images = []
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self) #call Sprite initializer
+        self.image = self.images[0]
+        self.rect = self.image.get_rect()
+        self.rect[0] = 550 - random.choice([50,100,150,200,250,300,350,400,450,500]) #sx
+        self.rect[1] = 550 - random.choice([50,100,150,200,250,300,350,400,450,500]) #top
         
 class Score(pygame.sprite.Sprite):
     def __init__(self):
@@ -174,6 +183,8 @@ class Text(pygame.sprite.Sprite):
             text = "Vuoi giocare ancora? (y/n)"
         elif status == 5:
             text = "GAME OVER"
+        elif status == 6:
+            text = "Hai colpito un meteorite"
         self.font = pygame.font.Font("data/font/8bitfont.ttf", 50)
         self.image = self.font.render(text, 1, (Color(255, 242, 5)))
         self.rect = self.image.get_rect(centerx = background.get_width()/2,centery = background.get_height()/2)
@@ -216,6 +227,11 @@ def main(start):
     crash_text = pygame.sprite.Sprite()
     bonus_text = pygame.sprite.Sprite()
     bonus = pygame.sprite.Sprite()
+    meteor_status = 0
+    meteor_prob = 1000
+    meteor_time = 0
+    meteor_text = pygame.sprite.Sprite()
+    meteor = pygame.sprite.Sprite()
 
     #get main frame
     os.environ['SDL_VIDEO_CENTERED'] = 'anything'
@@ -235,6 +251,7 @@ def main(start):
     Food.images = [load_image('alien.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
     Bonus.images = [load_image('ufo.gif',-1)]
+    Meteor.images = [load_image('meteor.gif',-1)]
     Main_Image.images = [load_image('home.png')]
     
     pygame.mouse.set_visible(0)
@@ -288,6 +305,7 @@ def main(start):
     # main game loop
     while snake_alive:
         bonus_time -= 1
+        meteor_time -= 1
         text_time -= 1
         clock.tick(25)
         
@@ -376,6 +394,7 @@ def main(start):
             food.kill()
             score = score + 1
             bonus_prob = bonus_prob - 1
+            meteor_prob = meteor_prob - 1
             eat_sound.play()
             food = Food()
             bodies.append(Body(304))
@@ -394,7 +413,7 @@ def main(start):
                         break
             all.add(food)
 
-        # display new bonus(only one at a time) 
+        # --------------------------------display new bonus(only one at a time)-----------------------------------------
         if bonus_status == 0 and random.randrange(1,1000,1) > bonus_prob:
             bonus_status = 1
             bonus = Bonus()
@@ -434,6 +453,48 @@ def main(start):
                 all.add(bonus_text)
                 bodies.append(Body(304))
                 bonus_time = 0
+
+        # --------------------------------------display new meteor(only one at a time)----------------------------------
+        if meteor_status == 0 and random.randrange(1,1000,1) > meteor_prob:
+            meteor_status = 1
+            meteor = Meteor()
+            meteorrect = meteor.rect
+            meteor_time = 300
+            while 1:
+                if meteorrect.colliderect(food.rect) or meteorrect.colliderect(centipede.rect) or pygame.sprite.spritecollide(meteor,bodies, 0) != []:
+                    meteor.kill()
+                    meteor = Meteor()
+                    meteorrect = meteor.rect
+                else:
+                    break
+            all.add(meteor)
+
+        # kill meteor when time is up
+        if meteor_time == 0:
+            meteor.kill()
+            meteor_status = 0
+
+        # kill meteor text
+        if text_time == 0:
+            meteor_text.kill()
+
+        # check if meteor has been eaten
+        if meteor.alive() and snake_alive != 0:
+            if meteorrect.colliderect(centipede.rect):
+                snake_alive = 0
+                crash_sound.play()
+                all.remove(centipede)
+                all.remove(score_instance)
+                all.add(centipede)
+                all.add(score_instance)
+                centipede.end()
+                if bonus_text.alive():
+                    bonus_text.kill()
+                if pygame.font:
+                    meteor_text = Text(6)
+                    all.add(meteor_text)
+
+                repaint_screen()
                 
         # -----------------------------------------------GAME OVER------------------------------------------------------
         if snake_alive == 0:
@@ -446,7 +507,7 @@ def main(start):
                     break
 
             #remove game object
-            all.remove(crash_text, centipede, bodies, food, bonus)
+            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text)
 
             #SAVE
             save_scores(score) #check score > lower score in highscore and save

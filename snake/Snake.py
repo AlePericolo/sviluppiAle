@@ -7,7 +7,7 @@ import random
 
 pygame.init()
 
-#-------------------------------------------------CARICO IMMAGINI-------------------------------------------------------
+#-------------------------------------------------LOAD IMAGES-----------------------------------------------------------
 def load_image(name, colorkey=None):
     "loads an image, prepares it for play"
     fullname = os.path.join('data/img', name)
@@ -32,7 +32,7 @@ def repaint_screen():
     dirty = all.draw(screen)
     pygame.display.update(dirty)
 
-#----------------------------------------------------CARICO SUONI-------------------------------------------------------
+#---------------------------------------------------LOAD SOUND----------------------------------------------------------
 def load_sound(name):
     class NoneSound:
         def play(self): pass
@@ -46,7 +46,7 @@ def load_sound(name):
         raise SystemExit, message
     return sound
 
-#------------------------------------------------INSTANZIO SNAKE--------------------------------------------------------
+#----------------------------------------------------INIT SNAKE---------------------------------------------------------
 class Centipede(pygame.sprite.Sprite):
     images = []
 
@@ -246,7 +246,6 @@ def main(start):
     if start == 0:
         start = 1
         all.add(Main_Image())
-        #all.add(Display_text('PYTHON SNAKE',30,90,80,(Color(255,255,255))))
         all.add(Display_text('Per iniziare a giocare premere un tasto qualsiasi',550,35,25,(Color(255, 138, 35))))
         repaint_screen()
         while 1:
@@ -449,8 +448,8 @@ def main(start):
             #remove game object
             all.remove(crash_text, centipede, bodies, food, bonus)
 
-            #SALVATAGGIO
-            save_scores(score) #controllo se il punteggio fatto rientra in classifica -> se si salvo
+            #SAVE
+            save_scores(score) #check score > lower score in highscore and save
 
             #visualizzo punteggi----------------------------------------------------------
             repaint_screen()
@@ -483,6 +482,8 @@ def main(start):
 
 
 #--------------------------------------------------GESTIONE PUNTEGGI----------------------------------------------------
+
+#try db connection
 def check_db_connection(conf):
     try:
         dbSnake = MySQLdb.connect(conf['host'], conf['user'], conf['password'], conf['database'], connect_timeout=10)
@@ -492,31 +493,30 @@ def check_db_connection(conf):
         dbSnake.close()
         return 1
 
-#controllo se il punteggio rientra in classifica e se si lo salvo
 def save_scores(current_score):
 
-    c = ReadConf.ReadConf() #leggo le configurazioni
-    db_score = check_db_connection(c.database) #controllo se riesco a connettermi al db [1/0]
+    c = ReadConf.ReadConf() #get configuration fronm file
+    db_score = check_db_connection(c.database) #check connection [1/0]
 
-    #recupero l'array degli highscore
+    #get highscores
     if db_score:
         db = DatabaseSnake.DatabaseSnake(c.database)
-        high_scores = db.findScores() #da db
+        high_scores = db.findScores() #from db
     else:
-        high_scores = FileScoreSnake.findScores(c.file) #da file
+        high_scores = FileScoreSnake.findScores(c.file) #from file
 
-    min_score = min(high_scores) #recupero il punteggio + basso tra gli highscore
+    min_score = min(high_scores) #get min_score from highscores
 
-    #punteggio fatto  > del + basso in classifica
+    #check current_score > min_score
     if current_score > min_score:
-        nome = inputbox.ask(screen) #chiedo il nome al giocatore
-        #salvo nome e punteggio del giocatore
+        nome = inputbox.ask(screen) #get player name
+        #save score & name
         if db_score:
             db = DatabaseSnake.DatabaseSnake(c.database)
-            db.saveScore(current_score, nome[:6], datetime.datetime.now()) #a db
-            db.cleanScore() #pulisco oltre la 5 posizione
+            db.saveScore(current_score, nome[:6], datetime.datetime.now()) #to db
+            db.cleanScore() #clear db over 5 row
         else:
-            FileScoreSnake.saveScore(c.file, current_score, nome[:6]) #su file
+            FileScoreSnake.saveScore(c.file, current_score, nome[:6]) #to file
 
 
 # start game when loaded first time              

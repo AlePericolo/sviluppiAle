@@ -1,4 +1,4 @@
-
+#imports
 import os, pygame, sys, MySQLdb, datetime
 from utility import inputbox, ReadConf, DatabaseSnake, FileScoreSnake, functions
 from pygame.locals import *
@@ -46,7 +46,7 @@ def load_sound(name):
         raise SystemExit, message
     return sound
 
-#----------------------------------------------------INIT SNAKE---------------------------------------------------------
+#------------------------------------INIT OBJECT (snake,food, bonus, score, text)---------------------------------------
 class Centipede(pygame.sprite.Sprite):
     images = []
 
@@ -231,7 +231,7 @@ def main(start):
     eat_sound = load_sound('yipee.wav')
     crash_sound = load_sound('foghorn.wav')
     bonus_sound = load_sound('hey.wav')
-    Centipede.images = load_images('head.gif','head.gif','explosion1.gif')
+    Centipede.images = load_images('head.gif','head2.gif','explosion1.gif')
     Food.images = [load_image('apple.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
     Bonus.images = [load_image('ufo.gif',-1)]
@@ -462,11 +462,11 @@ def main(start):
                 playerPos = str(el.get('pos'))
                 playerName = str(el.get('name'))
                 playerScore = str(el.get('score')).zfill(6)
-                left = 110
+                left = 90
                 colorText = functions.findPosition(playerPos)
-                all.add(Display_text(playerPos, top, left, 40, colorText))
-                all.add(Display_text(playerName.upper(), top, left + 50, 40, colorText))
-                all.add(Display_text(playerScore, top, left + 260, 40, colorText))
+                all.add(Display_text(playerPos, top, left, 50, colorText))
+                all.add(Display_text(playerName.upper(), top, left + 50, 50, colorText))
+                all.add(Display_text(playerScore, top, left + 260, 50, colorText))
                 top += 30
 
             all.add(Display_text('Vuoi giocare ancora?  (y/n)',470, 130, 30,(255, 242, 5)))
@@ -526,6 +526,9 @@ def get_ranking():
         return db.getHighScoresList() #from db
     else:
         return FileScoreSnake.getHighScoresList(c.file) #from file
+
+
+#--------------------------------------------------MAIN [START GAME]----------------------------------------------------
 
 # start game when loaded first time              
 if __name__ == '__main__': main(0)

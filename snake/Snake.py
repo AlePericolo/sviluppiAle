@@ -551,7 +551,7 @@ def main(start):
                 astronaut.kill()
                 astronaut_status = 0
                 astronaut_prob = 1000
-                score = score + 100
+                score += 100
                 #astronaut_sound.play()
                 astronaut_text = Text(7)
                 text_time = 25

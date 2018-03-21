@@ -151,6 +151,15 @@ class Meteor(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect[0] = 550 - random.choice([50,100,150,200,250,300,350,400,450,500]) #sx
         self.rect[1] = 550 - random.choice([50,100,150,200,250,300,350,400,450,500]) #top
+
+class Astronaut(pygame.sprite.Sprite):
+    images = []
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self) #call Sprite initializer
+        self.image = self.images[0]
+        self.rect = self.image.get_rect()
+        self.rect[0] = (random.randrange(1,28,1)*20)+16 #sx
+        self.rect[1] = (random.randrange(1,28,1)*20)+16 #top
         
 class Score(pygame.sprite.Sprite):
     def __init__(self):
@@ -185,6 +194,8 @@ class Text(pygame.sprite.Sprite):
             text = "GAME OVER"
         elif status == 6:
             text = "Hai colpito un meteorite"
+        elif status == 7:
+            text = "SUPERBONUS ASTRONAUT"
         self.font = pygame.font.Font("data/font/8bitfont.ttf", 50)
         self.image = self.font.render(text, 1, (Color(255, 242, 5)))
         self.rect = self.image.get_rect(centerx = background.get_width()/2,centery = background.get_height()/2)
@@ -232,6 +243,11 @@ def main(start):
     meteor_time = 0
     meteor_text = pygame.sprite.Sprite()
     meteor = pygame.sprite.Sprite()
+    astronaut_status = 0
+    astronaut_prob = 1000
+    astronaut_time = 0
+    astronaut_text = pygame.sprite.Sprite()
+    astronaut = pygame.sprite.Sprite()
 
     #get main frame
     os.environ['SDL_VIDEO_CENTERED'] = 'anything'
@@ -248,10 +264,11 @@ def main(start):
     crash_sound = load_sound('foghorn.wav')
     bonus_sound = load_sound('hey.wav')
     Centipede.images = load_images('head.gif','head2.gif','explosion.gif')
-    Food.images = [load_image('alien.gif',-1)]
+    Food.images = [load_image('alien2.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
     Bonus.images = [load_image('ufo.gif',-1)]
     Meteor.images = [load_image('meteor.gif',-1)]
+    Astronaut.images = [load_image('astronaut2.gif',-1)]
     Main_Image.images = [load_image('home.png')]
     
     pygame.mouse.set_visible(0)
@@ -306,6 +323,7 @@ def main(start):
     while snake_alive:
         bonus_time -= 1
         meteor_time -= 1
+        astronaut_time -= 1
         text_time -= 1
         clock.tick(25)
         
@@ -359,6 +377,8 @@ def main(start):
             centipede.end()
             if bonus_text.alive():
                 bonus_text.kill()
+            if astronaut_text.alive():
+                astronaut_text.kill()
             if pygame.font:
                 crash_text = Text(1)
                 all.add(crash_text)
@@ -378,6 +398,8 @@ def main(start):
                     centipede.end()
                     if bonus_text.alive():
                         bonus_text.kill()
+                    if astronaut_text.alive():
+                        astronaut_text.kill()
                     if pygame.font:
                         crash_text = Text(0)
                         all.add(crash_text)
@@ -395,6 +417,7 @@ def main(start):
             score = score + 1
             bonus_prob = bonus_prob - 1
             meteor_prob = meteor_prob - 1
+            astronaut_prob = astronaut_prob - 1
             eat_sound.play()
             food = Food()
             bodies.append(Body(304))
@@ -490,11 +513,52 @@ def main(start):
                 centipede.end()
                 if bonus_text.alive():
                     bonus_text.kill()
+                if astronaut_text.alive():
+                    astronaut_text.kill()
                 if pygame.font:
                     meteor_text = Text(6)
                     all.add(meteor_text)
 
                 repaint_screen()
+
+        # --------------------------------display super bonus(Astronaut)-----------------------------------------
+        if astronaut_status == 0 and random.randrange(1, 1000, 1) > astronaut_prob:
+            astronaut_status = 1
+            astronaut = Astronaut()
+            astronautrect = astronaut.rect
+            astronaut_time = random.randrange(40, 100, 1)
+            while 1:
+                if astronautrect.colliderect(food.rect) or astronautrect.colliderect(centipede.rect) or pygame.sprite.spritecollide(astronaut, bodies, 0) != []:
+                    astronaut.kill()
+                    astronaut = Astronaut()
+                    astronautrect = astronaut.rect
+                else:
+                    break
+            all.add(astronaut)
+
+        # kill astronaut when time is up
+        if astronaut_time == 0:
+            astronaut.kill()
+            astronaut_status = 0
+
+        # kill astronaut text
+        if text_time == 0:
+            astronaut_text.kill()
+
+        # check if bonus has been eaten
+        if astronaut.alive() and snake_alive != 0:
+            if astronautrect.colliderect(centipede.rect):
+                astronaut.kill()
+                astronaut_status = 0
+                astronaut_prob = 1000
+                score = score + 100
+                #astronaut_sound.play()
+                astronaut_text = Text(7)
+                text_time = 25
+                all.add(astronaut_text)
+                #bodies.append(Body(304))
+                # ToDO far scomparire il corpo
+                astronaut_time = 0
                 
         # -----------------------------------------------GAME OVER------------------------------------------------------
         if snake_alive == 0:
@@ -507,7 +571,7 @@ def main(start):
                     break
 
             #remove game object
-            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text)
+            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text, astronaut, astronaut_text)
 
             #SAVE
             save_scores(score) #check score > lower score in highscore and save
@@ -536,6 +600,18 @@ def main(start):
         if begin == 1:
             begin = 0
             pygame.time.delay(1000)
+
+    # ------------------------------------------------------MANAGE SPEED-----------------------------------------------------
+
+        # def increaseSpeed(score):
+        #     if score < 10:
+        #         clock.tick(25)
+        #     elif score > 9 and score < 25:
+        #         clock.tick(2)
+        #     elif score > 24 and score < 40:
+        #         clock.tick(3)
+        #     elif score > 60:
+        #         clock.tick(4)
 
 
 #------------------------------------------------MANAGE SCORE [DB/FILE]-------------------------------------------------

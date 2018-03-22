@@ -149,8 +149,8 @@ class Meteor(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        self.rect[0] = 550 - random.choice([50,100,150,200,250,300,350,400,450,500]) #sx
-        self.rect[1] = 550 - random.choice([50,100,150,200,250,300,350,400,450,500]) #top
+        self.rect[0] = 550 - random.choice([100,150,200,250,300,350,400,450]) #sx
+        self.rect[1] = 550 - random.choice([100,150,200,250,300,350,400,450]) #top
 
 class Astronaut(pygame.sprite.Sprite):
     images = []
@@ -239,12 +239,12 @@ def main(start):
     bonus_text = pygame.sprite.Sprite()
     bonus = pygame.sprite.Sprite()
     meteor_status = 0
-    meteor_prob = 1000
+    meteor_prob = 700
     meteor_time = 0
     meteor_text = pygame.sprite.Sprite()
     meteor = pygame.sprite.Sprite()
     astronaut_status = 0
-    astronaut_prob = 1000
+    astronaut_prob = 3000
     astronaut_time = 0
     astronaut_text = pygame.sprite.Sprite()
     astronaut = pygame.sprite.Sprite()
@@ -453,7 +453,7 @@ def main(start):
             bonus_status = 1
             bonus = Bonus()
             bonusrect = bonus.rect
-            bonus_time = random.randrange(40,100,1)
+            bonus_time = random.randrange(50,150,1)
             while 1:
                 if meteor.alive():
                     if bonusrect.colliderect(food.rect) or bonusrect.colliderect(centipede.rect) or meteorrect.colliderect(bonus.rect):
@@ -509,7 +509,7 @@ def main(start):
             meteor_status = 1
             meteor = Meteor()
             meteorrect = meteor.rect
-            meteor_time = 300
+            meteor_time = 500
             while 1:
                 if bonus.alive():
                     if meteorrect.colliderect(food.rect) or meteorrect.colliderect(centipede.rect) or meteorrect.colliderect(bonus.rect):
@@ -543,7 +543,7 @@ def main(start):
         if text_time == 0:
             meteor_text.kill()
 
-        # check if meteor has been eaten
+        # check if meteor has been hit
         if meteor.alive() and snake_alive != 0:
             if meteorrect.colliderect(centipede.rect):
                 snake_alive = 0
@@ -568,7 +568,7 @@ def main(start):
             astronaut_status = 1
             astronaut = Astronaut()
             astronautrect = astronaut.rect
-            astronaut_time = random.randrange(40, 100, 1)
+            astronaut_time = random.randrange(40, 150, 1)
             while 1:
                 if bonus.alive():
                     if astronautrect.colliderect(food.rect) or astronautrect.colliderect(centipede.rect) or astronautrect.colliderect(bonus.rect):
@@ -602,19 +602,21 @@ def main(start):
         if text_time == 0:
             astronaut_text.kill()
 
-        # check if bonus has been eaten
+        # check if astronaut has been eaten
         if astronaut.alive() and snake_alive != 0:
             if astronautrect.colliderect(centipede.rect):
                 astronaut.kill()
                 astronaut_status = 0
-                astronaut_prob = 1000
+                astronaut_prob = 3000
                 score += 100
                 #astronaut_sound.play()
                 astronaut_text = Text(7)
                 text_time = 25
                 all.add(astronaut_text)
-                #bodies.append(Body(304))
-                # ToDO far scomparire il corpo
+                all.remove(bodies)
+                bodies = []
+                for i in range(3):
+                    bodies.append(Body(330 + (i * 20)))
                 astronaut_time = 0
                 
         # -----------------------------------------------GAME OVER------------------------------------------------------

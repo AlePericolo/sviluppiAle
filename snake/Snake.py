@@ -428,6 +428,18 @@ def main(start):
                         food = Food()
                     else:
                         break
+                elif meteor.alive():
+                    if centirect.colliderect(food.rect) or pygame.sprite.spritecollide(food,bodies,0) != [] or meteorrect.colliderect(food.rect):
+                        food.kill()
+                        food = Food()
+                    else:
+                        break
+                elif astronaut.alive():
+                    if centirect.colliderect(food.rect) or pygame.sprite.spritecollide(food,bodies,0) != [] or astronautrect.colliderect(food.rect):
+                        food.kill()
+                        food = Food()
+                    else:
+                        break
                 else:
                     if centirect.colliderect(food.rect) or pygame.sprite.spritecollide(food,bodies,0) != []:
                         food.kill()
@@ -443,12 +455,27 @@ def main(start):
             bonusrect = bonus.rect
             bonus_time = random.randrange(40,100,1)
             while 1:
-                if bonusrect.colliderect(food.rect) or bonusrect.colliderect(centipede.rect) or pygame.sprite.spritecollide(bonus,bodies, 0) != []:
-                    bonus.kill()
-                    bonus = Bonus()
-                    bonusrect = bonus.rect
+                if meteor.alive():
+                    if bonusrect.colliderect(food.rect) or bonusrect.colliderect(centipede.rect) or meteorrect.colliderect(bonus.rect):
+                        bonus.kill()
+                        bonus = Bonus()
+                        bonusrect = bonus.rect
+                    else:
+                        break
+                elif astronaut.alive():
+                    if bonusrect.colliderect(food.rect) or bonusrect.colliderect(centipede.rect) or astronautrect.colliderect(bonus.rect):
+                        bonus.kill()
+                        bonus = Bonus()
+                        bonusrect = bonus.rect
+                    else:
+                        break
                 else:
-                    break
+                    if bonusrect.colliderect(food.rect) or bonusrect.colliderect(centipede.rect) or pygame.sprite.spritecollide(bonus,bodies, 0) != []:
+                        bonus.kill()
+                        bonus = Bonus()
+                        bonusrect = bonus.rect
+                    else:
+                        break
             all.add(bonus)
         
         # kill bonus when time is up
@@ -484,12 +511,27 @@ def main(start):
             meteorrect = meteor.rect
             meteor_time = 300
             while 1:
-                if meteorrect.colliderect(food.rect) or meteorrect.colliderect(centipede.rect) or pygame.sprite.spritecollide(meteor,bodies, 0) != []:
-                    meteor.kill()
-                    meteor = Meteor()
-                    meteorrect = meteor.rect
+                if bonus.alive():
+                    if meteorrect.colliderect(food.rect) or meteorrect.colliderect(centipede.rect) or meteorrect.colliderect(bonus.rect):
+                        meteor.kill()
+                        meteor = Meteor()
+                        meteorrect = meteor.rect
+                    else:
+                        break
+                elif astronaut.alive():
+                    if meteorrect.colliderect(food.rect) or meteorrect.colliderect(centipede.rect) or meteorrect.colliderect(astronaut.rect):
+                        meteor.kill()
+                        meteor = Meteor()
+                        meteorrect = meteor.rect
+                    else:
+                        break
                 else:
-                    break
+                    if meteorrect.colliderect(food.rect) or meteorrect.colliderect(centipede.rect) or pygame.sprite.spritecollide(meteor,bodies, 0) != []:
+                        meteor.kill()
+                        meteor = Meteor()
+                        meteorrect = meteor.rect
+                    else:
+                        break
             all.add(meteor)
 
         # kill meteor when time is up
@@ -528,12 +570,27 @@ def main(start):
             astronautrect = astronaut.rect
             astronaut_time = random.randrange(40, 100, 1)
             while 1:
-                if astronautrect.colliderect(food.rect) or astronautrect.colliderect(centipede.rect) or pygame.sprite.spritecollide(astronaut, bodies, 0) != []:
-                    astronaut.kill()
-                    astronaut = Astronaut()
-                    astronautrect = astronaut.rect
+                if bonus.alive():
+                    if astronautrect.colliderect(food.rect) or astronautrect.colliderect(centipede.rect) or astronautrect.colliderect(bonus.rect):
+                        astronaut.kill()
+                        astronaut = Astronaut()
+                        astronautrect = astronaut.rect
+                    else:
+                        break
+                elif meteor.alive():
+                    if astronautrect.colliderect(food.rect) or astronautrect.colliderect(centipede.rect)  or astronautrect.colliderect(meteor.rect):
+                        astronaut.kill()
+                        astronaut = Astronaut()
+                        astronautrect = astronaut.rect
+                    else:
+                        break
                 else:
-                    break
+                    if astronautrect.colliderect(food.rect) or astronautrect.colliderect(centipede.rect) or pygame.sprite.spritecollide(astronaut, bodies, 0) != []:
+                        astronaut.kill()
+                        astronaut = Astronaut()
+                        astronautrect = astronaut.rect
+                    else:
+                        break
             all.add(astronaut)
 
         # kill astronaut when time is up

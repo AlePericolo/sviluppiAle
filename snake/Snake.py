@@ -239,7 +239,7 @@ def main(start):
     bonus_text = pygame.sprite.Sprite()
     bonus = pygame.sprite.Sprite()
     meteor_status = 0
-    meteor_prob = 700
+    meteor_prob = 1000
     meteor_time = 0
     meteor_text = pygame.sprite.Sprite()
     meteor = pygame.sprite.Sprite()
@@ -417,7 +417,7 @@ def main(start):
             score = score + 1
             bonus_prob = bonus_prob - 1
             meteor_prob = meteor_prob - 1
-            astronaut_prob = astronaut_prob - 1
+            astronaut_prob = astronaut_prob - 0.5
             eat_sound.play()
             food = Food()
             bodies.append(Body(304))
@@ -495,6 +495,10 @@ def main(start):
                 bonus_prob = 1000
                 if bonus_text.alive():
                     bonus_text.kill()
+                if meteor_text.alive():
+                    meteor_text.kill()
+                if astronaut_text.alive():
+                    astronaut_text.kill()
                 bonus_points = round(bonus_time/5+2)
                 score = score + bonus_points
                 bonus_sound.play()
@@ -564,11 +568,11 @@ def main(start):
                 repaint_screen()
 
         # --------------------------------display super bonus(Astronaut)-----------------------------------------
-        if astronaut_status == 0 and random.randrange(1, 1000, 1) > astronaut_prob:
+        if astronaut_status == 0 and random.randrange(1,3000,1) > astronaut_prob:
             astronaut_status = 1
             astronaut = Astronaut()
             astronautrect = astronaut.rect
-            astronaut_time = random.randrange(40, 150, 1)
+            astronaut_time = random.randrange(40,150,1)
             while 1:
                 if bonus.alive():
                     if astronautrect.colliderect(food.rect) or astronautrect.colliderect(centipede.rect) or astronautrect.colliderect(bonus.rect):
@@ -612,11 +616,9 @@ def main(start):
                 #astronaut_sound.play()
                 astronaut_text = Text(7)
                 text_time = 25
+                all.remove(Text, bodies)
                 all.add(astronaut_text)
-                all.remove(bodies)
                 bodies = []
-                for i in range(3):
-                    bodies.append(Body(330 + (i * 20)))
                 astronaut_time = 0
                 
         # -----------------------------------------------GAME OVER------------------------------------------------------

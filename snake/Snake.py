@@ -619,6 +619,9 @@ def main(start):
                 all.remove(Text, bodies)
                 all.add(astronaut_text)
                 bodies = []
+                #bodies.append(Body(304))
+                #bodies.append(Body(304))
+                #bodies.append(Body(304))
                 astronaut_time = 0
                 
         # -----------------------------------------------GAME OVER------------------------------------------------------

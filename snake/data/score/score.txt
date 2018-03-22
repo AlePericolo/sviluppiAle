@@ -1,5 +1,5 @@
-1,ciccio,112544
-2,lmlml,63
-3,meteo,63
-4,ccc,56
-5,vcccb ,50
+1,rd,391
+2,,20
+3,peril,3
+4,ygiuiu,1
+5,ciccio,0

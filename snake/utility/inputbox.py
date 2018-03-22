@@ -28,16 +28,14 @@ def display_box(screen, message):
   fontobject = pygame.font.Font("data/font/8bitfont.ttf", 20)
   #contorno
   pygame.draw.rect(screen, (255,255,255),
-                   ((screen.get_width() / 2) - 60,
-                    (screen.get_height() / 2) + 22,
-                    200,20), 0)
+                   ((screen.get_width() / 2) - 68,
+                    (screen.get_height() / 2) + 22, 140,20), 0)
   pygame.draw.rect(screen, (255,255,255),
-                   ((screen.get_width() / 2) - 61,
-                    (screen.get_height() / 2) + 20,
-                    204,24), 1)
+                   ((screen.get_width() / 2) - 70,
+                    (screen.get_height() / 2) + 20, 144,24), 1)
   if len(message) != 0:
     screen.blit(fontobject.render(message, 1, (0, 0, 0)),
-                ((screen.get_width() / 2) - 55, (screen.get_height() / 2) + 22))
+                ((screen.get_width() / 2) - 30, (screen.get_height() / 2) + 22))
   pygame.display.flip()
 
 def ask(screen):

@@ -94,13 +94,19 @@ class Centipede(pygame.sprite.Sprite):
 
     def outside(self,x,y):
         if self.rect[0] < 30 or self.rect[0] > x or self.rect[1] < 30 or self.rect[1] > y:
-            self.end()
+            self.end('l')
             return True
         else:
             return False
 
-    def end (self):
-        self.image = self.images[2]
+    def end (self, param):
+        if param == 'l':
+            self.image = self.images[2] #collision with laser (wall)
+        elif param == 's':
+            self.image = self.images[3] #collision with self
+        elif param == 'm':
+            self.image = self.images[4] #collision with meteor
+
         self.rect = self.rect.move(-20,-20)
         
     def position(self):
@@ -169,12 +175,12 @@ class Score(pygame.sprite.Sprite):
         self.color = Color('white')
         self.lastscore = -1
         self.update()
-        self.rect = self.image.get_rect().move(480, 5)
+        self.rect = self.image.get_rect().move(430, 5)
 
     def update(self):
         if score != self.lastscore:
             self.lastscore = score
-            msg = "Score: %d" % score
+            msg = "Score: %s" % str(int(score)).zfill(6)
             self.image = self.font.render(msg, 0, self.color)
 
 class Text(pygame.sprite.Sprite):
@@ -195,7 +201,11 @@ class Text(pygame.sprite.Sprite):
         elif status == 6:
             text = "Hai colpito un meteorite"
         elif status == 7:
-            text = "SUPERBONUS ASTRONAUT"
+            text = "Bonus atronauta"
+        elif status == 8:
+            text = "Hai trovato qualcosa.."
+        elif status == 9:
+            text = "EASTEREGG, HAI VINTO!"
         self.font = pygame.font.Font("data/font/8bitfont.ttf", 50)
         self.image = self.font.render(text, 1, (Color(255, 242, 5)))
         self.rect = self.image.get_rect(centerx = background.get_width()/2,centery = background.get_height()/2)
@@ -210,6 +220,20 @@ class Display_text(pygame.sprite.Sprite):
     def update(self,text,underscore,colour):
         text = text + underscore
         self.image = self.font.render(text, 1, colour)
+
+class HelpText(pygame.sprite.Sprite):
+    def __init__(self):
+        text = "suka"
+        self.font = pygame.font.Font("data/font/8bitfont.ttf", 50)
+        self.image = self.font.render(text, 1, (Color(255, 242, 5)))
+        self.rect = self.image.get_rect(centerx = background.get_width()/2,centery = background.get_height()/2)
+
+class Display_help(pygame.sprite.Sprite):
+    def __init__(self,text,position_top,position_left,size,colour):
+        pygame.sprite.Sprite.__init__(self)
+        self.font = pygame.font.Font("data/font/8bitfont.ttf", size)
+        self.image = self.font.render(text,1,colour)
+        self.rect = self.image.get_rect(left = position_left,top = position_top)
 
 class Main_Image(pygame.sprite.Sprite):
     images=[]
@@ -248,6 +272,9 @@ def main(start):
     astronaut_time = 0
     astronaut_text = pygame.sprite.Sprite()
     astronaut = pygame.sprite.Sprite()
+    #easteregg
+    astronaut_eaten = 0
+    easter_egg_win_text = ''
 
     #get main frame
     os.environ['SDL_VIDEO_CENTERED'] = 'anything'
@@ -266,7 +293,9 @@ def main(start):
     meteor_crash_sound = load_sound('meteorDeath.wav')
     bonus_sound = load_sound('bonus.wav')
     super_bonus_sound = load_sound('superbonus.wav')
-    Centipede.images = load_images('head.gif','head2.gif','explosion.gif')
+    easter_egg_sound = load_sound('foundSmt.wav')
+    easter_egg_win_sound = load_sound('')
+    Centipede.images = load_images('head.gif','head2.gif','deathLaser.gif','deathSelf.gif','deathMeteor.gif')
     Food.images = [load_image('alien2.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
     Bonus.images = [load_image('ufo.gif',-1)]
@@ -329,7 +358,11 @@ def main(start):
         astronaut_time -= 1
         text_time -= 1
         clock.tick(25)
-        
+
+        ee_help_text = 'suka'
+        all.add(Display_help(ee_help_text,470, 130, 30,(255, 242, 5)))
+
+
         centirect = centipede.rect
         
         #handles pause, exit
@@ -338,7 +371,7 @@ def main(start):
                 sys.exit()
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 sys.exit()
-            elif event.type == KEYDOWN and event.key == K_p:
+            elif event.type == KEYDOWN and event.key == K_SPACE:
                 pause = 1
                 if pygame.font:
                     pause_text=Text(2)
@@ -351,11 +384,36 @@ def main(start):
                     event = pygame.event.wait()
                     if event.type == QUIT:
                         sys.exit()
-                    if event.type == KEYDOWN and event.key == K_p:
+                    if event.type == KEYDOWN and event.key == K_SPACE:
                         pause = 0
                         pause_text.kill()
+            #easter egg
+            #elif event.type == KEYUP and event.key == K_a and astronaut_eaten > 2: ToDo scommentare
+            elif event.type == KEYUP and event.key == K_a: #ToDo commentare
+                egg = 1
+                if pygame.font:
+                    easter_egg_text=Text(8)
+                    all.add(easter_egg_text)
+                all.clear(screen, background)
+                dirty = all.draw(screen)
+                pygame.display.update(dirty)
+                pygame.event.clear()
+                easter_egg_sound.play()
+                while egg:
+                    event = pygame.event.wait()
+                    if event.key == K_p:
+                        egg = 0
+                        easter_egg_text.kill()
+                        all.remove(crash_text, food, bonus, meteor, meteor_text, astronaut, astronaut_text, easter_egg_text)
+                        score = 999999
+                        snake_alive = 0
+                        easter_egg_win_text = Text(9)
+                        all.add(easter_egg_win_text)
 
-                
+                    else:
+                        easter_egg_text.kill()
+                        egg = 0
+
         all.update()
         
         # make body move
@@ -368,7 +426,7 @@ def main(start):
         headmoves.append(centipede.position())
         del headmoves[0]
         
-        # detects collision with the wall
+        # detects collision with the wall (laser)
         if centipede.outside(width,height):
             snake_alive = 0
             laser_crash_sound.play()
@@ -378,7 +436,7 @@ def main(start):
             all.remove(score_instance)
             all.add(centipede)
             all.add(score_instance)
-            centipede.end()
+            centipede.end('l')
             if bonus_text.alive():
                 bonus_text.kill()
             if astronaut_text.alive():
@@ -399,7 +457,7 @@ def main(start):
                     all.remove(score_instance)
                     all.add(centipede)
                     all.add(score_instance)
-                    centipede.end()
+                    centipede.end('s')
                     if bonus_text.alive():
                         bonus_text.kill()
                     if astronaut_text.alive():
@@ -560,7 +618,7 @@ def main(start):
                 all.remove(score_instance)
                 all.add(centipede)
                 all.add(score_instance)
-                centipede.end()
+                centipede.end('m')
                 if bonus_text.alive():
                     bonus_text.kill()
                 if astronaut_text.alive():
@@ -625,6 +683,8 @@ def main(start):
                 bodies = []
                 #bodies.append(Body(304)) scegliere quanti body attaccare al superbonus
                 astronaut_time = 0
+                astronaut_eaten = astronaut_eaten +1
+
                 
         # -----------------------------------------------GAME OVER------------------------------------------------------
         if snake_alive == 0:
@@ -637,7 +697,7 @@ def main(start):
                     break
 
             #remove game object
-            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text, astronaut, astronaut_text)
+            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text, astronaut, astronaut_text, easter_egg_win_text)
 
             #SAVE
             save_scores(score) #check score > lower score in highscore and save

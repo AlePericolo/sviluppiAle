@@ -260,9 +260,12 @@ def main(start):
     pygame.display.flip()
 
     #load pictures for sprites
-    eat_sound = load_sound('yipee.wav')
-    crash_sound = load_sound('foghorn.wav')
-    bonus_sound = load_sound('hey.wav')
+    eat_sound = load_sound('chomp.wav')
+    self_crash_sound = load_sound('death.wav')
+    laser_crash_sound = load_sound('laserDeath.wav')
+    meteor_crash_sound = load_sound('meteorDeath.wav')
+    bonus_sound = load_sound('bonus.wav')
+    super_bonus_sound = load_sound('superbonus.wav')
     Centipede.images = load_images('head.gif','head2.gif','explosion.gif')
     Food.images = [load_image('alien2.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
@@ -368,7 +371,7 @@ def main(start):
         # detects collision with the wall
         if centipede.outside(width,height):
             snake_alive = 0
-            crash_sound.play()
+            laser_crash_sound.play()
             #re-create head to make sure it's last sprite in all
             #and nothing is drawn over it
             all.remove(centipede)
@@ -391,7 +394,7 @@ def main(start):
                 smallbody = body.rect.inflate(-15,-15)
                 if smallbody.colliderect(smallcenti):
                     snake_alive = 0
-                    crash_sound.play()
+                    self_crash_sound.play()
                     all.remove(centipede)
                     all.remove(score_instance)
                     all.add(centipede)
@@ -552,7 +555,7 @@ def main(start):
         if meteor.alive() and snake_alive != 0:
             if meteorrect.colliderect(centipede.rect):
                 snake_alive = 0
-                crash_sound.play()
+                meteor_crash_sound.play()
                 all.remove(centipede)
                 all.remove(score_instance)
                 all.add(centipede)
@@ -614,7 +617,7 @@ def main(start):
                 astronaut_status = 0
                 astronaut_prob = 3000
                 score += 100
-                #astronaut_sound.play()
+                super_bonus_sound.play()
                 astronaut_text = Text(7)
                 text_time = 25
                 all.remove(Text, bodies)

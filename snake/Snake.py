@@ -131,7 +131,7 @@ class Food(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        self.rect[0] = (random.randrange(1,28,1)*20)+16 #sx
+        self.rect[0] = (random.randrange(1,28,1)*20)+10 #sx
         self.rect[1] = (random.randrange(1,28,1)*20)+16 #top
         
 class Bonus(pygame.sprite.Sprite):
@@ -140,7 +140,7 @@ class Bonus(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        self.rect[0] = (random.randrange(1,28,1)*20)+16 #sx
+        self.rect[0] = (random.randrange(1,28,1)*20)+10 #sx
         self.rect[1] = (random.randrange(1,28,1)*20)+16 #top
 
 class Meteor(pygame.sprite.Sprite):
@@ -158,7 +158,7 @@ class Astronaut(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self) #call Sprite initializer
         self.image = self.images[0]
         self.rect = self.image.get_rect()
-        self.rect[0] = (random.randrange(1,28,1)*20)+16 #sx
+        self.rect[0] = (random.randrange(1,28,1)*20)+10 #sx
         self.rect[1] = (random.randrange(1,28,1)*20)+16 #top
         
 class Score(pygame.sprite.Sprite):
@@ -329,7 +329,7 @@ def main(start):
         
         centirect = centipede.rect
         
-        #handles pause and exit
+        #handles pause, exit
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit()
@@ -351,6 +351,7 @@ def main(start):
                     if event.type == KEYDOWN and event.key == K_p:
                         pause = 0
                         pause_text.kill()
+
                 
         all.update()
         
@@ -619,9 +620,7 @@ def main(start):
                 all.remove(Text, bodies)
                 all.add(astronaut_text)
                 bodies = []
-                #bodies.append(Body(304))
-                #bodies.append(Body(304))
-                #bodies.append(Body(304))
+                #bodies.append(Body(304)) scegliere quanti body attaccare al superbonus
                 astronaut_time = 0
                 
         # -----------------------------------------------GAME OVER------------------------------------------------------

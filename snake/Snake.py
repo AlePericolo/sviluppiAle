@@ -209,22 +209,22 @@ class Text(pygame.sprite.Sprite):
         elif status == 10:
             text = random.choice(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
 
-            top = (random.randrange(1, 28, 1) * 20) + 16
-            left = (random.randrange(1, 28, 1) * 20) + 16
             size = 20
             color = (255, 242, 5)
             if text == 'a' or text == 'b':
                 size = 25
                 color = (211, 11, 11)
 
-        self.font = pygame.font.Font("data/font/8bitfont.ttf", 50)
-
-        if status != 10:
-            self.image = self.font.render(text, 1, (Color(255, 242, 5)))
-            self.rect = self.image.get_rect(centerx = background.get_width()/2,centery = background.get_height()/2)
-        else:
+            self.font = pygame.font.Font("data/font/8bitfont.ttf", size)
             self.image = self.font.render(text, 1, color)
-            self.rect = self.image.get_rect(centerx=top, centery=left)
+            self.rect = self.image.get_rect(centerx=(random.randrange(1, 28, 1) * 20) + 16, centery=(random.randrange(1, 28, 1) * 20) + 16)
+
+        self.font = pygame.font.Font("data/font/8bitfont.ttf", 50)
+        self.image = self.font.render(text, 1, (Color(255, 242, 5)))
+        self.rect = self.image.get_rect(centerx=background.get_width() / 2, centery=background.get_height() / 2)
+
+
+
 
 
 class Display_text(pygame.sprite.Sprite):
@@ -286,8 +286,8 @@ def main(start):
     astronaut_eaten = 0
     easter_egg_win_text = ''
     ee_help_status = 0
-    ee_help_time = 0
     ee_help_prob = 1000
+    ee_help_text_time = 10
     ee_help_text = pygame.sprite.Sprite()
 
     #get main frame
@@ -372,11 +372,6 @@ def main(start):
         astronaut_time -= 1
         text_time -= 1
         clock.tick(25)
-
-        #easter egg help text
-        # ee_help_text = Text(10)
-        # all.add(ee_help_text)
-        # all.remove(ee_help_text)
 
         centirect = centipede.rect
         
@@ -700,64 +695,18 @@ def main(start):
                 astronaut_time = 0
                 astronaut_eaten = astronaut_eaten +1
 
+        # --------------------------------display hel text for ee-----------------------------------------
         if ee_help_status == 0 and random.randrange(1, 1000, 1) > ee_help_prob:
-            ee_help_time = 50
+            ee_help_status = 1
+            ee_help_time = random.randrange(40, 150, 1)
             while 1:
-                if meteor.alive():
-                    if bonusrect.colliderect(food.rect) or bonusrect.colliderect(
-                            centipede.rect) or meteorrect.colliderect(bonus.rect):
-                        bonus.kill()
-                        bonus = Bonus()
-                        bonusrect = bonus.rect
-                    else:
-                        break
-                elif astronaut.alive():
-                    if bonusrect.colliderect(food.rect) or bonusrect.colliderect(
-                            centipede.rect) or astronautrect.colliderect(bonus.rect):
-                        bonus.kill()
-                        bonus = Bonus()
-                        bonusrect = bonus.rect
-                    else:
-                        break
-                else:
-                    if bonusrect.colliderect(food.rect) or bonusrect.colliderect(
-                            centipede.rect) or pygame.sprite.spritecollide(bonus, bodies, 0) != []:
-                        bonus.kill()
-                        bonus = Bonus()
-                        bonusrect = bonus.rect
-                    else:
-                        break
-            all.add(bonus)
+                ee_help_text = Text(10)
+                all.add(ee_help_text)
 
-        # kill bonus when time is up
-        if bonus_time == 0:
-            bonus.kill()
-            bonus_status = 0
-
-        # kill bonus text
-        if text_time == 0:
-            bonus_text.kill()
-
-        # check if bonus has been eaten
-        if bonus.alive() and snake_alive != 0:
-            if bonusrect.colliderect(centipede.rect):
-                bonus.kill()
-                bonus_status = 0
-                bonus_prob = 1000
-                if bonus_text.alive():
-                    bonus_text.kill()
-                if meteor_text.alive():
-                    meteor_text.kill()
-                if astronaut_text.alive():
-                    astronaut_text.kill()
-                bonus_points = round(bonus_time / 5 + 2)
-                score = score + bonus_points
-                bonus_sound.play()
-                bonus_text = Text(3, bonus_points)
-                text_time = 25
-                all.add(bonus_text)
-                bodies.append(Body(304))
-                bonus_time = 0
+        # kill astronaut text
+        if ee_help_text_time == 0:
+            all.remove(ee_help_text)
+            ee_help_text.kill()
                 
         # -----------------------------------------------GAME OVER------------------------------------------------------
         if snake_alive == 0:

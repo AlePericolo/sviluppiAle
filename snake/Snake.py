@@ -223,10 +223,10 @@ class Text(pygame.sprite.Sprite):
         elif status == 9:
             text = "EASTEREGG, HAI VINTO!"
         elif status == 10:
-            text = random.choice(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
-            size = 20
-            if text == 'a' or text == 'b':
-                size = 25
+            text = random.choice(['A', 'L', 'E', 'P', 'E', 'R', 'I'])
+            size = 25
+            if text == 'A' or text == 'P':
+                size = 30
                 color = (211, 11, 11)
             x = (random.randrange(1, 28, 1) * 20) + 16
             y = (random.randrange(1, 28, 1) * 20) + 16
@@ -300,10 +300,10 @@ def main(start):
 
     #get main frame
     os.environ['SDL_VIDEO_CENTERED'] = 'anything'
-    fullname = os.path.join('data/img', 'Snake.gif')
+    fullname = os.path.join('data/img', 'snake.png')
     pygame.display.set_icon(pygame.image.load(fullname))
     screen = pygame.display.set_mode((600,600))
-    pygame.display.set_caption('SNAKE - Peril')
+    pygame.display.set_caption('SPACE SNAKE - developed by Peril')
     background = load_image('background.png')
     screen.blit(background,(0,0))
     pygame.display.flip()
@@ -319,11 +319,11 @@ def main(start):
     easter_egg_win_sound = load_sound('')
     #load images
     Centipede.images = load_images('head.gif','head2.gif','deathLaser.gif','deathSelf.gif','deathMeteor.gif')
-    Food.images = [load_image('alien2.gif',-1)]
+    Food.images = [load_image('alien.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
     Bonus.images = [load_image('ufo.gif',-1)]
-    Meteor.images = [load_image('meteor.gif',-1)]
-    Astronaut.images = [load_image('astronaut2.gif',-1)]
+    Meteor.images = [load_image('meteor.png',-1)]
+    Astronaut.images = [load_image('astronaut.gif',-1)]
     Easteregg.images = [load_image('egg.png',-1)]
     Main_Image.images = [load_image('home.png')]
     

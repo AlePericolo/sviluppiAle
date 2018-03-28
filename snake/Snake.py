@@ -309,6 +309,7 @@ def main(start):
     pygame.display.flip()
 
     #load sounds
+    insert_coin_sound = load_sound('coin.wav')
     eat_sound = load_sound('chomp.wav')
     self_crash_sound = load_sound('death.wav')
     laser_crash_sound = load_sound('laserDeath.wav')
@@ -316,7 +317,7 @@ def main(start):
     bonus_sound = load_sound('bonus.wav')
     super_bonus_sound = load_sound('superbonus.wav')
     easter_egg_sound = load_sound('foundSmt.wav')
-    easter_egg_win_sound = load_sound('')
+    easter_egg_win_sound = load_sound('easteregg.wav')
     #load images
     Centipede.images = load_images('head.gif','head2.gif','deathLaser.gif','deathSelf.gif','deathMeteor.gif')
     Food.images = [load_image('alien.gif',-1)]
@@ -336,13 +337,14 @@ def main(start):
     if start == 0:
         start = 1
         all.add(Main_Image())
-        all.add(Display_text('Per iniziare a giocare premere un tasto qualsiasi',550,35,25,(Color(255, 138, 35))))
+        all.add(Display_text('Per iniziare a giocare premere INVIO',550,120,25,(Color(255, 138, 35))))
         repaint_screen()
         while 1:
             event = pygame.event.wait()
             if event.type == QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
+            if event.type == KEYDOWN and event.key == K_RETURN:
+                insert_coin_sound.play()
                 break   
         all.empty()
     
@@ -426,6 +428,7 @@ def main(start):
                         egg = 0
                         easter_egg_text.kill()
                         all.remove(crash_text, food, bonus, meteor, meteor_text, astronaut, astronaut_text, easter_egg_text)
+                        easter_egg_win_sound.play()
                         score = 999999
                         snake_alive = 0
                         easter_egg_win_text = Text(9)
@@ -732,7 +735,7 @@ def main(start):
                     break
 
             #remove game object
-            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text, astronaut, astronaut_text, easter_egg_win_text)
+            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text, astronaut, astronaut_text, easter_egg_win_text, easteregg)
 
             #SAVE
             save_scores(score) #check score > lower score in highscore and save

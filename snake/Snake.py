@@ -1,5 +1,5 @@
 #imports
-import os, pygame, sys, MySQLdb, datetime, threading
+import os, pygame, sys, MySQLdb, datetime, time
 from utility import inputbox, ReadConf, DatabaseSnake, FileScoreSnake, functions
 from pygame.locals import *
 
@@ -166,6 +166,15 @@ class Astronaut(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect[0] = (random.randrange(1,28,1)*20)+10 #sx
         self.rect[1] = (random.randrange(1,28,1)*20)+16 #top
+
+class Easteregg(pygame.sprite.Sprite):
+    images = []
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self) #call Sprite initializer
+        self.image = self.images[0]
+        self.rect = self.image.get_rect()
+        self.rect[0] =  (background.get_width() / 2) - 25
+        self.rect[1] =  (background.get_height() / 2) - 120
         
 class Score(pygame.sprite.Sprite):
     def __init__(self):
@@ -186,6 +195,13 @@ class Score(pygame.sprite.Sprite):
 class Text(pygame.sprite.Sprite):
     def __init__(self,status,bonus = 0):
         pygame.sprite.Sprite.__init__(self)
+
+        size = 50
+        color = (255, 242, 5)
+        x = background.get_width() / 2
+        y = background.get_height() / 2
+        text = ''
+
         if status == 1:
             text = "Il laser ti ha fritto!"
         elif status == 0:
@@ -208,24 +224,16 @@ class Text(pygame.sprite.Sprite):
             text = "EASTEREGG, HAI VINTO!"
         elif status == 10:
             text = random.choice(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
-
             size = 20
-            color = (255, 242, 5)
             if text == 'a' or text == 'b':
                 size = 25
                 color = (211, 11, 11)
+            x = (random.randrange(1, 28, 1) * 20) + 16
+            y = (random.randrange(1, 28, 1) * 20) + 16
 
-            self.font = pygame.font.Font("data/font/8bitfont.ttf", size)
-            self.image = self.font.render(text, 1, color)
-            self.rect = self.image.get_rect(centerx=(random.randrange(1, 28, 1) * 20) + 16, centery=(random.randrange(1, 28, 1) * 20) + 16)
-
-        self.font = pygame.font.Font("data/font/8bitfont.ttf", 50)
-        self.image = self.font.render(text, 1, (Color(255, 242, 5)))
-        self.rect = self.image.get_rect(centerx=background.get_width() / 2, centery=background.get_height() / 2)
-
-
-
-
+        self.font = pygame.font.Font("data/font/8bitfont.ttf", size)
+        self.image = self.font.render(text, 1, color)
+        self.rect = self.image.get_rect(centerx = x, centery = y)
 
 class Display_text(pygame.sprite.Sprite):
     def __init__(self,text,position_top,position_left,size,colour):
@@ -285,10 +293,10 @@ def main(start):
     #easteregg
     astronaut_eaten = 0
     easter_egg_win_text = ''
-    ee_help_status = 0
-    ee_help_prob = 1000
-    ee_help_text_time = 10
-    ee_help_text = pygame.sprite.Sprite()
+    easteregg_prob = 1000
+    easteregg_time = 0
+    easteregg_text = pygame.sprite.Sprite()
+    easteregg = pygame.sprite.Sprite()
 
     #get main frame
     os.environ['SDL_VIDEO_CENTERED'] = 'anything'
@@ -300,7 +308,7 @@ def main(start):
     screen.blit(background,(0,0))
     pygame.display.flip()
 
-    #load pictures for sprites
+    #load sounds
     eat_sound = load_sound('chomp.wav')
     self_crash_sound = load_sound('death.wav')
     laser_crash_sound = load_sound('laserDeath.wav')
@@ -309,12 +317,14 @@ def main(start):
     super_bonus_sound = load_sound('superbonus.wav')
     easter_egg_sound = load_sound('foundSmt.wav')
     easter_egg_win_sound = load_sound('')
+    #load images
     Centipede.images = load_images('head.gif','head2.gif','deathLaser.gif','deathSelf.gif','deathMeteor.gif')
     Food.images = [load_image('alien2.gif',-1)]
     Body.images = [load_image('body.gif',-1)]
     Bonus.images = [load_image('ufo.gif',-1)]
     Meteor.images = [load_image('meteor.gif',-1)]
     Astronaut.images = [load_image('astronaut2.gif',-1)]
+    Easteregg.images = [load_image('egg.png',-1)]
     Main_Image.images = [load_image('home.png')]
     
     pygame.mouse.set_visible(0)
@@ -370,6 +380,7 @@ def main(start):
         bonus_time -= 1
         meteor_time -= 1
         astronaut_time -= 1
+        easteregg_time -= 1
         text_time -= 1
         clock.tick(25)
 
@@ -418,8 +429,8 @@ def main(start):
                         score = 999999
                         snake_alive = 0
                         easter_egg_win_text = Text(9)
-                        all.add(easter_egg_win_text)
-
+                        easteregg = Easteregg()
+                        all.add(easteregg, easter_egg_win_text)
                     else:
                         easter_egg_text.kill()
                         egg = 0
@@ -490,6 +501,7 @@ def main(start):
             bonus_prob = bonus_prob - 1
             meteor_prob = meteor_prob - 1
             astronaut_prob = astronaut_prob - 0.5
+            easteregg_prob = easteregg_prob - 1
             eat_sound.play()
             food = Food()
             bodies.append(Body(304))
@@ -695,19 +707,20 @@ def main(start):
                 astronaut_time = 0
                 astronaut_eaten = astronaut_eaten +1
 
-        # --------------------------------display hel text for ee-----------------------------------------
-        if ee_help_status == 0 and random.randrange(1, 1000, 1) > ee_help_prob:
-            ee_help_status = 1
-            ee_help_time = random.randrange(40, 150, 1)
-            while 1:
-                ee_help_text = Text(10)
-                all.add(ee_help_text)
+        # ---------------------------------------display help text for ee-----------------------------------------------
 
-        # kill astronaut text
-        if ee_help_text_time == 0:
-            all.remove(ee_help_text)
-            ee_help_text.kill()
-                
+        if random.randrange(1,1000,1) > easteregg_prob:
+            easteregg_text.kill()
+            easteregg_text = Text(10)
+            all.add(easteregg_text)
+            text_time = 25
+            easteregg_time = random.randrange(40,150,1)
+
+        # kill letter
+        if text_time == 0:
+            easteregg_text.kill()
+            easteregg_prob = 1000
+
         # -----------------------------------------------GAME OVER------------------------------------------------------
         if snake_alive == 0:
 

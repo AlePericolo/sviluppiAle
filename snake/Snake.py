@@ -1,9 +1,8 @@
 #imports
-import os, pygame, sys, MySQLdb, datetime, time
+import os, pygame, sys, MySQLdb, datetime, random
 from utility import inputbox, ReadConf, DatabaseSnake, FileScoreSnake, functions
 from pygame.locals import *
 
-import random
 
 pygame.init()
 
@@ -202,27 +201,19 @@ class Text(pygame.sprite.Sprite):
         y = background.get_height() / 2
         text = ''
 
-        if status == 1:
-            text = "Il laser ti ha fritto!"
-        elif status == 0:
+        if status == 0:
             text = "Ti sei mangiato da solo!"
+        elif status == 1:
+            text = "Il laser ti ha fritto!"
         elif status == 2:
             text = "Pausa"
         elif status == 3:
             text = "Bonus %d" % bonus
         elif status == 4:
-            text = "Vuoi giocare ancora? (y/n)"
-        elif status == 5:
-            text = "GAME OVER"
-        elif status == 6:
             text = "Hai colpito un meteorite"
-        elif status == 7:
+        elif status == 5:
             text = "Bonus atronauta"
-        elif status == 8:
-            text = "Hai trovato qualcosa.."
-        elif status == 9:
-            text = "EASTEREGG, HAI VINTO!"
-        elif status == 10:
+        elif status == 6:
             text = random.choice(['A', 'L', 'E', 'P', 'E', 'R', 'I'])
             size = 25
             if text == 'A' or text == 'P':
@@ -230,6 +221,14 @@ class Text(pygame.sprite.Sprite):
                 color = (211, 11, 11)
             x = (random.randrange(1, 28, 1) * 20) + 16
             y = (random.randrange(1, 28, 1) * 20) + 16
+        elif status == 7:
+            text = "Hai trovato qualcosa.."
+        elif status == 8:
+            text = "EASTEREGG, HAI VINTO!"
+        elif status == 9:
+            text = "GAME OVER"
+            color = (211, 11, 11)
+            y = background.get_height() / 2 - 50
 
         self.font = pygame.font.Font("data/font/8bitfont.ttf", size)
         self.image = self.font.render(text, 1, color)
@@ -273,30 +272,35 @@ def main(start):
     clock = pygame.time.Clock()
     bodies = []
     all = pygame.sprite.OrderedUpdates()
+    #bonus
     bonus_status = 0
     bonus_prob = 1000
     bonus_time = 0
-    text_time = 0
-    crash_text = pygame.sprite.Sprite()
-    bonus_text = pygame.sprite.Sprite()
     bonus = pygame.sprite.Sprite()
+    #meteor
     meteor_status = 0
     meteor_prob = 1000
     meteor_time = 0
-    meteor_text = pygame.sprite.Sprite()
     meteor = pygame.sprite.Sprite()
+    #astronaut
     astronaut_status = 0
-    astronaut_prob = 3000
+    astronaut_prob = 5000
     astronaut_time = 0
-    astronaut_text = pygame.sprite.Sprite()
     astronaut = pygame.sprite.Sprite()
     #easteregg
     astronaut_eaten = 0
-    easter_egg_win_text = ''
     easteregg_prob = 1000
     easteregg_time = 0
-    easteregg_text = pygame.sprite.Sprite()
     easteregg = pygame.sprite.Sprite()
+    #text
+    text_time = 0
+    crash_text = pygame.sprite.Sprite()
+    bonus_text = pygame.sprite.Sprite()
+    meteor_text = pygame.sprite.Sprite()
+    astronaut_text = pygame.sprite.Sprite()
+    easteregg_text = pygame.sprite.Sprite()
+    easteregg_win_text = pygame.sprite.Sprite()
+    gameover_text = pygame.sprite.Sprite()
 
     #get main frame
     os.environ['SDL_VIDEO_CENTERED'] = 'anything'
@@ -415,7 +419,7 @@ def main(start):
             elif event.type == KEYUP and event.key == K_a: #ToDo commentare
                 egg = 1
                 if pygame.font:
-                    easter_egg_text=Text(8)
+                    easter_egg_text=Text(7)
                     all.add(easter_egg_text)
                 all.clear(screen, background)
                 dirty = all.draw(screen)
@@ -431,9 +435,9 @@ def main(start):
                         easter_egg_win_sound.play()
                         score = 999999
                         snake_alive = 0
-                        easter_egg_win_text = Text(9)
+                        easteregg_win_text = Text(8)
                         easteregg = Easteregg()
-                        all.add(easteregg, easter_egg_win_text)
+                        all.add(easteregg, easteregg_win_text)
                     else:
                         easter_egg_text.kill()
                         egg = 0
@@ -468,6 +472,8 @@ def main(start):
             if pygame.font:
                 crash_text = Text(1)
                 all.add(crash_text)
+                gameover_text = Text(9)
+                all.add(gameover_text)
 
         # collision between head and body
         if snake_alive != 0:
@@ -489,6 +495,8 @@ def main(start):
                     if pygame.font:
                         crash_text = Text(0)
                         all.add(crash_text)
+                        gameover_text = Text(9)
+                        all.add(gameover_text)
 
         # repaint before you make snake grow
         # otherwise new body will show in default position
@@ -503,7 +511,7 @@ def main(start):
             score = score + 1
             bonus_prob = bonus_prob - 1
             meteor_prob = meteor_prob - 1
-            astronaut_prob = astronaut_prob - 0.5
+            astronaut_prob = astronaut_prob - 1
             easteregg_prob = easteregg_prob - 1
             eat_sound.play()
             food = Food()
@@ -582,8 +590,6 @@ def main(start):
                 bonus_prob = 1000
                 if bonus_text.alive():
                     bonus_text.kill()
-                if meteor_text.alive():
-                    meteor_text.kill()
                 if astronaut_text.alive():
                     astronaut_text.kill()
                 bonus_points = round(bonus_time/5+2)
@@ -649,13 +655,15 @@ def main(start):
                 if astronaut_text.alive():
                     astronaut_text.kill()
                 if pygame.font:
-                    meteor_text = Text(6)
+                    meteor_text = Text(4)
                     all.add(meteor_text)
+                    gameover_text = Text(9)
+                    all.add(gameover_text)
 
                 repaint_screen()
 
         # --------------------------------display super bonus(Astronaut)-----------------------------------------
-        if astronaut_status == 0 and random.randrange(1,3000,1) > astronaut_prob:
+        if astronaut_status == 0 and random.randrange(1,5000,1) > astronaut_prob:
             astronaut_status = 1
             astronaut = Astronaut()
             astronautrect = astronaut.rect
@@ -698,10 +706,14 @@ def main(start):
             if astronautrect.colliderect(centipede.rect):
                 astronaut.kill()
                 astronaut_status = 0
-                astronaut_prob = 3000
+                astronaut_prob = 5000
                 score += 100
+                if bonus_text.alive():
+                    bonus_text.kill()
+                if astronaut_text.alive():
+                    astronaut_text.kill()
                 super_bonus_sound.play()
-                astronaut_text = Text(7)
+                astronaut_text = Text(5)
                 text_time = 25
                 all.remove(Text, bodies)
                 all.add(astronaut_text)
@@ -714,7 +726,7 @@ def main(start):
 
         if random.randrange(1,1000,1) > easteregg_prob:
             easteregg_text.kill()
-            easteregg_text = Text(10)
+            easteregg_text = Text(6)
             all.add(easteregg_text)
             text_time = 25
             easteregg_time = random.randrange(40,150,1)
@@ -735,7 +747,7 @@ def main(start):
                     break
 
             #remove game object
-            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text, astronaut, astronaut_text, easter_egg_win_text, easteregg)
+            all.remove(crash_text, centipede, bodies, food, bonus, meteor, meteor_text, astronaut, astronaut_text, easteregg_win_text, easteregg, gameover_text)
 
             #SAVE
             save_scores(score) #check score > lower score in highscore and save
@@ -758,7 +770,7 @@ def main(start):
                 all.add(Display_text(playerScore, top, left + 260, 50, colorText))
                 top += 30
 
-            all.add(Display_text('Vuoi giocare ancora?  (y/n)',470, 130, 30,(255, 242, 5)))
+            all.add(Display_text('Vuoi giocare ancora?  (y/n)',470, 130, 30,Color(255, 138, 35)))
             repaint_screen()
 
         if begin == 1:

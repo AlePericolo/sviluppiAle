@@ -50,7 +50,7 @@ $scope.showInfo = function(p){
 	$scope.personaSelezionata = p;
 }
 
-$scope.insulti = ['merda', 'stronzo', 'schifo', 'JD', 'TF', 'pedo'];
+$scope.insulti = ['merda', 'stronzo', 'schifo', 'TF', 'pedo'];
 
 $scope.insultaPersona = null;
 

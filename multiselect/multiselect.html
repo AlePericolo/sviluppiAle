@@ -26,10 +26,12 @@
 <script>
 
     var app = angular.module('myApp', ['angularjs-dropdown-multiselect']);
-    app.controller('myCtrl', function($scope) {
+
+    app.controller('myCtrl', ['$scope', function($scope) {
 
 
-        $scope.elementiSelezionati = [];
+
+            $scope.elementiSelezionati = [];
 
         $scope.elementi = [{ID:1,CONDOMINIODEX:"SUPERCONDOMINIO  BARI 2032"},{ID:4,CONDOMINIODEX:"CONDOMINIO  MOSCOVA 24"}, {ID:5,CONDOMINIODEX:"CONDOMINIO BORSIERI 27"},{ID:6,CONDOMINIODEX:"CONDOMINIO  PELIZZA DA VOLPEDO 26"},
                 {ID:7,CONDOMINIODEX:"CONDOMINIO  PONTE VETERO 15"},{ID:8,CONDOMINIODEX:"CONDOMINIO CASTELLANZA 12"},{ID:10,CONDOMINIODEX:"CONDOMINIO  DE CHIRICO 57"},{ID:11,CONDOMINIODEX:"CONDOMINIO  MAFFEI 12"},
@@ -71,8 +73,33 @@
                             dynamicButtonTextSuffix: 'tua mamma'
         };
 
-    });
 
+
+
+        $scope.selectByGroupModel = [];
+        $scope.selectByGroupData = [
+            { id: 1, label: "David", gender: 'M' },
+            { id: 2, label: "Jhon", gender: 'M' },
+            { id: 3, label: "Lisa", gender: 'F' },
+            { id: 4, label: "Nicole", gender: 'F' },
+            { id: 5, label: "Danny", gender: 'M' },
+            { id: 6, label: "Unknown", gender: 'O' }];
+
+        $scope.selectByGroupSettings = {
+            selectByGroups: ['F', 'M'],
+            groupByTextProvider: function(groupValue) {
+                switch (groupValue) {
+                    case 'M':
+                        return 'Male';
+                    case 'F':
+                        return 'Female';
+                    case 'O':
+                        return 'Other';
+                }
+            }
+        };
+
+    }]);
 
 </script>
 
@@ -95,6 +122,11 @@
             <td width="30%">{{es.CONDOMINIODEX}}</td>
         </tr>
     </table>
+
+    <br><br><br><br>
+
+    <div ng-dropdown-multiselect="" options="selectByGroupData" selected-model="selectByGroupModel" extra-settings="selectByGroupSettings" group-by="gender"></div>
+
 
 </body>
 </html>

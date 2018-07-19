@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="countTo.js"></script>
+
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+    <span count-to="{{numero1}}" value="0" duration="4"></span> <br> <br>
+    <span count-to="{{numero2}}" value="0" duration="4"></span> <br> <br>
+    <span count-to="{{numero3}}" value="0" duration="4"></span> <br> <br>
+    <span count-to="{{numero4}}" value="0" duration="4"></span> <br> <br>
+    <span count-to="{{numero5}}" value="0" duration="4"></span> <br> <br>
+
+</div>
+
+<script>
+    var app = angular.module('myApp', ['countTo']);
+    app.controller('myCtrl', function($scope) {
+
+        $scope.numero1 = 300;
+        $scope.numero2 = 1000;
+        $scope.numero3 = 100;
+        $scope.numero4 = 750;
+        $scope.numero5 = 50;
+    });
+</script>
+
+</body>
+</html>

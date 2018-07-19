@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Codici segreti</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Ciao Ale</h2>
+    <div class="panel-group">
+
+        <div class="panel panel-success">
+            <div class="panel-heading">Invito ufficiale</div>
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Vuoi uscire con me?</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="mySelect" onchange="myFunction()">
+                            <option>1 - Si</option>
+                            <option>2 - Certamente</option>
+                            <option>3 - Mi sembra ovvio</option>
+                            <option>4 - Vedi 1,2,3</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-success">
+            <strong>Benissimo!</strong> Hai scelto: <span id="response"></span>!
+        </div>
+
+        <h3>Scegli i giorni in cui mi vedresti:</h3>
+
+        <input type="checkbox" name="ck" value="lunedi"> Luned&iacute;<br/>
+        <input type="checkbox" name="ck" value="martedi"> Marted&iacute;<br/>
+        <input type="checkbox" name="ck" value="mercoledi"> Mercoled&iacute;<br/>
+        <input type="checkbox" name="ck" value="giovedi"> Gioved&iacute;<br/>
+        <input type="checkbox" name="ck" value="venerdi"> Venerd&iacute;<br/>
+        <input type="checkbox" name="ck" value="sabato"> Sabato<br/>
+        <input type="checkbox" name="ck" value="domenica"> Domenica<br/>
+        <input type="checkbox" onClick="toggle(this)" /> SEMPRE<br/>
+
+    </div>
+</div>
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("mySelect").value;
+        document.getElementById("response").innerHTML = x;
+    }
+
+    function toggle(source) {
+        checkboxes = document.getElementsByName('ck');
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
+
+</body>
+</html>

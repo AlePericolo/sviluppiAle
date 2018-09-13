@@ -1,4 +1,4 @@
-from mongo.src import ReadConf, Document
+from Documentale import ReadConf, Document
 
 conf = ReadConf.ReadConf()
 

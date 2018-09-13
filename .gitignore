@@ -28,3 +28,6 @@ cmake-build-debug/
 
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
+snake/data/score/score\.txt
+
+*.pyc

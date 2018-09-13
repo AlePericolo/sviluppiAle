@@ -1,4 +1,6 @@
-import DocumentData, Collection, Client, Database
+import DocumentData
+from mongopython.Mongo import Database, Client, Collection
+
 
 class Document:
 

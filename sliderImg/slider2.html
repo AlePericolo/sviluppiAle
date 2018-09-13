@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Slider 2</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.2.28/angular-route.min.js"></script>
+</head>
+
+<script>
+    var app = angular.module('plunker', ['ui.bootstrap']);
+
+    app.controller('MainCtrl', function($scope) {
+
+        $scope.bookslider = [
+
+            {
+
+                img: "http://www.okspecialtyfruits.com/wp-content/uploads/2015/08/small_apple_with_big_apples21.jpg"
+            },
+            {
+
+                img: "http://www.dhresource.com/260x260s/f2-albu-g5-M01-6D-8D-rBVaJFgfHtSAB5J2AACynfDVcvk410.jpg/2016-new-products-christmas-apple-candles.jpg"
+            },
+            {
+
+                img: "http://www.okspecialtyfruits.com/wp-content/uploads/2015/08/small_apple_with_big_apples21.jpg"
+            },
+            {
+                img: "http://www.dhresource.com/260x260s/f2-albu-g5-M01-6D-8D-rBVaJFgfHtSAB5J2AACynfDVcvk410.jpg/2016-new-products-christmas-apple-candles.jpg"
+            }
+        ];
+    });
+
+</script>
+
+<body ng-controller="MainCtrl">
+<div class="col-md-10">
+
+    <div id="slides_control">
+        <div>
+            <carousel interval="1000">
+                <slide ng-repeat="book in bookslider track by $index" active="book.active">
+                    <div class="col-md-3"><img ng-src="{{bookslider[($index) %4 ].img}}"></div>
+                    <div class="col-md-3"><img ng-src="{{bookslider[($index+1) % 4].img}}"></div>
+                    <div class="col-md-3"><img ng-src="{{bookslider[($index+2) % 4].img}}"></div>
+                    <div class="col-md-3"><img ng-src="{{bookslider[($index+3) % 4].img}}"></div>
+                    <div class="carousel-caption" style="margin-top: 400px">
+                        <h4>Slide {{$index+1}}</h4>
+                    </div>
+                </slide>
+            </carousel>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+{
+  "mongo":
+          {
+            "host": "mongodb://localhost:27017/",
+            "database": "Ale",
+            "user": "root",
+            "password": "abc123",
+            "authSourc": "admin",
+            "authMechanism": "SCRAM-SHA-1"
+          }
+}

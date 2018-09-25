@@ -5,7 +5,6 @@
  * Date: 18/04/18
  * Time: 12.15
  */
-require_once '../../conf/conf.php';
 /**
  * Funzione di connessione a PDO. La funzione consente di specificare il database a cui collegarsi.
  * Oltre questo, permette il passaggio dell'array indicizzato per i dati di connessione forzati composti da:

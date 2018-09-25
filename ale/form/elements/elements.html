@@ -1,0 +1,47 @@
+
+<div ng-controller="elementsController" data-ng-init="init()">
+
+
+    <h1 class="text-center"> ELEMENTI </h1>
+    <div class="col-md-6 col-md-offset-3">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        <span class="buttonSort" ng-click="sortType = 'id'; sortReverse = !sortReverse;" title="Ordina per ID">
+                            <i class="glyphicon glyphicon-sort"></i> ID
+                        </span>
+                    </th>
+                    <th>
+                        <div class="input-group">
+                            <span class="input-group-addon customHeaderTableOrdinaCerca" ng-click="sortType = 'descrizione'; sortReverse = !sortReverse;" title="Ordina per descrizione"><i class="glyphicon glyphicon-sort"></i></span>
+                            <input class="input-sm width100 colorBlack" type="text" ng-model="search.descrizione" placeholder="Descrizione"/>
+                        </div>
+                    </th>
+                    <th width="10%" class="text-center">
+                        <button class="btn btn-success btn-sm" ng-click="recuperaElemento(-1)" title="Inserisci nuovo elemento"> <i class="fa fa-plus" aria-hidden="true"></i> </button>
+                        <button class="btn btn-danger btn-sm" ng-click="elimina(-1)" title="Elimina tutti gli elementi"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="e in elements | orderBy:sortType:sortReverse | filter:search">
+                    <td class="text-center">{{e.id}}</td>
+                    <td>{{e.descrizione}}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" ng-click="recuperaElemento(e.id)" title="Modifica elemento"> <i class="fa fa-pencil" aria-hidden="true"></i> </button>
+                        <button class="btn btn-danger btn-sm" ng-click="elimina(e.id)" title="Elimina elemento"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-6 col-md-offset-3 form-inline" ng-if="gestisciElemento">
+        <label> Descrizione elemento:</label>
+        <input type="text" class="form-control" ng-model="element.descrizione">
+        <button class="btn btn-success btn-sm" ng-if="element.descrizione.length > 0" ng-click="salva()"> <i class="fa fa-floppy-o" aria-hidden="true"></i> </button>
+        <button class="btn btn-warning btn-sm" ng-click="annulla()" title="Annulla inserimento"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
+    </div>
+</div>
+</html>

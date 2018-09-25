@@ -1,0 +1,23 @@
+
+<title>Home</title>
+
+<div ng-controller="cruscottoController" data-ng-init="init()">
+
+    <div class="panelHeaderSezioneCustom text-center">
+        <label class="font14">HOME</label>
+    </div>
+
+    <div class="text-center" ng-class="{'backgroundLoaderPart' : visible, 'backgroundLoaderFull' : !visible}" ng-show="!caricamentoCompletato">
+        <div class="containerLoader">
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <div class="panelBodySezioneCustom" ng-show="caricamentoCompletato">
+
+        <h2 class="text-center">Cruscotto</h2>
+
+
+    </div>
+
+</div>

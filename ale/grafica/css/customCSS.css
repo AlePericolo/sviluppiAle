@@ -1,0 +1,509 @@
+/*-----------------------------------------------------GENERAL--------------------------------------------------------*/
+.caret { display: none }
+textarea { resize: vertical; }
+/*label { padding-top: 4px; }*/
+.table tbody { background-color: #f9f9f9 }
+.table-condensed > tbody > tr > td { padding: 3px; }
+.table > tbody > tr > td {
+    vertical-align : middle;
+}
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: rgba(2, 1, 1, 0.09);
+    outline: none;
+    box-shadow: 0 0 0 0.1rem rgba(110, 129, 173, 0.26);
+}
+.form-control-required:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: rgba(255, 2, 24, 0.09);
+    outline: none;
+    box-shadow: 0 0 0 0.1rem rgba(255, 2, 24, 0.26);
+}
+.customCheckbox{
+    transform: scale(1.3) !important;
+    margin-top: 10px !important;
+    margin-left: 5px !important;
+}
+.customInputNumber::-webkit-inner-spin-button, .no-spin::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+    -moz-appearance:textfield !important;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+
+/* --------------------------------------------------- DISPLAY ------------------------------------------------------ */
+.clear { clear: both; }
+.forzaBlock { display: block; }
+.forzaInline { display: inline-block; }
+.floatL { float: left }
+.floatR { float: right }
+.overflowAuto { overflow: auto !important; }
+.flex { display: flex }
+.hide {display: none}
+.inline {display: inline !important;}
+.absolute {position: absolute;}
+.opacity0 {opacity: 0}
+.opacity1 {opacity: 1}
+.underline{} .underline:hover{text-decoration: underline}
+.text-center-2 {
+    text-align: -webkit-center !important;
+    text-align: -moz-center !important;
+}
+
+.fstyle {
+    font-weight: 700;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 2px 5px;
+    cursor: help;
+    width: 25px;
+    text-align: center;
+    display: inline-block;
+    color: #000 !important;
+}
+.fstyle.red{
+    background-color: #ef8987;
+    border-color: #cd231b;
+}
+.fstyle.yellow{
+    background-color: #efeeaf;
+    border-color: #e4be26;
+}
+.fstyle.orange{
+    background-color: #efb486;
+    border-color: rgba(239, 77, 2, 0.63);
+}
+.fstyle.green{
+    background-color: #a5efa0;
+    border-color: rgba(23, 84, 7, 0.76);
+}
+.fstyle.blue{
+    background-color: #91cde6;
+    border-color: #1c6d81;
+}
+
+.evidenziaRiga{background-color: #f5c4c44a !important;}
+
+
+/* ------------------------------------------- REQUIRED / ERROR / INFO ---------------------------------------------- */
+
+.requiredField { border-left: 4px solid #dc3545 !important; }
+.validField { border-left: 4px solid #35dc45 !important; }
+.green { color: #62c471; }
+.yellow { color: #e4be26; }
+.orange { color: #ff7309; }
+.red { color: #cd231b; }
+.darkgreen{ color: #2b542c}
+.darkred { color: #900000}
+.colorWhite { color: #ffffff !important;}
+.bgLightGreen { background-color: #e3f7e6 !important; }
+.bgLightRed { background-color: #ffe0da !important; }
+.bgRed { background-color: #dc011f !important; }
+
+/* ---------------------------------------------------- CURSORE ----------------------------------------------------- */
+.pointer { cursor: pointer; }
+.helper { cursor: help; }
+.cursorDisabled { cursor: not-allowed; }
+
+/*------------------------------------------------------- FONT--------------------------------------------------------*/
+.grassetto { font-weight: bold; }
+.font8 { font-size: 8px !important; }
+.font10 { font-size: 10px !important; }
+.font12 { font-size: 12px !important; }
+.font14 { font-size: 14px !important; }
+.font16 { font-size: 16px !important; }
+.font18 { font-size: 18px !important; }
+.font20 { font-size: 20px !important; }
+
+/* ----------------------------------------------------- BORDI ------------------------------------------------------ */
+.border0 { border: none !important; }
+.borderT1 {border-top: 1px solid; }
+
+/* ----------------------------------------------------- MARGIN ----------------------------------------------------- */
+.marginAuto { margin: auto; }
+.margin0 { margin: 0 !important; }
+.margin3 { margin: 3px !important; }
+.margin10 { margin: 10px !important; }
+.marginB0 { margin-bottom: 0 !important; }
+.marginB5 { margin-bottom: 5px; }
+.marginB10 { margin-bottom: 10px; }
+.marginB20 { margin-bottom: 20px; }
+.marginT3 { margin-top: 3px; }
+.marginT3percent { margin-top: 3%; }
+.marginT5 { margin-top: 5px; }
+.marginT6percent { margin-top: 6%; }
+.marginT10 { margin-top: 10px; }
+.marginT15percent { margin-top: 15%; }
+.marginT10percent { margin-top: 10%; }
+.marginT7percent { margin-top: 7%; }
+.marginT5percent { margin-top: 5%; }
+.marginT5percent { margin-top: 5%; }
+.marginT15 { margin-top: 15px !important; }
+.marginT20 { margin-top: 20px !important; }
+.marginT35 { margin-top: 35px !important; }
+.marginL0 { margin-left: 0 !important; }
+.marginL5p { margin-left: 5% !important; }
+.marginL10 { margin-left: 10px !important; }
+.marginL15 { margin-left: 15px !important; }
+.marginL20 { margin-left: 20px !important; }
+.marginL20p { margin-left: 20% !important; }
+.marginX2 { margin: 0 2px; }
+.marginX10 { margin: 0 10px; }
+.marginY20 { margin: 20px 0; }
+.marginR5 { margin-right: 5px !important;}
+.marginR10 { margin-right: 10px !important; }
+.marginR20 { margin-right: 20px !important; }
+.marginR30 { margin-right: 30px !important; }
+
+/* ----------------------------------------------------- PADDING ---------------------------------------------------- */
+.padding0 { padding: 0 !important; }
+.padding3 { padding: 3px !important; }
+.padding3-6 { padding: 3px 6px !important; }
+.padding5 { padding: 5px !important; }
+.padding10 { padding: 10px !important; }
+.padding20 { padding: 20px !important; }
+.paddingLR50 { padding:0 50px !important; }
+.paddingLR0 { padding-left: 0 !important; padding-right: 0 !important; }
+.paddingL10 { padding-left: 10px;  }
+.paddingL30 { padding-left: 30px; }
+.paddingT29 { padding-top:29px; }
+.paddingTB4 { padding: 4px 0 !important; }
+.paddingTB4LR15{ padding: 4px 15px !important; }
+.paddingTB10 { padding: 10px 0 !important; }
+.paddingTB5 { padding: 5px 0 !important; }
+.paddingLR5 { padding: 0 5px !important; }
+.paddingLR10 { padding: 0 10px !important; }
+.paddingL5 { padding: 0 0 0 5px !important; }
+.paddingB10p { padding-bottom: 10% !important; }
+.paddingSort {padding: 4px !important;}
+.paddingT5 {padding-top: 5px !important;}
+.paddingR0 {padding-right: 0px !important;}
+
+
+/* ------------------------------------------------------ WIDTH ----------------------------------------------------- */
+.width5 { width: 5% !important; }
+.width7 { width: 7% !important; }
+.width10 { width: 10% !important; }
+.width15 { width: 15% !important; }
+.width20 { width: 20% !important; }
+.width25 { width: 25% !important; }
+.width30 { width: 30% !important; }
+.width35 { width: 35% !important; }
+.width45 { width: 45% !important; }
+.width50 { width: 50% !important; }
+.width55 { width: 55% !important; }
+.width60 { width: 60% !important; }
+.width65 { width: 65% !important; }
+.width75 { width: 75% !important; }
+.width80 { width: 80% !important; }
+.width100 { width: 100% !important; }
+
+/* ------------------------------------------------------ HEIGHT ---------------------------------------------------- */
+.height50vh{ height: 50vh !important; }
+.height65vh{ height: 65vh !important; }
+.noHeight{height: unset;}
+
+/* ------------------------------------------------------CONTAINER--------------------------------------------------- */
+.mostraMenuContainer{
+    margin-left: 20px;
+    float: left;
+    width: 20%;
+}
+.nomeClienteContainer{
+    width: 60%;
+    float: left;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    padding-top: 20px;
+}
+.containerUtenteHeader{
+    width: 15%;
+    float: right;
+    padding: 1% 2% 0 0;
+}
+.containerUtenteHeader .infoUtente{
+    display: block;
+    color: #fff;
+    font-size: 1.1em;
+}
+.horizontalBarButtonContainer{
+    text-align: right;
+}
+.containerDataBody{
+    height: 60vh;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#contenitorePagina{
+    background-color: #ffffff;
+    padding: 10px;
+    min-height: 80vh;
+    width:100%;
+    z-index: 1
+}
+
+/* ------------------------------------------------ BOTTONI HORIZONTAL BAR ------------------------------------------ */
+.horizontalBarButton{
+    color: #eaeaea !important;
+    border: 2px solid #eaeaea !important;
+    margin-right: 5px;
+}
+.horizontalBarErrorButton{
+    color: #eaeaea !important;
+    background-color: rgba(255, 0, 0, .8) !important;
+    border: 2px solid #eaeaea !important;
+    margin-right: 5px;
+}
+.horizontalBarButton:hover, .horizontalBarButton:active, .horizontalBarButton:visited{
+    color: #FFF !important;
+    background-color: rgba(153, 6, 0, 0.87) !important;
+}
+.horizontalBarErrorButton:hover, .horizontalBarErrorButton:active, .horizontalBarErrorButton:visited{
+    color: #FFF !important;
+    background-color: rgba(255, 0, 0, .6) !important;
+}
+.bigBtn {
+    color: #333;
+    padding: 5px !important;
+}
+
+.buttonSort{
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 10px;
+    line-height: 2 !important;
+}
+
+/* -------------------------------------------------- CUSTOM HEADER TABLE-------------------------------------------- */
+.customHeaderTableOrdinaCerca {
+    color: #000;
+    cursor: pointer;
+    padding: 1px 12px;
+    font-size: 12px;
+    font-weight: bolder
+}
+
+/* ------------------------------------------------------- CUSTOM PANEL --------------------------------------------- */
+.panelHeaderSezioneCustom{
+    padding: 5px 15px !important;
+    border: 1px solid rgba(0, 0, 0, 0.125) !important;
+    background-color: #515b62;
+    color: #ffffff;
+}
+.panelHeaderSottoSezioneCustom{
+    padding: 5px 15px !important;
+    border: 1px solid rgba(0, 0, 0, 0.125) !important;
+    width: 16.666667%;
+    text-align: center;
+    background-color: #515b62;
+    color: #ffffff;
+}
+.panelBodySezioneCustom{
+    padding: 5px 5px !important;
+    border: 1px solid #515b62;
+    background-color: #efefef;
+}
+.panelBodySottoSezioneCustom{
+    padding: 10px !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+    margin: 0 !important;
+    background-color: rgba(158, 182, 244, 0.0);
+}
+.panelHeaderCruscottoCustom{
+    padding: 3px !important;
+    color: #fff !important;
+}
+
+
+/* -------------------------------------------------------- SIDEBAR ------------------------------------------------- */
+.bgColor{
+    background-color: #515b62;
+}
+.horizontalBar{
+    height: 100px;
+    z-index: 1;
+}
+.sidebarOpened, .sidebarClosed {
+    position: absolute;
+    z-index: 1;
+    overflow-x: hidden;
+    transition: ease 0.3s;
+    width: 200px;
+}
+.sidebarOpened {left: 0;}
+.sidebarOpened .menu-testo {display:inline-block;}
+.sidebarClosed {left: -150px;}
+.sidebarClosed .menu-testo {display:none;}
+.sidebarClosed .menu-container {text-align: right;}
+
+.contentPart, .contentFull {
+    position: absolute;
+    right: 0;
+    transition: ease 0.3s;
+    width: 100%;
+}
+.contentFull {padding-left: 50px;}
+.contentPart {padding-left: 200px;}
+
+@media only screen and (max-width: 768px) {
+    .sidebarClosed {left: -150px;}
+    .sidebarOpened {left: 0;}
+    .contentPart {padding-left: 200px;}
+    .contentFull {padding-left: 50px;}
+}
+.transition1{ transition: ease 0.1s; }
+.transition3{ transition: ease 0.3s; }
+
+/* --------------------------------------------------- MENU --------------------------------------------------------- */
+#containerMostraMenu {
+    color: #fff;
+    border-top: 10px solid #fff;
+    /*margin-top: -3px !important;
+    padding-top: 13px !important;*/
+}
+.mostraMenu {
+    color: #ffffff;
+    border-bottom: 1px solid #eee;
+}
+.primoLivello {
+    color: #ffffff !important;;
+    border-bottom: 1px solid #eee;
+}
+.secondoLivello {
+    color: #3D3D3D;
+    background-color: #ffffff;
+    padding-left: 20px;
+    border-bottom: 1px solid #3D3D3D;
+}
+.primoLivello, .secondoLivello, .mostraMenu {
+    padding: 10px;
+}
+
+/* ------------------------------------------------------ LOADER ---------------------------------------------------- */
+.backgroundLoaderFull, .backgroundLoaderPart{
+    background: rgba(47, 49, 47, 0.6);
+    z-index: 10;
+    width: 100%;
+    min-height: 75vh;
+}
+.backgroundLoaderPart{
+    padding-left: -200px;
+}
+.containerLoader{
+    z-index: 10;
+    padding-top: 10%;
+}
+.loader {
+    border: 30px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 30px solid #0083a9;
+    width: 200px;
+    height: 200px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin: auto;
+    z-index: 10;
+}
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/*Style per input RANGE*/
+input[type=range]{
+    -webkit-appearance: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #3D72B8;
+    margin-top: -4px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+/* PASSWORD */
+.securityLow{color: #f80039}
+.securityGuarded{color: #ff9a00}
+.securityElevated{color: #4fc7ef}
+.securityHigh{color: #446fc9}
+.securitySevere{color: #00b06b}
+.fa-passwd-reset > .fa-lock {font-size: 0.85em;}
+
+.containerCopertine{
+    border-style: solid;
+    border-width: 20px 10px;
+    border-color: #ffffff;
+}
+
+/*----------------------------------------------------PULSE ICON------------------------------------------------------*/
+
+
+.fa-pulse {
+    -webkit-animation: fa-pulse 1s infinite linear;
+    animation: fa-pulse 1s infinite linear;
+}
+@-webkit-keyframes fa-pulse {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+@keyframes fa-pulse {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+

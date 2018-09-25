@@ -2,38 +2,64 @@
 //require_once 'PdaInterfaceModel.php';
 /**
  * User: Claudio COLOMBO - P.D.A. Srl
- * Date: 02/08/16
- * Version 1.0.4 C
+ * Date: <date>
+ * Version 0.0.1
  */
 
 
-
-class PdaAbstractModel //implements PdaInterfaceModel
+abstract class PdaAbstractModel //implements PdaInterfaceModel
 {
 
-    // Costanti
-    const FETCH_JSON     = 2;
+    // Fetch Constant
     const FETCH_OBJ      = 1;
+    const FETCH_JSON     = 2;
     const FETCH_KEYARRAY = 3;
     const FETCH_NUMARRAY = 4;
     const FETCH_XML      = 5;
+    const FETCH_KEYVALUEARRAY = 6;
+
+    // Like String Constant
+    const LIKE_MATCHING_LEFT = 0;
+    const LIKE_MATCHING_RIGHT =1;
+    const LIKE_MATCHING_BOTH =2;
+    const LIKE_MATCHING_PATTERN =3;
+
+    // Encode/Decode String
+    const STR_NORMAL = 0;
+    const STR_UTF8 = 1;
+
+    // Default Encode/Decode String
+    const STR_DEFAULT = 1;
+
 
     /** @var  PDO */
     protected $pdo;
 
+    /** @var  int */
+    protected $id;
+
+    /** @var  string */
     protected $nomeTabella;
+    /** @var  string */
+    protected $tableName;
 
     /** Condizioni Where aggiuntive per query base */
     protected $whereBase = "";
+
+    /** @var string  */
     protected $orderBase = "";
     /**
      *se settato esegue la limit con gli attributi passati<br/>
      *                           es: - Per ottenere i primi 10 elementi della query basterà passare '10'<br/>
      *                               - Per ottenere 10 elementi partendo dal terzo si passerà '3,10'
      *
-     * @var string
+     * @var integer
      */
-    protected $limitBase = "";
+    protected $limitBase = -1;
+    /**
+     * @var integer
+     */
+    protected $offsetBase = -1;
 
     /**
      * PdaAbstractModel constructor.
@@ -67,7 +93,7 @@ class PdaAbstractModel //implements PdaInterfaceModel
      *
      * @return  boolean
      */
-    public function truncateTable()
+    public final function truncateTable()
     {
         return $this->pdo->exec('TRUNCATE TABLE ' . $this->nomeTabella);
     }
@@ -77,7 +103,7 @@ class PdaAbstractModel //implements PdaInterfaceModel
      *
      * @return  boolean
      */
-    public function deleteTable()
+    public final function deleteTable()
     {
         return $this->pdo->exec('DELETE FROM  ' . $this->nomeTabella);
     }
@@ -89,7 +115,7 @@ class PdaAbstractModel //implements PdaInterfaceModel
      *
      * @return  boolean
      */
-    public static function truncateTableStatic(PDO $pdo)
+    public final static function truncateTableStatic(PDO $pdo)
     {
         return $pdo->exec('TRUNCATE TABLE ' . self::getNomeTabella());
     }
@@ -101,7 +127,7 @@ class PdaAbstractModel //implements PdaInterfaceModel
      *
      * @return  boolean
      */
-    public static function deleteTableStatic(PDO $pdo)
+    public final static function deleteTableStatic(PDO $pdo)
     {
         return $pdo->exec('DELETE FROM  ' . self::getNomeTabella());
     }
@@ -113,7 +139,7 @@ class PdaAbstractModel //implements PdaInterfaceModel
      *
      * @return string
      */
-    protected function creaNomeVariabile($variabile)
+    protected final function creaNomeVariabile($variabile)
     {
         $variabile = ucwords(strtolower(str_replace("_", " ", $variabile)));
         $variabile = strtolower(substr($variabile, 0, 1)) . substr($variabile, 1, strlen($variabile));
@@ -123,15 +149,12 @@ class PdaAbstractModel //implements PdaInterfaceModel
 
 
     /**
-     * Salvataggio dell'oggetto da un array posizionale
-     *
-     * @param bool $forzaInsert se true salva l'oggetto settando anche la chiave primaria
-     *
-     * @return int
+     * @param array $arrayPosizionale
+     * @return null|string
      */
     public function saveOrUpdatePosizionale($arrayPosizionale)
     {
-        $arrayValori = $this->creaKeyArrayDaPosizionale($arrayPosizionale);
+        $arrayValori = $this->createKeyArrayFromPositional($arrayPosizionale);
 
         return $this->saveKeyArray($arrayValori);
     }
@@ -141,40 +164,66 @@ class PdaAbstractModel //implements PdaInterfaceModel
      * @param array $arrayValori
      * @param bool  $boolKey ser settato a true forza il salvataggio del nuovo recor anche se è presnete la chiave
      *                       primaria
+     * @return null|string
      */
     public function saveKeyArray($arrayValori = null, $boolKey = false)
     {
-        if (!$arrayValori) $arrayValori = $this->creaKeyArray();
+        if (!$arrayValori) $arrayValori = $this->createKeyArray();
         if ($boolKey) {
-            $id = $this->findKeyByPk($this->id);
+            $id = $this->issetPk($this->id);
             if ($id) {
                 $this->id = $id;
             }
             else {
-                $this->id = insertKeyArrayPdo($this->pdo, $this->nomeTabella, $arrayValori);
+                $this->id = insertKeyArrayPdo($this->pdo,$this->nomeTabella, $arrayValori);
             }
         }
         else if ($this->id) {
-            updateKeyArrayPdo($this->pdo, $this->nomeTabella, $arrayValori, $this->id);
+          //  error_log("Update");
+            updateKeyArrayPdo($this->pdo,$this->nomeTabella, $arrayValori, $this->id);
         }
         else {
-            $this->id = insertKeyArrayPdo($this->pdo, $this->nomeTabella, $arrayValori);
+         //   error_log("Insert");
+            $this->id = insertKeyArrayPdo($this->pdo,$this->nomeTabella, $arrayValori);
         }
+
 
         return $this->id;
     }
 
+    /**
+     * @param string $query
+     * @param array|null parameters
+     * @return int|string
+     *
+     */
 
-    protected function creaRisultatoArray($query, $parametri = null, $tipoRisultato = self::FETCH_OBJ)
+    protected function createResultValue($query, $parameters = null, $boolValue=false)
+    {
+        $val= queryPreparedPdo($this->pdo, $this->pdo->prepare($query), $parameters, "v");
+        if($boolValue)
+            return ($val > 0)? true : false;
+        return $val;
+    }
+
+
+    /**
+     * @param string $query
+     * @param null $parametri
+     * @param int $tipoRisultato
+     * @param int $encodeType
+     * @return array|string
+     */
+    protected function createResultArray($query, $parametri = null, $tipoRisultato = self::FETCH_OBJ, $encodeType = self::STR_DEFAULT)
     {
         $nomeClasse = get_class($this);
-        $valoriPdo = queryPreparedPdo($this->pdo->prepare($query), $parametri, "p");
+        $valoriPdo = queryPreparedPdo($this->pdo,$this->pdo->prepare($query), $parametri, "p");
         $arrayObj = array();
         switch ($tipoRisultato) {
             case self::FETCH_OBJ:
                 while ($valori = $valoriPdo->fetch(PDO::FETCH_ASSOC)) {
                     $app = new $nomeClasse($this->pdo);
-                    $app->creaObjKeyArray($valori);
+                    $app->createObjKeyArray($valori);
                     $arrayObj[] = $app;
                 }
                 $valoriPdo->closeCursor();
@@ -183,7 +232,7 @@ class PdaAbstractModel //implements PdaInterfaceModel
                 break;
             case self::FETCH_JSON:
                 while ($valori = $valoriPdo->fetch(PDO::FETCH_ASSOC)) {
-                    $arrayObj[] = $valori;
+                    $arrayObj[] = $this->encodeString($valori,$encodeType);
                 }
                 $valoriPdo->closeCursor();
 
@@ -191,15 +240,23 @@ class PdaAbstractModel //implements PdaInterfaceModel
                 break;
             case self::FETCH_KEYARRAY:
                 while ($valori = $valoriPdo->fetch(PDO::FETCH_ASSOC)) {
-                    $arrayObj[] = $valori;
+                    $arrayObj[] = $this->encodeArray($valori,$encodeType);
                 }
                 $valoriPdo->closeCursor();
 
                 return $arrayObj;
                 break;
+            case self::FETCH_KEYVALUEARRAY:
+                while ($valori = $valoriPdo->fetch(PDO::FETCH_NUM))
+                {
+                    $arrayObj[$valori[0]] = $this->utf8EncodeString($valori[1]);
+                }
+                $valoriPdo->closeCursor();
+                return $arrayObj;
+                break;
             case self::FETCH_NUMARRAY:
                 while ($valori = $valoriPdo->fetch(PDO::FETCH_NUM)) {
-                    $arrayObj[] = $valori;
+                    $arrayObj[] = $this->encodeArray($valori,$encodeType);
                 }
                 $valoriPdo->closeCursor();
 
@@ -219,13 +276,19 @@ class PdaAbstractModel //implements PdaInterfaceModel
                 return $xml;
                 break;
         }
-
-
+        return null;
     }
 
-    protected function creaRisultato($query, $parametri = null, $tipoRisultato = self::FETCH_OBJ)
+    /**
+     * @param $query
+     * @param null $parametri
+     * @param int $tipoRisultato
+     * @param int $encodeType
+     * @return array|null|string
+     */
+    protected function createResult($query, $parametri = null, $tipoRisultato = self::FETCH_OBJ,$encodeType=self::STR_DEFAULT)
     {
-        $valori = queryPreparedPdo($this->pdo->prepare($query), $parametri, "f");
+        $valori = queryPreparedPdo($this->pdo,$this->pdo->prepare($query), $parametri, "f");
 
         if (!$valori) {
             return;
@@ -235,14 +298,14 @@ class PdaAbstractModel //implements PdaInterfaceModel
             case self::FETCH_OBJ:
                 foreach ($valori as $chiave => $valore) {
                     $variabile = $this->creaNomeVariabile($chiave);
-                    $this->$variabile = $valore;
+                    $this->$variabile = $this->encodeString($valore,$encodeType);
                 }
                 break;
             case self::FETCH_JSON:
-                return json_encode($valori);
+                return json_encode($this->encodeArray($valori,$encodeType));
                 break;
             case self::FETCH_KEYARRAY:
-                return $valori;
+                return $this->encodeArray($valori,$encodeType);
                 break;
             case self::FETCH_NUMARRAY:
                 //TODO: Da istemare
@@ -257,169 +320,413 @@ class PdaAbstractModel //implements PdaInterfaceModel
                 return $xml;
                 break;
         }
+        return null;
     }
-    
 
+    /**
+     * Dato un oggetto Json istanzia la classe e la popola con i valori
+     * @param $json
+     * @param bool $flgObjJson
+     */
     public function creaObjJson($json, $flgObjJson = false)
     {
         if ($flgObjJson) {
             $json = json_encode($json);
         }
         $json = json_decode($json, true);
-        $this->creaObjKeyArray($json);
+        $this->createObjKeyArray($json);
     }
 
-    public function getEmptyJson()
+    /**
+     * Restituisce la rappresentazione della classe in formato Json
+     * @return string
+     */
+    public function getEmptyObjJson()
     {
         return json_encode(get_object_vars($this));
     }
 
-    public function getEmptyKeyArray()
-    {
-        return get_object_vars($this);
+    public function getEmptyDbJson(){
+        return json_encode($this->getEmptyDbKeyArray());
     }
-
     /**
-     * @return PDO
+     * Restituisce la rappresentazione della classe in formato array
+     * @return array
      */
-    public function getPdo()
+    public function getEmptyObjKeyArray()
     {
-        return $this->pdo;
+    return get_object_vars($this);
     }
 
+/**
+ * @param $input
+ * @param $typeEncode
+ * @return string
+ */
+public function encodeString($input,$typeEncode) {
+    if (is_string($input))
+        switch($typeEncode){
+            case self::STR_UTF8:
+                return utf8_encode($input);
+                break;
+            default: return $input;
+        }
+    else
+        return $input;
+}
+
+/**
+ * @param $input
+ * @param $typeEncode
+ * @return string
+ */
+public function decodeString($input,$typeEncode) {
+    if (is_string($input))
+        switch($typeEncode){
+            case self::STR_UTF8:
+                return utf8_decode($input);
+                break;
+            default: return $input;
+        }
+    else
+        return $input;
+}
+
+/**
+ * @param $input
+ * @param $typeEncode
+ * @return array
+ */
+public function encodeArray($input,$typeEncode)
+{
+    if (is_array($input)) {
+        $app = array();
+        foreach ($input as $key=>$value) {
+            $app[$key]=$this->encodeString($value,$typeEncode);
+        }
+        return $app;
+    } else
+        return $input;
+}
+
+
+/**
+ * @param $input
+ * @param $typeEncode
+ * @return array
+ */
+public function decodeArray($input,$typeEncode)
+{
+    if (is_array($input)) {
+        $app = array();
+        foreach ($input as $key=>$value) {
+            $app[$key]=$this->decodeString($value,$typeEncode);
+        }
+        return $app;
+    } else
+        return $input;
+}
+
+/**
+ * @param $input
+ * @return string|int
+ */
+public function encodeObj($input)
+{
+    if (is_object($input)) {
+        return $input;
+        //todo sistempare
+        /* $vars = array_keys(get_object_vars($input));
+
+           foreach ($vars as $var) {
+               utf8_encode_deep($input->$var,$typeEncode);
+           }*/
+    } else
+        return $input;
+}
+
+/**
+ * @param $input
+ * @param $typeEncode
+ * @return string|int
+ */
+public function dencodeString($input,$typeEncode) {
+    if (is_string($input))
+        switch($typeEncode){
+            case self::STR_UTF8:
+                return utf8_decode($input);
+                break;
+            default: return $input;
+        }
+    else
+        return $input;
+}
+
+/**
+ * @param string $string search string
+ * @param int $likeMatching pattern for like matching
+ */
+public function prepareLikeMatching($string, $likeMatching)
+{
+    switch ($likeMatching) {
+        case self::LIKE_MATCHING_LEFT :
+            return '%' . $string;
+        case self::LIKE_MATCHING_RIGHT :
+            return $string . '%';
+        case self::LIKE_MATCHING_BOTH :
+            return '%' . $string . '%';
+        default:
+            return $string;
+    }
+}
+
+
+public function createLimitQuery($limit = -1,$offset = -1){
+    $s='';
+    if($limit > -1)
+        $s.= ' LIMIT ' . $limit;
+    elseif($this->limitBase > -1)
+        $s.= ' LIMIT ' . $this->limitBase;
+
+    if($offset > -1)
+        $s.= ' OFFSET ' . $offset;
+    elseif($this->offsetBase > -1)
+        $s.= ' OFFSET ' . $this->offsetBase;
+
+    return $s;
+}
+
+//------------------------------
+// Getter & Setter
+//------------------------------
+
+/**
+ * @return PDO
+ */
+public function getPdo()
+{
+    return $this->pdo;
+}
+
+/**
+ * @param PDO $pdo
+ */
+public function setPdo($pdo)
+{
+    $this->pdo = $pdo;
+}
+
+/**
+ * @return mixed
+ */
+public function getWhereBase()
+{
+    return $this->whereBase;
+}
+
+/**
+ * @param mixed $whereBase
+ */
+public function setWhereBase($whereBase)
+{
+    $this->whereBase = $whereBase;
+}
+
+/**
+ * @return string
+ */
+public function getOrderBase()
+{
+    return $this->orderBase;
+}
+
+/**
+ * @param string $orderBase
+ */
+public function setOrderBase($orderBase)
+{
+    $this->orderBase = $orderBase;
+}
+
+/**
+ * @return string
+ */
+public function getNomeTabella()
+{
+    return $this->nomeTabella;
+}
+
+/**
+ * @param string $nomeTabella
+ */
+public function setNomeTabella($nomeTabella)
+{
+    $this->nomeTabella = $nomeTabella;
+}
+
+/**
+ * @return integer
+ */
+public function getLimitBase()
+{
+    return $this->limitBase;
+}
+
+/**
+ * @param integer $limitBase
+ */
+// public function setLimitBase(Integer $limitBase)
+public function setLimitBase( $limitBase)
+{
+    $this->limitBase = $limitBase;
+}
+/**
+ * @return integer
+ */
+public function getOffsetBase()
+{
+    return $this->offsetBase;
+}
+
+/**
+ * @param integer $offsetBase
+ */
+// public function setOffsetBase(Integer $offsetBase)
+public function setOffsetBase( $offsetBase)
+{
+    $this->offsetBase = $offsetBase;
+}
+
+//------------------------------
+// Abstract
+//------------------------------
+/**
+ * Transforms the object into a key array
+ * @return array
+ */
+public abstract function createKeyArray();
     /**
-     * @param PDO $pdo
+     * It transforms the keyarray in an object
+     * @param array $keyArray
      */
-    public function setPdo($pdo)
-    {
-        $this->pdo = $pdo;
-    }
-
+    public abstract function createObjKeyArray(array $keyArray);
     /**
-     * @return mixed
+     * @param array $positionalArray
+     * @return array
      */
-    public function getWhereBase()
-    {
-        return $this->whereBase;
-    }
-
+    public abstract function createKeyArrayFromPositional($positionalArray);
     /**
-     * @param mixed $whereBase
-     */
-    public function setWhereBase($whereBase)
-    {
-        $this->whereBase = $whereBase;
-    }
-
-    /**
+     * Return columns' list
      * @return string
      */
-    public function getOrderBase()
-    {
-        return $this->orderBase;
-    }
+    public abstract function getListColumns();
+    /**
+     * DDL Table
+     */
+    public abstract function createTable();
+
+
+    public abstract function getEmptyDbKeyArray();
+
+    //------------------------------
+    // Overrided
+    //------------------------------
 
     /**
-     * @param string $orderBase
+     * @param $id
+     * @return int
      */
-    public function setOrderBase($orderBase)
-    {
-        $this->orderBase = $orderBase;
-    }
+    private function issetPk($id)
+{
+    return $this->createResultValue("SELECT ID FROM $this->tableName WHERE ID = ?", array($id));
+}
+
+    //------------------------------
+    // Deprecation
+    //------------------------------
+
+     /**
+      * Dead on Drakkar 1.0.0
+      * @param $keyArray
+      *
+      * @since 0.0.2
+      * @deprecated 0.0.3
+      */
+    private function findKeyByPk($id){
+    return $this->issetPk($id);
+}
+
 
     /**
-     * @return string
+     * Dead on Drakkar 1.0.0
+     * @param $keyArray
+     *
+     * @since 0.0.2
+     * @deprecated 0.0.3
      */
-    public function getNomeTabella()
-    {
-        return $this->nomeTabella;
-    }
+    public function creaObjKeyArray($keyArray){$this->createObjKeyArray($keyArray);}
 
     /**
-     * @param string $nomeTabella
+     * Dead on Drakkar 1.0.0
+     *
+     * @since 0.0.2
+     * @deprecated 0.0.3
      */
-    public function setNomeTabella($nomeTabella)
-    {
-        $this->nomeTabella = $nomeTabella;
-    }
+    public function getElencoCampi(){$this->getListColumns();}
+
 
     /**
-     * @return string
-     */
-    public function getLimitBase()
-    {
-        return $this->limitBase;
-    }
-
-    /**
-     * @param string $limitBase
-     */
-    public function setLimitBase($limitBase)
-    {
-        $this->limitBase = $limitBase;
-    }
-    
-    //------------------------------------------------------------------ABSTRACT
-    
-    /**
-     * @param string $query
-     * @param array|null parameters
-     * @return int|string
-     */
-    protected function createResultValue($query, $parameters = null){
-        
-        return queryPreparedPdo($this->pdo,$this->pdo->prepare($query), $parameters, "v");
-    }
-    /**
+     * Dead on Drakkar 1.0.0
+     *
      * @param $query
      * @param null $parametri
+     * @param int $tipoRisultato
+     * @return array|object|string
+     *
+     * @since 0.0.2
+     * @deprecated 0.0.3
      */
-    protected function createResult($query, $parametri = null){
-        
-        $valori = queryPreparedPdo($this->pdo,$this->pdo->prepare($query), $parametri, "f");
-        if (!$valori) {
-            return;
-        }
-        return $this->utf8EncodeArray($valori);
-    }
-    
-     /**
-     * @param string $query
-     * @param null $parametri
+    public function creaRisultato($query, $parametri = null, $tipoRisultato = self::FETCH_OBJ){
+    return $this->createResult($query, $parametri, $tipoRisultato);
+}
+
+    /**
+     * Dead on Drakkar 1.0.0
+     * funzione per la creazione del keyArray dall'oggetto
+     *
+     * @return array
+     *
+     * @since 0.0.2
+     * @deprecated 0.0.3
      */
-    protected function createResultArray($query, $parametri = null){
+    public function creaKeyArray(){
+    return $this->createKeyArray();
+}
 
-        $valoriPdo = queryPreparedPdo($this->pdo,$this->pdo->prepare($query), $parametri, "p");
-        $arrayObj = array();
-        while ($valori = $valoriPdo->fetch(PDO::FETCH_ASSOC)) {
-            $arrayObj[] = $this->utf8EncodeArray($valori);
-        }
-        $valoriPdo->closeCursor();
+    /**
+     *Dead on Drakkar 1.0.0
+     * @param $query
+     * @param array|null $parametri
+     * @param int $tipoRisultato
+     * @return array|string|object
+     *
+     * @since 0.0.2
+     * @deprecated 0.0.3
+     */
+    protected function creaRisultatoArray($query, $parametri = null, $tipoRisultato = self::FETCH_OBJ){
+    return $this->createResultArray($query, $parametri, $tipoRisultato);
+}
 
-        return $arrayObj;   
-    }
-
-    
-    //------------------------------------------------------------------ENCODING
-    
-    public function utf8EncodeString($input) {
-        if (is_string($input)){
-           return utf8_encode($input);
-        }else{
-            return $input;
-        }
-    }
-
-    public function utf8EncodeArray($input){
-        if (is_array($input)) {
-            $app = array();
-            foreach ($input as $key=>$value) {
-               $app[$key]=$this->utf8EncodeString($value);
-            }
-            return $app;
-        }else{
-            return $input;
-        }
-    }	
+    /**
+     * Dead on Drakkar 1.0.0
+     * @param $arrayPosizionale
+     * @return mixed
+     *
+     * @since 0.0.2
+     * @deprecated 0.0.3
+     */
+    public function creaKeyArrayDaPosizionale($arrayPosizionale){
+    return $this->createKeyArrayFromPositional($arrayPosizionale);
+}
 
 }

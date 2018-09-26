@@ -8,6 +8,8 @@
 
 if (!defined('SERVER')) {
 
+    define("PROJECT_NAME", "sviluppiAle/ale");
+
     /* LOCALE */
     define('SERVER', 'mysqllocal');
     define('SERVERS', 'mysqllocal,mysqllocal');
@@ -16,5 +18,7 @@ if (!defined('SERVER')) {
     define('DBNAME', 'ale_test');
     define('DBCHARSET', 'latin1');
     define('LOCALE', true);
+
+    define("UPLOAD_PATH_IMG_PROFILO", "/var/www/html/sviluppiAle/ale/upload/grafica/img/fotoprofilo/");
 
 }

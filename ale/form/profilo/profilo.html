@@ -49,6 +49,48 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="date">Foto Profilo:</label>
+                                <div class="col-sm-8">
+                                    <label class="btn btn-default floatL">
+                                        <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
+                                        <i class="fa fa-upload"></i> Carica immagine
+                                    </label>
+
+                                    <table class="table table-bordered marginT20" ng-show="uploader.queue.length > 0">
+                                        <thead>
+                                        <tr>
+                                            <th width="50%">Nome</th>
+                                            <th class="text-center" ng-show="uploader.isHTML5">Dimensione</th>
+                                            <th class="text-center" ng-show="uploader.isHTML5">Caricamento</th>
+                                            <th class="text-center">Stato</th>
+                                            <th class="text-center">Azioni</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in uploader.queue">
+                                            <td><strong>{{ item.file.name }}</strong></td>
+                                            <td class="text-center" ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024|number:2 }} kB</td>
+                                            <td ng-show="uploader.isHTML5">
+                                                <div class="progress marginB0">
+                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok green"></i></span>
+                                                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove red"></i></span>
+                                            </td>
+                                            <td nowrap class="text-center">
+                                                <button type="button" class="btn btn-success" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                    <span class="glyphicon glyphicon-upload"></span> Carica
+                                                </button>
+                                                <button type="button" class="btn btn-danger marginL20" ng-click="item.remove()"  ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                    <span class="glyphicon glyphicon-trash"></span> Rimuovi
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
 
                             </div>
 

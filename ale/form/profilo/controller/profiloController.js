@@ -1,5 +1,5 @@
 
-ngApp.controller('profiloController', ['$scope', '$http', function ($scope, $http) {
+ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', function ($scope, $http, FileUploader) {
 
     $scope.params = decodeUrl(window.location.href);
 
@@ -33,6 +33,39 @@ ngApp.controller('profiloController', ['$scope', '$http', function ($scope, $htt
     $scope.chiudiModifica = function () {
 
         $scope.showModificaDati = false;
+    };
+
+
+    var uploader = $scope.uploader = new FileUploader({
+        url: '../src/function/upload.php'
+    });
+
+    console.log(uploader);
+
+    // CALLBACKS
+    uploader.onCompleteItem = function(fileItem, response) {
+
+        $scope.caricamentoCompletato = false;
+
+        if(response.answer === 'KO'){
+
+            $scope.caricamentoCompletato = true;
+
+            swal({
+                    title: "Errore",
+                    text: response.message,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true
+                },
+                function(){
+                    window.location.reload();
+                });
+        }else{
+            console.log(response.file);
+        }
     };
 
     $scope.salvaDatiUtente = function () {

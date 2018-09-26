@@ -59,6 +59,13 @@
     </div>
 
     <div class="menu-container">
+        <div class="primoLivello pointer" ng-click="includePage('profilo','profilo')" title="Profilo">
+            <i class="glyphicon glyphicon-user fa-fw fa-lg" aria-hidden="true"></i>
+            <span class="menu-testo">&nbsp;&nbsp;&nbsp;Profilo</span>
+        </div>
+    </div>
+
+    <div class="menu-container">
         <div class="primoLivello pointer" ng-click="includePage('elements','elements')" title="Elements">
             <i class="glyphicon glyphicon-list-alt fa-fw fa-lg" aria-hidden="true"></i>
             <span class="menu-testo">&nbsp;&nbsp;&nbsp;Elements</span>

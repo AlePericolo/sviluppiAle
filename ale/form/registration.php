@@ -27,7 +27,7 @@ echo '<link href="../grafica/css/color'.$color.'.css" rel="stylesheet" type="tex
                 <span class="input-group-addon"> <i class="fa fa-lock" aria-hidden="true"></i> </span>
                 <input type="password" class="form-control" ng-model="registration.password" autocomplete="off" placeholder="Password"/>
             </div>
-            <div class="row text-center">
+            <div class="row text-center" ng-show="livelloSicurezza > 0">
                 <ng-gauge size="100" type="semi" thick="5"
                           min="0" max="100" value="livelloSicurezza"
                           cap="round" label="Security" append="%" duration="500"

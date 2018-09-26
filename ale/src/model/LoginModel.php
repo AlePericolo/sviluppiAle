@@ -64,7 +64,7 @@ class LoginModel extends PdaAbstractModel {
 
     /**
      * find by ID
-     * @return Elements[]
+     * @return Login[]
      */
     public function findById($id, $typeResult = self::FETCH_OBJ)
     {

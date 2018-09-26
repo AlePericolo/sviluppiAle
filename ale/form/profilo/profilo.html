@@ -1,0 +1,98 @@
+
+<title>Profilo</title>
+
+<div ng-controller="profiloController" data-ng-init="init()">
+
+    <div class="panelHeaderSezioneCustom text-center">
+        <label class="font14">PROFILO</label>
+    </div>
+
+    <div class="text-center" ng-class="{'backgroundLoaderPart' : visible, 'backgroundLoaderFull' : !visible}" ng-show="!caricamentoCompletato">
+        <div class="containerLoader">
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <div class="panelBodySezioneCustom" ng-show="caricamentoCompletato">
+
+        <div class="container-fluid margin0">
+
+            <div class="col-md-9">
+
+                <div class="panel panel-default" ng-show="showModificaDati">
+                    <div class="panel-heading text-center">
+                        MODIFICA DATI UTENTE
+                        <button class="btn btn-danger btn-sm floatR" ng-click="chiudiModifica()" title="Chiudi"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
+                    </div>
+                    <div class="panel-body text-center">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="name">Nome:</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="name" type="text" ng-model="utente.nome">
+                                </div>
+                                <label class="col-sm-2 control-label" for="surname">Cognome</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="surname" type="text" ng-model="utente.cognome">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="date">Data di Nascita:</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="date" type="date" ng-model="utente.data_nascita">
+                                </div>
+                                <label class="col-sm-2 control-label">Sesso:</label>
+                                <div class="col-sm-3">
+                                    <input type="radio" ng-model="utente.sesso" value="M"> <span class="marginR20"> M </span>
+                                    <input type="radio" ng-model="utente.sesso" value="F"> <span> F </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="date">Foto Profilo:</label>
+
+                            </div>
+
+                            <div class="row text-center">
+                                <button class="btn btn-success" ng-click="salvaDatiUtente()"> <i class="fa fa-floppy-o" aria-hidden="true"></i> Salva</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">LA TUA SEZIONE</div>
+                    <div class="panel-body text-center">
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">SCHEDA UTENTE</div>
+                    <div class="panel-body text-center">
+                        <img src="" class="img-rounded" alt="Foto profilo">
+                        <ul class="list-group marginT10">
+                            <li class="list-group-item">{{utente.nome}} {{utente.cognome}}</li>
+                            <li class="list-group-item">
+                                {{utente.sesso}}
+                                <i ng-if="utente.sesso == 'M' " class="fa fa-mars" aria-hidden="true"></i>
+                                <i ng-if="utente.sesso == 'F' " class="fa fa-venus" aria-hidden="true"></i>
+                            </li>
+                            <li class="list-group-item">{{utente.data_nascita}}</li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer text-center">
+                        <button class="btn btn-default" ng-click="modificaDatiProfilo()"> <i class="fa fa-pencil" aria-hidden="true"></i> Modifica </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

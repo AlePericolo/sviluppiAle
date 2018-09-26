@@ -1,7 +1,6 @@
 
 ngApp.controller('elementsController', ['$scope', '$http', function ($scope, $http) {
 
-
     $scope.params = decodeUrl(window.location.href);
 
     $scope.caricamentoCompletato = false;

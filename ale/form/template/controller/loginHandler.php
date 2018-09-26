@@ -18,8 +18,10 @@ function effettuaLogin($request){
     $pdo = connettiPdo();
     $user =  new User($pdo);
 
-    if($user->findIdByUsernamePassword($request->login->username, $request->login->password)){
-        setLoginElementsInSession($request->login->username, $request->login->password);
+    $id = $user->findIdByUsernamePassword($request->login->username, $request->login->password);
+
+    if($id){
+        setLoginElementsInSession($id, $request->login->username, $request->login->password);
         return true;
     }else{
         return false;

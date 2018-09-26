@@ -32,20 +32,12 @@
         <?php echo'<img src="../grafica/img/'.$logo.'" alt="Logo" width="35%" class="marginT5 marginL5p containerLogo">' ?>
     </div>
 
-    <div class="nomeClienteContainer">
-        <label> {{descrizioneDitta}}: </label>
-        <span> {{ragioneSociale}} </span>
-    </div>
-
     <div id="gestioneUtente" class="containerUtenteHeader">
         <div class="horizontalBarButtonContainer">
-            <button type="button" class="btn btn-sm horizontalBarErrorButton pointer" title="Configurazioni" ng-show="mostraAvvisoCambioPwd" ng-click="cambiaPassword()">
-                <i class="fa fa-key fa-2x" aria-hidden="true"></i>
-            </button>
             <button type="button" class="btn btn-sm horizontalBarButton pointer" title="Logout" ng-click="logout()">
                 <i class="fa fa-power-off fa-2x" aria-hidden="true"></i>
             </button>
-            <div class="infoUtente">Benvenuto: {{nomeUtente}}</div>
+            <div class="infoUtente">Benvenuto: {{username}}</div>
         </div>
     </div>
 </div>

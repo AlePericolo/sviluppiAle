@@ -7,10 +7,9 @@ var app = angular.module("ngApp", ["ngAnimate"]);
 app.controller("loginController", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
 
     var url = window.location.href;
-    var params = decodeUrl(url);
     var handler = url.split("login.php");
 
-    $scope.login = {'username': 'ale', 'password': 'ale'};
+    $scope.login = {'username': '', 'password': ''};
 
     $scope.abilitaLogin = false;
 
@@ -40,7 +39,10 @@ app.controller("loginController", ["$scope", "$http", "$filter", function ($scop
                 swal("Login Fallito", "", "error");
             }
         });
+    };
 
+    $scope.goToRegistration = function () {
+        window.location.href = "registration.php";
     };
 
 }]);

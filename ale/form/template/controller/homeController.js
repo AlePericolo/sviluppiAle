@@ -17,19 +17,7 @@ ngApp.controller('homeController', ['$scope', '$http', function ($scope, $http) 
             {'function': 'getUtilityData'}
         ).then(function (data, status, headers, config) {
             console.log(data.data);
-            $scope.nomeUtente = data.data.nomeUtente;
-            $scope.descrizioneDitta = data.data.descrizioneDitta;
-            $scope.ragioneSociale = data.data.ragioneSociale;
-
-            $scope.urlImage = data.data.urlImage;
-            $scope.urlImageNotFound = data.data.urlImageNotFound;
-
-        });
-        $http.post($scope.params['form'] + "/template/controller/homeHandler.php",
-            {'function': 'articoliCarrello'}
-        ).then(function (data, status, headers, config) {
-            console.log(data.data);
-            $scope.articoliCarrello = data.data.articoliCarrello.numerorighe;
+            $scope.username = data.data.username;
 
         });
     };
@@ -99,42 +87,3 @@ ngApp.controller('homeController', ['$scope', '$http', function ($scope, $http) 
     };
 
 }]);
-
-//DIRECTIVE VERIFICA PRESENZA IMG: se non trovata carica img default
-ngApp.directive('errSrc', function() {
-    return {
-        link: function(scope, element, attrs) {
-            element.bind('error', function() {
-                if (attrs.src != attrs.errSrc) {
-                    attrs.$set('src', attrs.errSrc);
-                }
-            });
-            attrs.$observe('ngSrc', function(value) {
-                if (!value && attrs.errSrc) {
-                    attrs.$set('src', attrs.errSrc);
-                }
-            });
-        }
-    }
-});
-
-//CUSTOM FILTER DATE: convert string in dateformat
-ngApp.filter('formatDate', function () {
-    return function (input) {
-        return formatIntToDate(input);
-    }
-});
-
-//CUSTOM FILTER INT: convert string "xx,yy" in int senza decimali
-ngApp.filter('formatSconto', function () {
-    return function (input) {
-        if(input){
-            var app = input.split(",");
-            return parseInt(app[0]);
-        }
-    }
-});
-
-//TOOLTIP
-$(function () { $('[data-toggle="tooltip"]').tooltip() });
-

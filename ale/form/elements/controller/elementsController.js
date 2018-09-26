@@ -4,6 +4,7 @@ ngApp.controller('elementsController', ['$scope', '$http', function ($scope, $ht
 
     $scope.params = decodeUrl(window.location.href);
 
+    $scope.caricamentoCompletato = false;
     $scope.gestisciElemento = false;
 
     //caricaDati
@@ -20,6 +21,7 @@ ngApp.controller('elementsController', ['$scope', '$http', function ($scope, $ht
             console.log(data.data);
             $scope.elements = data.data.elements;
 
+            $scope.caricamentoCompletato = true;
         });
     };
 

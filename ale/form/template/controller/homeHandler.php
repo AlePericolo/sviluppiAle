@@ -10,7 +10,6 @@ require_once '../../../conf/conf.php';
 require_once '../../../src/function/functionLogin.php';
 require_once '../../../src/function/functionDate.php';
 
-require_once '../../../src/model/Carrello.php';
 
 //==============================LOGIN FUNCTIONS=======================================
 
@@ -18,22 +17,7 @@ function getUtilityData($request){
 
     $result = array();
 
-    $result['nomeUtente'] = getLoginDataFromSession('nomeUtente');
-    $result['descrizioneDitta'] = getLoginDataFromSession('descrizioneDitta');
-    $result['ragioneSociale'] = getLoginDataFromSession('ragioneSociale');
-    $result['urlImage'] = URL_IMG;
-    $result['urlImageNotFound'] = URL_IMG_NOT_FOUND;
-
-    return json_encode($result);
-}
-
-function articoliCarrello($request){
-
-    $params = array();
-    $params['mag'] = getLoginDataFromSession('magazzino')[0]->codice;
-    $params['causale'] = getLoginDataFromSession('causale');
-    $carrello = new \Dsc\Carrello('V', getLoginDataFromSession('utente'), getLoginDataFromSession('conto'), getLoginDataFromSession('ditta'));
-    $result['articoliCarrello'] = $carrello->articoliCarrello($params);
+    $result['username'] = getLoginDataFromSession('username');
 
     return json_encode($result);
 }

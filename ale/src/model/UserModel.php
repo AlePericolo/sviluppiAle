@@ -23,8 +23,8 @@ class UserModel extends PdaAbstractModel {
     function __construct($pdo)
     {
         parent::__construct($pdo);
-        $this->nomeTabella = 'user';
-        $this->tableName = 'user';
+        $this->nomeTabella = 'users';
+        $this->tableName = 'users';
     }
 
     /**

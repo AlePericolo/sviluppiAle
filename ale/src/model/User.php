@@ -20,11 +20,16 @@ class User extends UserModel
 
     function findIdByUsernamePassword($username, $password){
 
-        $query="SELECT id FROM users WHERE username = ? AND password = ?";
+        $query = "SELECT id FROM users WHERE username = ? AND password = ?";
 
-        $id = $this->createResultValue($query, array($username, $password));
+        return $this->createResultValue($query, array($username, $password));
+    }
 
-        return $id;
+    function countUsersByUsernamePassword($username, $password){
+
+        $query = "SELECT COUNT(id) FROM users WHERE username = ? and password = ?";
+
+        return $this->createResultValue($query, array($username, $password));
     }
 
 }

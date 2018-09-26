@@ -7,11 +7,11 @@
  */
 
 
-require_once '../../conf/conf.php';
-require_once '../../src/lib/pdo.php';
-require_once '../../src/lib/functions.php';
+require_once '../../../conf/conf.php';
+require_once '../../../src/lib/pdo.php';
+require_once '../../../src/lib/functions.php';
 
-require_once '../../src/model/elements.php';
+require_once '../../../src/model/elements.php';
 
 function getDatiPagina($request){
 

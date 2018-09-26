@@ -3,9 +3,9 @@
     //setto gli elementi del login in session
     function setLoginElementsInSession($id, $username, $password)
     {
-        $_SESSION['user']['id'] = $id;
-        $_SESSION['user']['username'] = $username;
-        $_SESSION['user']['password'] = $password;
+        $_SESSION['login']['id'] = $id;
+        $_SESSION['login']['username'] = $username;
+        $_SESSION['login']['password'] = $password;
 
         $_SESSION['login']['sessionId'] = session_id();
     }
@@ -24,7 +24,7 @@
 
     function getLoginDataFromSession($key)
     {
-        return getElementsFromSession('user', $key);
+        return getElementsFromSession('login', $key);
     }
 
     //pulisco le variabili in session

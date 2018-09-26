@@ -160,8 +160,8 @@ function connettiPdoAdvanced($dbName = null, $arrayParamGave = null)
     else {
         $pwd = CLICK_PWD;
     }
-    if (isset($arrayParam['USER'])) {
-        $user = $arrayParam['USER'];
+    if (isset($arrayParam['Login'])) {
+        $user = $arrayParam['Login'];
     }
     else {
         $user = CLICK_NAME;

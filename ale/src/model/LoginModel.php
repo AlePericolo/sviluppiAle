@@ -11,7 +11,7 @@ require_once 'PdaAbstractModel.php';
  * @property string nomeTabella
  * @property string tableName
  */
-class UserModel extends PdaAbstractModel {
+class LoginModel extends PdaAbstractModel {
     /** @var integer Chiave primaria della tabella*/
     protected $id;
     /** @var string */
@@ -23,13 +23,13 @@ class UserModel extends PdaAbstractModel {
     function __construct($pdo)
     {
         parent::__construct($pdo);
-        $this->nomeTabella = 'users';
-        $this->tableName = 'users';
+        $this->nomeTabella = 'login';
+        $this->tableName = 'login';
     }
 
     /**
      * find by tables' Primary Key:
-     * @return User|array|string|null
+     * @return Login|array|string|null
      */
     public function findByPk($id, $typeResult = self::FETCH_OBJ)
     {
@@ -50,7 +50,7 @@ class UserModel extends PdaAbstractModel {
 
     /**
      * Find all record of table
-     * @return User[]|array|string
+     * @return Login[]|array|string
      */
     public function findAll($distinct = false, $typeResult = self::FETCH_OBJ, $limit = -1, $offset = -1)
     {
@@ -94,16 +94,16 @@ class UserModel extends PdaAbstractModel {
     public function createObjKeyArray(array $keyArray)
     {
         $this->flagObjectDataValorized = false;
-        if ((isset($keyArray['id'])) || (isset($keyArray['user_id']))) {
-            $this->id = (isset($keyArray['id'])) ? $keyArray['id'] : $keyArray['user_id'];
+        if ((isset($keyArray['id'])) || (isset($keyArray['login_id']))) {
+            $this->id = (isset($keyArray['id'])) ? $keyArray['id'] : $keyArray['login_id'];
             $this->flagObjectDataValorized = true;
         }
-        if ((isset($keyArray['username'])) || (isset($keyArray['user_username']))) {
-            $this->username = (isset($keyArray['username'])) ? $keyArray['username'] : $keyArray['user_username'];
+        if ((isset($keyArray['username'])) || (isset($keyArray['login_username']))) {
+            $this->username = (isset($keyArray['username'])) ? $keyArray['username'] : $keyArray['login_username'];
             $this->flagObjectDataValorized = true;
         }
-        if ((isset($keyArray['password'])) || (isset($keyArray['user_password']))) {
-            $this->password = (isset($keyArray['password'])) ? $keyArray['password'] : $keyArray['user_password'];
+        if ((isset($keyArray['password'])) || (isset($keyArray['login_password']))) {
+            $this->password = (isset($keyArray['password'])) ? $keyArray['password'] : $keyArray['login_password'];
             $this->flagObjectDataValorized = true;
         }
     }
@@ -138,7 +138,7 @@ class UserModel extends PdaAbstractModel {
      */
     public function getListColumns()
     {
-        return 'user.id as user_id, user.username as user_username, user.password as user_password';
+        return 'login.id as login_id, login.username as login_username, login.password as login_password';
     }
 
     /**
@@ -147,7 +147,7 @@ class UserModel extends PdaAbstractModel {
     public function createTable()
     {
         return $this->pdo->exec(
-            "CREATE TABLE `elements` (
+            "CREATE TABLE `login` (
                         `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Chiave primaria della tabella',
                         `username` varchar(45) COLLATE latin1_general_ci NOT NULL DEFAULT '',
                         `password` varchar(45) COLLATE latin1_general_ci NOT NULL DEFAULT ''
@@ -195,8 +195,4 @@ class UserModel extends PdaAbstractModel {
     {
         $this->password = $password;
     }
-
-
-
-
 }

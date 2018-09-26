@@ -6,9 +6,9 @@
  * Time: 17.48
  */
 
-require_once 'UserModel.php';
+require_once 'LoginModel.php';
 
-class User extends UserModel
+class Login extends LoginModel
 {
     /*-------------------*/
     /* METODI            */
@@ -20,14 +20,14 @@ class User extends UserModel
 
     function findIdByUsernamePassword($username, $password){
 
-        $query = "SELECT id FROM users WHERE username = ? AND password = ?";
+        $query = "SELECT id FROM login WHERE username = ? AND password = ?";
 
         return $this->createResultValue($query, array($username, $password));
     }
 
     function countUsersByUsernamePassword($username, $password){
 
-        $query = "SELECT COUNT(id) FROM users WHERE username = ? and password = ?";
+        $query = "SELECT COUNT(id) FROM login WHERE username = ? and password = ?";
 
         return $this->createResultValue($query, array($username, $password));
     }

@@ -222,7 +222,7 @@ class LoggerAppenderPDO extends LoggerAppender {
 	
 	/** Sets the username. */
 	public function setUser($user) {
-		$this->setString('user', $user);
+		$this->setString('Login', $user);
 	}
 	
 	/** Returns the username. */

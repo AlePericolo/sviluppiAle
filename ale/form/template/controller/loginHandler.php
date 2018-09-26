@@ -11,14 +11,14 @@ require_once '../../../src/lib/pdo.php';
 require_once '../../../src/lib/functions.php';
 require_once '../../../src/function/functionLogin.php';
 
-require_once '../../../src/model/User.php';
+require_once '../../../src/model/Login.php';
 
 function effettuaLogin($request){
 
     $pdo = connettiPdo();
-    $user =  new User($pdo);
+    $login =  new Login($pdo);
 
-    $id = $user->findIdByUsernamePassword($request->login->username, $request->login->password);
+    $id = $login->findIdByUsernamePassword($request->login->username, $request->login->password);
 
     if($id){
         setLoginElementsInSession($id, $request->login->username, $request->login->password);

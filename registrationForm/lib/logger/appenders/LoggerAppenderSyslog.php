@@ -98,7 +98,7 @@ class LoggerAppenderSyslog extends LoggerAppender {
 	 *
 	 * @var string
 	 */
-	protected $facility = 'USER';
+	protected $facility = 'Login';
 	
 	/**
 	 * If set to true, the message priority will always use the value defined 

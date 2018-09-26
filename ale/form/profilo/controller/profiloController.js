@@ -45,11 +45,7 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
     // CALLBACKS
     uploader.onCompleteItem = function(fileItem, response) {
 
-        $scope.caricamentoCompletato = false;
-
         if(response.answer === 'KO'){
-
-            $scope.caricamentoCompletato = true;
 
             swal({
                     title: "Errore",
@@ -64,7 +60,8 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
                     window.location.reload();
                 });
         }else{
-            console.log(response.file);
+            swal("Caricamento immagine completato", "", "success");
+            $scope.utente.foto = response.file
         }
     };
 

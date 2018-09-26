@@ -19,6 +19,6 @@ if (!defined('SERVER')) {
     define('DBCHARSET', 'latin1');
     define('LOCALE', true);
 
-    define("UPLOAD_PATH_IMG_PROFILO", "/var/www/html/sviluppiAle/ale/upload/grafica/img/fotoprofilo/");
+    define("UPLOAD_PATH_IMG_PROFILO", "/var/www/html/sviluppiAle/ale/grafica/img/fotoprofilo/");
 
 }

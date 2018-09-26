@@ -50,15 +50,15 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="date">Foto Profilo:</label>
                                 <div class="col-sm-8">
-                                    <label class="btn btn-default floatL">
+                                    <label class="btn btn-default floatL marginB20">
                                         <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
                                         <i class="fa fa-upload"></i> Carica immagine
                                     </label>
 
-                                    <table class="table table-bordered marginT20" ng-show="uploader.queue.length > 0">
+                                    <table class="table table-bordered" ng-show="uploader.queue.length > 0">
                                         <thead>
                                         <tr>
-                                            <th width="50%">Nome</th>
+                                            <th width="50%" class="text-center">Nome</th>
                                             <th class="text-center" ng-show="uploader.isHTML5">Dimensione</th>
                                             <th class="text-center" ng-show="uploader.isHTML5">Caricamento</th>
                                             <th class="text-center">Stato</th>

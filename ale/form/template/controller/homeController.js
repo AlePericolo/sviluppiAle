@@ -18,6 +18,8 @@ ngApp.controller('homeController', ['$scope', '$http', function ($scope, $http) 
         ).then(function (data, status, headers, config) {
             console.log(data.data);
             $scope.username = data.data.username;
+            $scope.urlFotoProfilo = data.data.urlFotoProfilo;
+            $scope.urlFotoProfiloDefault = data.data.urlFotoProfiloDefault;
 
         });
     };
@@ -87,3 +89,29 @@ ngApp.controller('homeController', ['$scope', '$http', function ($scope, $http) 
     };
 
 }]);
+
+//DIRECTIVE VERIFICA PRESENZA IMG: se non trovata carica img default
+ngApp.directive('errSrc', function() {
+    return {
+        link: function(scope, element, attrs) {
+            element.bind('error', function() {
+                if (attrs.src != attrs.errSrc) {
+                    attrs.$set('src', attrs.errSrc);
+                }
+            });
+            attrs.$observe('ngSrc', function(value) {
+                if (!value && attrs.errSrc) {
+                    attrs.$set('src', attrs.errSrc);
+                }
+            });
+        }
+    }
+});
+
+ngApp.filter('formatDate', function() {
+    return function(data) {
+        if(data){
+            return formatMySQLdata(data);
+        }
+    };
+});

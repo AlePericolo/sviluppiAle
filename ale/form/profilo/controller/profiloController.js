@@ -20,27 +20,33 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
             console.log(data.data);
 
             $scope.utente = data.data.utente;
-
             $scope.caricamentoCompletato = true;
         });
     };
 
-    $scope.modificaDatiProfilo = function () {
+    $scope.gestioneDatiProfilo = function () {
 
-        $scope.showModificaDati = true;
+        $scope.showModificaDati = !$scope.showModificaDati;
+
+        if($scope.showModificaDati){
+            $http.post($scope.params['form'] + '/profilo/controller/profiloHandler.php',
+                {'function': 'getDatiUtente'}
+            ).then(function (data) {
+                console.log(data.data);
+
+                $scope.datiUtente = data.data.utente;
+                if($scope.datiUtente.data_nascita != ''){
+                    $scope.datiUtente.data_nascita = getJsDateFromYYYYMMGG($scope.datiUtente.data_nascita);
+                }
+            });
+        }
     };
-
-    $scope.chiudiModifica = function () {
-
-        $scope.showModificaDati = false;
-    };
-
 
     var uploader = $scope.uploader = new FileUploader({
         url: '../src/function/upload.php'
     });
 
-    console.log(uploader);
+    //console.log(uploader);
 
     // CALLBACKS
     uploader.onCompleteItem = function(fileItem, response) {
@@ -61,13 +67,36 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
                 });
         }else{
             swal("Caricamento immagine completato", "", "success");
-            $scope.utente.foto = response.file
+            $scope.datiUtente.foto = response.file
         }
     };
 
     $scope.salvaDatiUtente = function () {
 
-        console.log($scope.utente);
+        console.log($scope.datiUtente);
+
+        $http.post($scope.params['form'] + '/profilo/controller/profiloHandler.php',
+            {'function': 'salvaDatiUtente', 'utente': $scope.datiUtente}
+        ).then(function (data) {
+            console.log(data.data);
+            if(data.data.response == 'OK'){
+                swal({
+                        title: "Dati salvati correttamente",
+                        text: "",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true
+                    },
+                    function(){
+                        window.location.reload();
+                    });
+            }else{
+                swal("Errore salvataggio", data.data.message, "error");
+            }
+
+        });
     };
 
 

@@ -16,7 +16,7 @@ if (!empty($_FILES)) {
     //genero il file name con l'estensione
     $file = date('Ymdhis').'.'.explode('.', $filePath)[1];
 
-    if(move_uploaded_file($_FILES['file']['tmp_name'], UPLOAD_PATH_IMG_PROFILO . $file)){
+    if(move_uploaded_file($_FILES['file']['tmp_name'], PATH_IMG_PROFILO . $file)){
         $answer = array('answer' => 'OK', 'message' => "File caricato correttamente", 'file' => $file);
     }else{
         $answer = array('answer' => 'KO', 'message' => "Il file non è stato caricato");

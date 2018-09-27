@@ -18,6 +18,8 @@ function getUtilityData($request){
     $result = array();
 
     $result['username'] = getLoginDataFromSession('username');
+    $result['urlFotoProfilo'] = PATH_IMG_PROFILO_SERVER;
+    $result['urlFotoProfiloDefault'] = PATH_IMG_PROFILO_DEFAULT_SERVER;
 
     return json_encode($result);
 }

@@ -106,6 +106,8 @@ input[type="file"] {
 .bgLightGreen { background-color: #e3f7e6 !important; }
 .bgLightRed { background-color: #ffe0da !important; }
 .bgRed { background-color: #dc011f !important; }
+.bgBlue { background-color: #3354dc !important; }
+.bgPink { background-color: #dc50ad !important; }
 
 /* ---------------------------------------------------- CURSORE ----------------------------------------------------- */
 .pointer { cursor: pointer; }

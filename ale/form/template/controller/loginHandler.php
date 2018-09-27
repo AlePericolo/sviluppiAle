@@ -18,7 +18,12 @@ function effettuaLogin($request){
     $pdo = connettiPdo();
     $login =  new Login($pdo);
 
+    //$pwdHash = password_hash($request->login->password, PASSWORD_DEFAULT);
+
     $id = $login->findIdByUsernamePassword($request->login->username, $request->login->password);
+
+    //error_log($pwdHash);
+    //error_log($id);
 
     if($id){
         setLoginElementsInSession($id, $request->login->username, $request->login->password);

@@ -17,7 +17,9 @@ function registraUtente($request){
     $pdo = connettiPdo();
     $login =  new Login($pdo);
 
-    if($login->countUsersByUsernamePassword($request->registration->username, $request->registration->password) > 0){
+    //$pwdHash = password_hash($request->login->password, PASSWORD_DEFAULT);
+
+    if($login->countUsersByUsernamePassword($request->registration->username, $request->login->password) > 0){
         return json_encode(array("status"=>"KO", "message"=>"Attenzione! Utente già presente."));
     }else{
 
@@ -26,6 +28,8 @@ function registraUtente($request){
         try{
             $pdo->beginTransaction();
             $login->creaObjJson($request->registration, true);
+            //$login->setUsername($request->registration->username);
+            //$login->setPassword($pwdHash);
             $login->saveOrUpdate();
             $pdo->commit();
             $result['status'] = 'OK';

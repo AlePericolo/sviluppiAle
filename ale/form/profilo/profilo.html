@@ -17,34 +17,34 @@
 
         <div class="container-fluid margin0">
 
-            <div class="col-md-9">
+            <div class="col-md-10">
 
                 <div class="panel panel-default" ng-show="showModificaDati">
                     <div class="panel-heading text-center">
                         MODIFICA DATI UTENTE
-                        <button class="btn btn-danger btn-sm floatR" ng-click="chiudiModifica()" title="Chiudi"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
+                        <button class="btn btn-danger btn-sm floatR" ng-click="gestioneDatiProfilo()" title="Chiudi"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
                     </div>
                     <div class="panel-body text-center">
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="name">Nome:</label>
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="name" type="text" ng-model="utente.nome">
+                                    <input class="form-control" id="name" type="text" ng-model="datiUtente.nome">
                                 </div>
                                 <label class="col-sm-2 control-label" for="surname">Cognome</label>
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="surname" type="text" ng-model="utente.cognome">
+                                    <input class="form-control" id="surname" type="text" ng-model="datiUtente.cognome">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="date">Data di Nascita:</label>
                                 <div class="col-sm-3">
-                                    <input class="form-control" id="date" type="date" ng-model="utente.data_nascita">
+                                    <input class="form-control" id="date" type="date" ng-model="datiUtente.data_nascita">
                                 </div>
                                 <label class="col-sm-2 control-label">Sesso:</label>
                                 <div class="col-sm-3">
-                                    <input type="radio" ng-model="utente.sesso" value="M"> <span class="marginR20"> M </span>
-                                    <input type="radio" ng-model="utente.sesso" value="F"> <span> F </span>
+                                    <input type="radio" ng-model="datiUtente.sesso" value="M"> <span class="marginR20"> M </span>
+                                    <input type="radio" ng-model="datiUtente.sesso" value="F"> <span> F </span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -104,31 +104,38 @@
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">LA TUA SEZIONE</div>
                     <div class="panel-body text-center">
-
                     </div>
                 </div>
 
             </div>
 
 
-            <div class="col-md-3">
+            <div class="col-md-2">
 
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">SCHEDA UTENTE</div>
                     <div class="panel-body text-center">
-                        <img src="" class="img-rounded" alt="Foto profilo">
-                        <ul class="list-group marginT10">
-                            <li class="list-group-item">{{utente.nome}} {{utente.cognome}}</li>
-                            <li class="list-group-item">
-                                {{utente.sesso}}
-                                <i ng-if="utente.sesso == 'M' " class="fa fa-mars" aria-hidden="true"></i>
-                                <i ng-if="utente.sesso == 'F' " class="fa fa-venus" aria-hidden="true"></i>
-                            </li>
-                            <li class="list-group-item">{{utente.data_nascita}}</li>
-                        </ul>
+                        <img ng-src="{{urlFotoProfilo + utente.foto}}" err-src="{{urlFotoProfiloDefault}}" class="img-rounded" alt="Foto profilo" width="50%">
+                        <div class="row marginT20">
+                            <span class="col-md-3 text-center"> <button class="btn btn-sm" title="Utente"> <i class="fa fa-user" aria-hidden="true"></i> </button> </span>
+                            <span class="col-md-9"> {{utente.nome}} {{utente.cognome}} </span>
+                            <span ng-if="utente.nome == '' && utente.cognome == ''"> Nome Utente</span>
+                        </div>
+                        <div class="row marginT5">
+                            <span class="col-md-3 text-center">
+                                <button class="btn btn-sm bgBlue colorWhite" ng-if="utente.sesso == 'M' " title="Sesso"> <i class="fa fa-mars" aria-hidden="true"></i> </button>
+                                <button class="btn btn-sm bgPink colorWhite" ng-if="utente.sesso == 'F' " title="Sesso"> <i class="fa fa-venus" aria-hidden="true"></i> </button>
+                            </span>
+                            <span class="col-md-9"> {{utente.sesso}} </span>
+                        </div>
+                        <div class="row marginT5">
+                            <span class="col-md-3 text-center"> <button class="btn btn-sm" title="Data di nascita"> <i class="fa fa-calendar" aria-hidden="true"></i> </button> </span>
+                            <span class="col-md-9"> {{utente.data_nascita | formatDate}} </span>
+                            <span ng-if="utente.data_nascita == ''"> Data di nascita</span>
+                        </div>
                     </div>
                     <div class="panel-footer text-center">
-                        <button class="btn btn-default" ng-click="modificaDatiProfilo()"> <i class="fa fa-pencil" aria-hidden="true"></i> Modifica </button>
+                        <button class="btn btn-default" ng-click="gestioneDatiProfilo()"> <i class="fa fa-pencil" aria-hidden="true"></i> Modifica </button>
                     </div>
                 </div>
 

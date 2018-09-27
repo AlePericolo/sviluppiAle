@@ -19,6 +19,11 @@ function formatStringToDate(string) {
     }
 }
 
+function formatMySQLdata(date){
+    var string = date.split("-");
+    return string[2] + '/' + string[1] + '/' + string[0];
+}
+
 function formatStringToTime(string) {
 
     if (string !== undefined) {

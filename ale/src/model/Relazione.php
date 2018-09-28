@@ -18,4 +18,10 @@ class Relazione extends RelazioneModel
         parent::__construct($pdo);
     }
 
+    function findIdRichiestiFromIdRichiedente($idRichiedente, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT id_richiesto FROM relazione WHERE id_richiedente = ?";
+        return $this->createResultArray($query, array($idRichiedente), $typeResult);
+    }
+
 }

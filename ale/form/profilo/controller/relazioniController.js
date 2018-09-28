@@ -20,6 +20,9 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
         ).then(function (data) {
             console.log(data.data);
 
+            $scope.pathIcone = data.data.pathIcone;
+            console.log($scope.pathIcone);
+
             $scope.caricamentoCompletato = true;
         });
     };
@@ -36,6 +39,11 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
 
     $scope.filtraRicerca = function () {
         $scope.filtraRicercaAmici = !$scope.filtraRicercaAmici;
+        $scope.ricercaAmici = [];
+    };
+
+    $scope.annullaFiltraRicerca = function () {
+        $scope.filtraRicercaAmici = false;
     };
 
     $scope.cercaAmici = function (tipo) {
@@ -56,8 +64,45 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
             $scope.ricercaAmici = data.data.ricercaAmici;
             $scope.caricamentoCompletato = true;
         });
-    }
+    };
 
+    $scope.aggiungiAmico = function (utente) {
+
+        $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
+            {'function': 'aggiungiAmico', 'idAmico': utente.id}
+        ).then(function (data) {
+            console.log(data.data);
+            if(data.data.response == "OK"){
+                swal({
+                    title: "Nuova amicizia",
+                    text: "Richiesta di amicizia inviata",
+                    showCancelButton: false,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                    imageUrl: $scope.pathIcone + 'handshake.png'
+                },function () {
+                    window.location.reload();
+                });
+            }else{
+                swal("Errore", data.data.message, "error");
+            }
+        });
+    };
+
+    $scope.richiesteInAttesa = function () {
+
+        $scope.caricamentoCompletato = false;
+
+        $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
+            {'function': 'richiesteInAttesa'}
+        ).then(function (data) {
+            console.log(data.data);
+            $scope.richiesteEffettuateInAttesa = data.data.richiesteInAttesa;
+
+            $scope.caricamentoCompletato = true;
+        });
+    };
 
 
 }]); //CLOSE APP

@@ -20,7 +20,8 @@ if (!defined('SERVER')) {
     define('LOCALE', true);
 
     define("PATH_IMG_PROFILO", "/var/www/html/sviluppiAle/ale/grafica/img/fotoprofilo/");
-    define("PATH_IMG_PROFILO_SERVER", "http://192.168.8.170/sviluppiAle/ale/grafica/img/fotoprofilo/");
-    define("PATH_IMG_PROFILO_DEFAULT_SERVER", "http://192.168.8.170/sviluppiAle/ale/grafica/img/fotoprofilo/utenteDefault.png");
+    define("PATH_ICONE", "http://localhost/sviluppiAle/ale/grafica/img/icone/");
+    define("PATH_IMG_PROFILO_SERVER", "http://localhost/sviluppiAle/ale/grafica/img/fotoprofilo/");
+    define("PATH_IMG_PROFILO_DEFAULT_SERVER", "http://localhost/sviluppiAle/ale/grafica/img/fotoprofilo/utenteDefault.png");
 
 }

@@ -21,15 +21,40 @@ class Utente extends UtenteModel
     function findIdUtenteByIdLogin($idLogin){
 
         $query = "SELECT id FROM utente WHERE id_login = ?";
-
         return $this->createResultValue($query, array($idLogin));
     }
 
-    function cercaNuoviAmici($idLogin, $typeResult=self::FETCH_OBJ){
+    static function findIdUtenteByIdLoginStatic($pdo, $idLogin){
 
-        $query = "SELECT id, nome, cognome, foto FROM utente WHERE id_login != ?";
+        $app = new self($pdo);
+        return $app->findIdUtenteByIdLogin($idLogin);
+    }
 
-        return $this->createResultArray($query, array($idLogin), $typeResult);
+    function cercaNuoviAmici($idLogin, $idRichiedente, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT id, CONCAT (nome, ' ', cognome) AS nominativo ,foto 
+                  FROM utente 
+                  WHERE id_login != ? AND id NOT IN (
+	                SELECT id_richiesto 
+	                FROM relazione 
+	                WHERE id_richiedente = ? 
+	                GROUP BY id_richiesto
+                  );";
+
+        return $this->createResultArray($query, array($idLogin, $idRichiedente), $typeResult);
+    }
+
+    function findRichiesteInAttesaByIdRichiedente($idRichiedente, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT  id, CONCAT (nome, ' ', cognome) AS nominativo ,foto 
+                  FROM utente 
+                  WHERE id IN (
+                        SELECT id_richiesto 
+                        FROM relazione 
+                        WHERE id_richiedente = ?
+                  );";
+
+        return $this->createResultArray($query, array($idRichiedente), $typeResult);
     }
 
 }

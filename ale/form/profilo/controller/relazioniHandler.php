@@ -20,6 +20,9 @@ function getDatiPagina($request){
 
     $pdo = connettiPdo();
 
+    $result['pathIcone'] = PATH_ICONE;
+
+    return json_encode($result);
 }
 
 function cercaAmici($request){
@@ -28,12 +31,45 @@ function cercaAmici($request){
 
     $pdo = connettiPdo();
     $utente = new Utente($pdo);
+    if($request->filtro != null)
+        $result['ricercaAmici'] = [];//ToDo: ricerca amici con filtri
+    else
+        $result['ricercaAmici'] = $utente->cercaNuoviAmici(getLoginDataFromSession('id'), Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
 
-    if($request->filtro != null){
-        //ricerca amici con filtri
-    }else{
-        $result['ricercaAmici'] = $utente->cercaNuoviAmici(getLoginDataFromSession('id'), Utente::FETCH_KEYARRAY);
+    return json_encode($result);
+}
+
+function aggiungiAmico($request){
+
+    $result = array();
+
+    $pdo = connettiPdo();
+
+    try{
+        $pdo->beginTransaction();
+        $relazione = new Relazione($pdo);
+        $relazione->setIdRichiedente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
+        $relazione->setIdRichiesto($request->idAmico);
+        $relazione->setAmicizia(0);
+        $relazione->saveOrUpdate();
+        $pdo->commit();
+        $result['response'] = 'OK';
+    }catch (PDOException $e){
+        $pdo->rollBack();
+        $result['response'] = 'KO';
+        $result['message'] = $e->getMessage();
     }
+
+    return json_encode($result);
+}
+
+function richiesteInAttesa($request){
+
+    $result = array();
+
+    $pdo = connettiPdo();
+    $utente = new Utente($pdo);
+    $result['richiesteInAttesa'] = $utente->findRichiesteInAttesaByIdRichiedente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')), Utente::FETCH_KEYARRAY);
 
     return json_encode($result);
 }

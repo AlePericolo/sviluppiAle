@@ -20,11 +20,19 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
         ).then(function (data) {
             console.log(data.data);
 
+            $scope.elencoAmici = data.data.elencoAmici;
+            $scope.richiesteAmiciziaInAttesa = data.data.richiesteAmiciziaInAttesa;
             $scope.pathIcone = data.data.pathIcone;
-            console.log($scope.pathIcone);
 
             $scope.caricamentoCompletato = true;
         });
+    };
+
+    $scope.accetta = function () {
+
+        //ToDo: chiamata per creazione amicizia (2 record)
+        // - a amico di b 1
+        // - b amico di a 1
     };
 
     $scope.gestioneAmici = function () {
@@ -76,6 +84,7 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
                 swal({
                     title: "Nuova amicizia",
                     text: "Richiesta di amicizia inviata",
+
                     showCancelButton: false,
                     confirmButtonClass: "btn-danger",
                     confirmButtonText: "OK",
@@ -103,6 +112,23 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
             $scope.caricamentoCompletato = true;
         });
     };
+
+    $scope.rimuovi = function () {
+        swal({
+            title: "Attenzione",
+            text: "Rimuovere questa richiesta di amicizia?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Si, rimuovi",
+            cancelButtonText: "No, annulla",
+            closeOnConfirm: true
+        },function (isConfirm) {
+            if(isConfirm){
+
+            }
+        });
+    }
 
 
 }]); //CLOSE APP

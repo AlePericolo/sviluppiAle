@@ -19,6 +19,9 @@ function getDatiPagina($request){
     $result = array();
 
     $pdo = connettiPdo();
+    $utente = new Utente($pdo);
+    $result['elencoAmici'] = $utente->findElencoAmici(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
+    $result['richiesteAmiciziaInAttesa'] = $utente->findRichiesteAmiciziaInAttesa(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
 
     $result['pathIcone'] = PATH_ICONE;
 

@@ -30,6 +30,32 @@ class Utente extends UtenteModel
         return $app->findIdUtenteByIdLogin($idLogin);
     }
 
+    function findElencoAmici($idUtente, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT id, CONCAT (nome, ' ', cognome) AS nominativo ,foto 
+                  FROM utente 
+                  WHERE id IN (
+                    SELECT id_richiesto 
+                    FROM relazione 
+                    WHERE id_richiedente = ? AND amicizia = 1
+                  );";
+
+        return $this->createResultArray($query, array($idUtente), $typeResult);
+    }
+
+    function findRichiesteAmiciziaInAttesa($idUtente, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT id, CONCAT (nome, ' ', cognome) AS nominativo ,foto 
+                  FROM utente 
+                  WHERE id IN (
+                        SELECT id_richiedente 
+                        FROM relazione 
+                        WHERE id_richiesto = ? AND amicizia = 0
+                  );";
+
+        return $this->createResultArray($query, array($idUtente), $typeResult);
+    }
+
     function cercaNuoviAmici($idLogin, $idRichiedente, $typeResult=self::FETCH_OBJ){
 
         $query = "SELECT id, CONCAT (nome, ' ', cognome) AS nominativo ,foto 
@@ -51,7 +77,7 @@ class Utente extends UtenteModel
                   WHERE id IN (
                         SELECT id_richiesto 
                         FROM relazione 
-                        WHERE id_richiedente = ?
+                        WHERE id_richiedente = ? AND amicizia = 0
                   );";
 
         return $this->createResultArray($query, array($idRichiedente), $typeResult);

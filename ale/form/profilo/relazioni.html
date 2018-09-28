@@ -25,7 +25,60 @@
 
             <div class="col-md-12">
 
-                <div class="panel panel-default" ng-show="!mostraAmici">
+                <!-- ====================================== SEZIONE AMICI ========================================== -->
+
+                <div class="panel panel-default" ng-if="mostraAmici">
+                    <div class="panel-heading text-center">
+                        I TUOI AMICI
+                    </div>
+                    <div class="panel-body text-center">
+                        <div class="row">
+
+                            <div class="col-md-6 text-center">
+
+                                <div class="marginT20" ng-if="elencoAmici.length > 0">
+                                    <div class="input-group">
+                                        <span class="input-group-addon customHeaderTableOrdinaCerca" ng-click="sortType = 'nominativo'; sortReverse = !sortReverse;" title="Ordina per descrizione"><i class="glyphicon glyphicon-sort"></i> Nominativo:</span>
+                                        <input class="input-sm width100 colorBlack" type="text" ng-model="search.nominativo" placeholder="Nome Cognome"/>
+                                    </div>
+                                    <table class="table table-hover table-condensed marginT5">
+                                        <tbody>
+                                        <tr ng-repeat="a in elencoAmici | orderBy:sortType:sortReverse | filter:search">
+                                            <td width="20%"> <img ng-src="{{urlFotoProfilo + a.foto}}" err-src="{{urlFotoProfiloDefault}}" class="img-rounded" alt="Foto profilo" width="75px"> </td>
+                                            <td>{{a.nominativo}}</td>
+                                            <td width="20%"> <button class="btn btn-danger btn-sm" ng-click="rimuovi(a.id)" title="Rimuovi amicizia"> <i class="fa fa-remove" aria-hidden="true"></i> </button> </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 text-center">
+                                <label class="red" ng-if="richiesteAmiciziaInAttesa.length > 0"> Attenzione! Hai {{richiesteAmiciziaInAttesa.length}} richieste di amicizia.</label>
+                                <div class="marginT20" ng-if="richiesteAmiciziaInAttesa.length > 0">
+                                    <div class="input-group">
+                                        <span class="input-group-addon customHeaderTableOrdinaCerca" ng-click="sortType = 'nominativo'; sortReverse = !sortReverse;" title="Ordina per descrizione"><i class="glyphicon glyphicon-sort"></i> Nominativo:</span>
+                                        <input class="input-sm width100 colorBlack" type="text" ng-model="search.nominativo" placeholder="Nome Cognome"/>
+                                    </div>
+                                    <table class="table table-hover table-condensed marginT5">
+                                        <tbody>
+                                        <tr ng-repeat="ra in richiesteAmiciziaInAttesa | orderBy:sortType:sortReverse | filter:search">
+                                            <td width="20%"> <img ng-src="{{urlFotoProfilo + ra.foto}}" err-src="{{urlFotoProfiloDefault}}" class="img-rounded" alt="Foto profilo" width="75px"> </td>
+                                            <td>{{ra.nominativo}}</td>
+                                            <td width="20%"> <button class="btn btn-success btn-sm" ng-click="accetta(ra.id)" title="Accetta amicizia"> <i class="fa fa-check" aria-hidden="true"></i> </button> </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======================================= CERCA AMICI =========================================== -->
+
+                <div class="panel panel-default" ng-if="!mostraAmici">
                     <div class="panel-heading text-center">
                         CERCA NUOVI AMICI
                     </div>
@@ -99,7 +152,7 @@
                                         <tr ng-repeat="r in richiesteEffettuateInAttesa | orderBy:sortType:sortReverse | filter:search">
                                             <td width="20%"> <img ng-src="{{urlFotoProfilo + r.foto}}" err-src="{{urlFotoProfiloDefault}}" class="img-rounded" alt="Foto profilo" width="75px"> </td>
                                             <td>{{r.nominativo}}</td>
-                                            <td width="20%"> <button class="btn btn-danger btn-sm" ng-click="rimuoviRichiesta(r)" title="Rimuovi richiesta"> <i class="fa fa-remove" aria-hidden="true"></i> </button> </td>
+                                            <td width="20%"> <button class="btn btn-danger btn-sm" ng-click="rimuovi(r)" title="Rimuovi richiesta"> <i class="fa fa-remove" aria-hidden="true"></i> </button> </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -113,9 +166,7 @@
 
 
             </div>
-
         </div>
-
     </div>
 
 </div>

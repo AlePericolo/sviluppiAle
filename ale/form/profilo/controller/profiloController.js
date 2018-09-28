@@ -99,6 +99,4 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
         });
     };
 
-
-
 }]); //CLOSE APP

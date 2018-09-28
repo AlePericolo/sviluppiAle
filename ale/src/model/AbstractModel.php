@@ -1,13 +1,12 @@
 <?php
-//require_once 'PdaInterfaceModel.php';
+
 /**
  * User: Claudio COLOMBO - P.D.A. Srl
  * Date: <date>
  * Version 0.0.1
  */
 
-
-abstract class PdaAbstractModel //implements PdaInterfaceModel
+abstract class AbstractModel
 {
 
     // Fetch Constant
@@ -31,7 +30,6 @@ abstract class PdaAbstractModel //implements PdaInterfaceModel
     // Default Encode/Decode String
     const STR_DEFAULT = 1;
 
-
     /** @var  PDO */
     protected $pdo;
 
@@ -40,6 +38,7 @@ abstract class PdaAbstractModel //implements PdaInterfaceModel
 
     /** @var  string */
     protected $nomeTabella;
+
     /** @var  string */
     protected $tableName;
 
@@ -358,253 +357,254 @@ abstract class PdaAbstractModel //implements PdaInterfaceModel
     return get_object_vars($this);
     }
 
-/**
- * @param $input
- * @param $typeEncode
- * @return string
- */
-public function encodeString($input,$typeEncode) {
-    if (is_string($input))
-        switch($typeEncode){
-            case self::STR_UTF8:
-                return utf8_encode($input);
-                break;
-            default: return $input;
-        }
-    else
-        return $input;
-}
-
-/**
- * @param $input
- * @param $typeEncode
- * @return string
- */
-public function decodeString($input,$typeEncode) {
-    if (is_string($input))
-        switch($typeEncode){
-            case self::STR_UTF8:
-                return utf8_decode($input);
-                break;
-            default: return $input;
-        }
-    else
-        return $input;
-}
-
-/**
- * @param $input
- * @param $typeEncode
- * @return array
- */
-public function encodeArray($input,$typeEncode)
-{
-    if (is_array($input)) {
-        $app = array();
-        foreach ($input as $key=>$value) {
-            $app[$key]=$this->encodeString($value,$typeEncode);
-        }
-        return $app;
-    } else
-        return $input;
-}
-
-
-/**
- * @param $input
- * @param $typeEncode
- * @return array
- */
-public function decodeArray($input,$typeEncode)
-{
-    if (is_array($input)) {
-        $app = array();
-        foreach ($input as $key=>$value) {
-            $app[$key]=$this->decodeString($value,$typeEncode);
-        }
-        return $app;
-    } else
-        return $input;
-}
-
-/**
- * @param $input
- * @return string|int
- */
-public function encodeObj($input)
-{
-    if (is_object($input)) {
-        return $input;
-        //todo sistempare
-        /* $vars = array_keys(get_object_vars($input));
-
-           foreach ($vars as $var) {
-               utf8_encode_deep($input->$var,$typeEncode);
-           }*/
-    } else
-        return $input;
-}
-
-/**
- * @param $input
- * @param $typeEncode
- * @return string|int
- */
-public function dencodeString($input,$typeEncode) {
-    if (is_string($input))
-        switch($typeEncode){
-            case self::STR_UTF8:
-                return utf8_decode($input);
-                break;
-            default: return $input;
-        }
-    else
-        return $input;
-}
-
-/**
- * @param string $string search string
- * @param int $likeMatching pattern for like matching
- */
-public function prepareLikeMatching($string, $likeMatching)
-{
-    switch ($likeMatching) {
-        case self::LIKE_MATCHING_LEFT :
-            return '%' . $string;
-        case self::LIKE_MATCHING_RIGHT :
-            return $string . '%';
-        case self::LIKE_MATCHING_BOTH :
-            return '%' . $string . '%';
-        default:
-            return $string;
+    /**
+     * @param $input
+     * @param $typeEncode
+     * @return string
+     */
+    public function encodeString($input,$typeEncode) {
+        if (is_string($input))
+            switch($typeEncode){
+                case self::STR_UTF8:
+                    return utf8_encode($input);
+                    break;
+                default: return $input;
+            }
+        else
+            return $input;
     }
-}
+
+    /**
+     * @param $input
+     * @param $typeEncode
+     * @return string
+     */
+    public function decodeString($input,$typeEncode) {
+        if (is_string($input))
+            switch($typeEncode){
+                case self::STR_UTF8:
+                    return utf8_decode($input);
+                    break;
+                default: return $input;
+            }
+        else
+            return $input;
+    }
+
+    /**
+     * @param $input
+     * @param $typeEncode
+     * @return array
+     */
+    public function encodeArray($input,$typeEncode)
+    {
+        if (is_array($input)) {
+            $app = array();
+            foreach ($input as $key=>$value) {
+                $app[$key]=$this->encodeString($value,$typeEncode);
+            }
+            return $app;
+        } else
+            return $input;
+    }
 
 
-public function createLimitQuery($limit = -1,$offset = -1){
-    $s='';
-    if($limit > -1)
-        $s.= ' LIMIT ' . $limit;
-    elseif($this->limitBase > -1)
-        $s.= ' LIMIT ' . $this->limitBase;
+    /**
+     * @param $input
+     * @param $typeEncode
+     * @return array
+     */
+    public function decodeArray($input,$typeEncode)
+    {
+        if (is_array($input)) {
+            $app = array();
+            foreach ($input as $key=>$value) {
+                $app[$key]=$this->decodeString($value,$typeEncode);
+            }
+            return $app;
+        } else
+            return $input;
+    }
 
-    if($offset > -1)
-        $s.= ' OFFSET ' . $offset;
-    elseif($this->offsetBase > -1)
-        $s.= ' OFFSET ' . $this->offsetBase;
+    /**
+     * @param $input
+     * @return string|int
+     */
+    public function encodeObj($input)
+    {
+        if (is_object($input)) {
+            return $input;
+            //todo sistempare
+            /* $vars = array_keys(get_object_vars($input));
 
-    return $s;
-}
+               foreach ($vars as $var) {
+                   utf8_encode_deep($input->$var,$typeEncode);
+               }*/
+        } else
+            return $input;
+    }
 
-//------------------------------
-// Getter & Setter
-//------------------------------
+    /**
+     * @param $input
+     * @param $typeEncode
+     * @return string|int
+     */
+    public function dencodeString($input,$typeEncode) {
+        if (is_string($input))
+            switch($typeEncode){
+                case self::STR_UTF8:
+                    return utf8_decode($input);
+                    break;
+                default: return $input;
+            }
+        else
+            return $input;
+    }
 
-/**
- * @return PDO
- */
-public function getPdo()
-{
-    return $this->pdo;
-}
+    /**
+     * @param string $string search string
+     * @param int $likeMatching pattern for like matching
+     */
+    public function prepareLikeMatching($string, $likeMatching)
+    {
+        switch ($likeMatching) {
+            case self::LIKE_MATCHING_LEFT :
+                return '%' . $string;
+            case self::LIKE_MATCHING_RIGHT :
+                return $string . '%';
+            case self::LIKE_MATCHING_BOTH :
+                return '%' . $string . '%';
+            default:
+                return $string;
+        }
+    }
 
-/**
- * @param PDO $pdo
- */
-public function setPdo($pdo)
-{
-    $this->pdo = $pdo;
-}
 
-/**
- * @return mixed
- */
-public function getWhereBase()
-{
-    return $this->whereBase;
-}
+    public function createLimitQuery($limit = -1,$offset = -1){
+        $s='';
+        if($limit > -1)
+            $s.= ' LIMIT ' . $limit;
+        elseif($this->limitBase > -1)
+            $s.= ' LIMIT ' . $this->limitBase;
 
-/**
- * @param mixed $whereBase
- */
-public function setWhereBase($whereBase)
-{
-    $this->whereBase = $whereBase;
-}
+        if($offset > -1)
+            $s.= ' OFFSET ' . $offset;
+        elseif($this->offsetBase > -1)
+            $s.= ' OFFSET ' . $this->offsetBase;
 
-/**
- * @return string
- */
-public function getOrderBase()
-{
-    return $this->orderBase;
-}
+        return $s;
+    }
 
-/**
- * @param string $orderBase
- */
-public function setOrderBase($orderBase)
-{
-    $this->orderBase = $orderBase;
-}
+    //------------------------------
+    // Getter & Setter
+    //------------------------------
 
-/**
- * @return string
- */
-public function getNomeTabella()
-{
-    return $this->nomeTabella;
-}
+    /**
+     * @return PDO
+     */
+    public function getPdo()
+    {
+        return $this->pdo;
+    }
 
-/**
- * @param string $nomeTabella
- */
-public function setNomeTabella($nomeTabella)
-{
-    $this->nomeTabella = $nomeTabella;
-}
+    /**
+     * @param PDO $pdo
+     */
+    public function setPdo($pdo)
+    {
+        $this->pdo = $pdo;
+    }
 
-/**
- * @return integer
- */
-public function getLimitBase()
-{
-    return $this->limitBase;
-}
+    /**
+     * @return mixed
+     */
+    public function getWhereBase()
+    {
+        return $this->whereBase;
+    }
 
-/**
- * @param integer $limitBase
- */
-// public function setLimitBase(Integer $limitBase)
-public function setLimitBase( $limitBase)
-{
-    $this->limitBase = $limitBase;
-}
-/**
- * @return integer
- */
-public function getOffsetBase()
-{
-    return $this->offsetBase;
-}
+    /**
+     * @param mixed $whereBase
+     */
+    public function setWhereBase($whereBase)
+    {
+        $this->whereBase = $whereBase;
+    }
 
-/**
- * @param integer $offsetBase
- */
-// public function setOffsetBase(Integer $offsetBase)
-public function setOffsetBase( $offsetBase)
-{
-    $this->offsetBase = $offsetBase;
-}
+    /**
+     * @return string
+     */
+    public function getOrderBase()
+    {
+        return $this->orderBase;
+    }
 
-//------------------------------
-// Abstract
-//------------------------------
-/**
- * Transforms the object into a key array
- * @return array
- */
-public abstract function createKeyArray();
+    /**
+     * @param string $orderBase
+     */
+    public function setOrderBase($orderBase)
+    {
+        $this->orderBase = $orderBase;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNomeTabella()
+    {
+        return $this->nomeTabella;
+    }
+
+    /**
+     * @param string $nomeTabella
+     */
+    public function setNomeTabella($nomeTabella)
+    {
+        $this->nomeTabella = $nomeTabella;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getLimitBase()
+    {
+        return $this->limitBase;
+    }
+
+    /**
+     * @param integer $limitBase
+     */
+    // public function setLimitBase(Integer $limitBase)
+    public function setLimitBase( $limitBase)
+    {
+        $this->limitBase = $limitBase;
+    }
+    /**
+     * @return integer
+     */
+    public function getOffsetBase()
+    {
+        return $this->offsetBase;
+    }
+
+    /**
+     * @param integer $offsetBase
+     */
+    // public function setOffsetBase(Integer $offsetBase)
+    public function setOffsetBase( $offsetBase)
+    {
+        $this->offsetBase = $offsetBase;
+    }
+
+    //------------------------------
+    // Abstract
+    //------------------------------
+
+    /**
+     * Transforms the object into a key array
+     * @return array
+     */
+    public abstract function createKeyArray();
     /**
      * It transforms the keyarray in an object
      * @param array $keyArray
@@ -637,96 +637,8 @@ public abstract function createKeyArray();
      * @return int
      */
     private function issetPk($id)
-{
-    return $this->createResultValue("SELECT ID FROM $this->tableName WHERE ID = ?", array($id));
-}
-
-    //------------------------------
-    // Deprecation
-    //------------------------------
-
-     /**
-      * Dead on Drakkar 1.0.0
-      * @param $keyArray
-      *
-      * @since 0.0.2
-      * @deprecated 0.0.3
-      */
-    private function findKeyByPk($id){
-    return $this->issetPk($id);
-}
-
-
-    /**
-     * Dead on Drakkar 1.0.0
-     * @param $keyArray
-     *
-     * @since 0.0.2
-     * @deprecated 0.0.3
-     */
-    public function creaObjKeyArray($keyArray){$this->createObjKeyArray($keyArray);}
-
-    /**
-     * Dead on Drakkar 1.0.0
-     *
-     * @since 0.0.2
-     * @deprecated 0.0.3
-     */
-    public function getElencoCampi(){$this->getListColumns();}
-
-
-    /**
-     * Dead on Drakkar 1.0.0
-     *
-     * @param $query
-     * @param null $parametri
-     * @param int $tipoRisultato
-     * @return array|object|string
-     *
-     * @since 0.0.2
-     * @deprecated 0.0.3
-     */
-    public function creaRisultato($query, $parametri = null, $tipoRisultato = self::FETCH_OBJ){
-    return $this->createResult($query, $parametri, $tipoRisultato);
-}
-
-    /**
-     * Dead on Drakkar 1.0.0
-     * funzione per la creazione del keyArray dall'oggetto
-     *
-     * @return array
-     *
-     * @since 0.0.2
-     * @deprecated 0.0.3
-     */
-    public function creaKeyArray(){
-    return $this->createKeyArray();
-}
-
-    /**
-     *Dead on Drakkar 1.0.0
-     * @param $query
-     * @param array|null $parametri
-     * @param int $tipoRisultato
-     * @return array|string|object
-     *
-     * @since 0.0.2
-     * @deprecated 0.0.3
-     */
-    protected function creaRisultatoArray($query, $parametri = null, $tipoRisultato = self::FETCH_OBJ){
-    return $this->createResultArray($query, $parametri, $tipoRisultato);
-}
-
-    /**
-     * Dead on Drakkar 1.0.0
-     * @param $arrayPosizionale
-     * @return mixed
-     *
-     * @since 0.0.2
-     * @deprecated 0.0.3
-     */
-    public function creaKeyArrayDaPosizionale($arrayPosizionale){
-    return $this->createKeyArrayFromPositional($arrayPosizionale);
-}
+    {
+        return $this->createResultValue("SELECT ID FROM $this->tableName WHERE ID = ?", array($id));
+    }
 
 }

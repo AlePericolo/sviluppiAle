@@ -64,6 +64,12 @@
             <span class="menu-testo">&nbsp;&nbsp;&nbsp;Profilo</span>
         </div>
     </div>
+    <div class="menu-container" ng-show="import.indexOf('profilo') > -1 ">
+        <div class="secondoLivello pointer" ng-click="includePage('profilo','relazioni')" title="Relazioni">
+            <i class="fa fa-handshake-o" aria-hidden="true"></i>
+            <span class="menu-testo">&nbsp;&nbsp;&nbsp;Relazioni</span>
+        </div>
+    </div>
 
     <div class="menu-container">
         <div class="primoLivello pointer" ng-click="includePage('elements','elements')" title="Elements">

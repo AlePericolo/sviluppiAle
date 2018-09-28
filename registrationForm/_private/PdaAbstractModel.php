@@ -77,7 +77,7 @@ abstract class _PdaAbstractModel //implements PdaInterfaceModel
         $this->conn = new DrakkarDbConnector($conn);
 
         \Logger::configure('/var/www/html/conf/log.properties');
-        $this->logger = \Logger::getLogger('PdaAbstractModel');
+        $this->logger = \Logger::getLogger('AbstractModel');
     }
 
     /**

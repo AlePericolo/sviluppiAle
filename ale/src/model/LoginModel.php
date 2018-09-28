@@ -6,12 +6,12 @@
  * Time: 17.47
  */
 
-require_once 'PdaAbstractModel.php';
+require_once 'AbstractModel.php';
 /**
  * @property string nomeTabella
  * @property string tableName
  */
-class LoginModel extends PdaAbstractModel {
+class LoginModel extends AbstractModel {
     /** @var integer Chiave primaria della tabella*/
     protected $id;
     /** @var string */

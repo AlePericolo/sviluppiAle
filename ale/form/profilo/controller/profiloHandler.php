@@ -74,9 +74,6 @@ function salvaDatiUtente($request){
     return json_encode($result);
 }
 
-
-
-
 //create/read session
 ob_start();
 session_start();
@@ -85,4 +82,3 @@ $request = json_decode($postdata);
 $function = $request->function;
 $r = $function($request);
 echo $r;
-

@@ -5,12 +5,12 @@
  * Date: 2018-04-04
  * Time: 11:23:39.198883
  */
-require_once 'PdaAbstractModel.php';
+require_once 'AbstractModel.php';
 /**
  * @property string nomeTabella
  * @property string tableName
  */
-class ElementsModel extends PdaAbstractModel {
+class ElementsModel extends AbstractModel {
     /** @var integer Chiave primaria della tabella*/
     protected $id;
     /** @var string */

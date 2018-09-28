@@ -1,0 +1,74 @@
+
+<title>Relazioni</title>
+
+<div ng-controller="relazioniController" data-ng-init="init()">
+
+    <div class="panelHeaderSezioneCustom text-center">
+        <label class="font14">RELAZIONI</label>
+        <button ng-if="mostraAmici" class="btn btn-default padding3-6 floatR" ng-click="gestioneAmici()">
+            <i class="fa fa-user-plus" aria-hidden="true"></i> Cerca Amici
+        </button>
+        <button ng-if="!mostraAmici" class="btn btn-default padding3-6 floatR" ng-click="gestioneAmici()">
+            <i class="fa fa-users" aria-hidden="true"></i> &nbsp;&nbsp;I tuoi Amici
+        </button>
+    </div>
+
+    <div class="text-center" ng-class="{'backgroundLoaderPart' : visible, 'backgroundLoaderFull' : !visible}" ng-show="!caricamentoCompletato">
+        <div class="containerLoader">
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <div class="panelBodySezioneCustom" ng-show="caricamentoCompletato">
+
+        <div class="container-fluid margin0">
+
+            <div class="col-md-12">
+
+                <div class="panel panel-default" ng-show="!mostraAmici">
+                    <div class="panel-heading text-center">
+                        CERCA NUOVI AMICI
+                        <button class="btn btn-success padding3-6" ng-click="cercaAmici()"> <i class="fa fa-search" aria-hidden="true"></i> Cerca tutti</button>
+                        <button class="btn btn-default padding3-6 floatR" ng-click="filtraRicerca()"> <i class="fa fa-filter" aria-hidden="true"></i> Filtra </button>
+                    </div>
+                    <div class="panel-body text-center">
+                        <div class="form-horizontal" ng-show="filtraRicercaAmici">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label" for="name">Nome:</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" id="name" type="text" ng-model="find.nome">
+                                </div>
+                                <label class="col-sm-1 control-label" for="surname">Cognome:</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" id="surname" type="text" ng-model="find.cognome">
+                                </div>
+                                <label class="col-sm-1 control-label">Et&agrave;:</label>
+                                <div class="col-sm-3">
+                                    <rzslider rz-slider-model="find.etaDa"
+                                              rz-slider-high="find.etaA"
+                                              rz-slider-options="slider.options">
+                                    </rzslider>
+                                </div>
+                                <div class="col-sm-2 text-center"> <button class="btn btn-success" ng-click="cercaAmici('F')"> <i class="fa fa-search" aria-hidden="true"></i> Cerca</button> </div>
+                            </div>
+                        </div>
+                        <table class="table table-hover table-condensed" ng-if="ricercaAmici.length > 0">
+                            <tbody>
+                                <tr ng-repeat="a in ricercaAmici">
+                                    <td> <img ng-src="{{urlFotoProfilo + a.foto}}" err-src="{{urlFotoProfiloDefault}}" class="img-rounded" alt="Foto profilo" width="75px"> </td>
+                                    <td>{{a.nome}} {{a.cognome}}</td>
+                                    <td> <button class="btn btn-success btn-sm" ng-click="aggiungiAmico(a.id)" title="Aggiungi agli amici"> <i class="fa fa-plus" aria-hidden="true"></i> </button> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

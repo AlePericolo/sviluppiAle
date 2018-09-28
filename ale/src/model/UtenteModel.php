@@ -6,12 +6,12 @@
  * Time: 15.26
  */
 
-require_once 'PdaAbstractModel.php';
+require_once 'AbstractModel.php';
 /**
  * @property string nomeTabella
  * @property string tableName
  */
-class UtenteModel extends PdaAbstractModel {
+class UtenteModel extends AbstractModel {
     /** @var integer Chiave primaria della tabella*/
     protected $id;
     /** @var integer*/
@@ -319,6 +319,5 @@ class UtenteModel extends PdaAbstractModel {
     {
         $this->foto = $foto;
     }
-
 
 }

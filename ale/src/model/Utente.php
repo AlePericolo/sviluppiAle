@@ -25,4 +25,11 @@ class Utente extends UtenteModel
         return $this->createResultValue($query, array($idLogin));
     }
 
+    function cercaNuoviAmici($idLogin, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT id, nome, cognome, foto FROM utente WHERE id_login != ?";
+
+        return $this->createResultArray($query, array($idLogin), $typeResult);
+    }
+
 }

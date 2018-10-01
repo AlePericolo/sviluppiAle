@@ -38,7 +38,8 @@ function cercaAmici($request){
         $result['ricercaAmici'] = [];//ToDo: ricerca amici con filtri
     else
         $result['ricercaAmici'] = $utente->cercaNuoviAmici(getLoginDataFromSession('id'), Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
-        $result['ricercaRichiesteAmiciziaInAttesa'] = $utente->findRichiesteAmiciziaInAttesa(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
+
+    $result['ricercaRichiesteAmiciziaInAttesa'] = $utente->findRichiesteAmiciziaInAttesa(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
 
     return json_encode($result);
 }

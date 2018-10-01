@@ -38,6 +38,7 @@ function cercaAmici($request){
         $result['ricercaAmici'] = [];//ToDo: ricerca amici con filtri
     else
         $result['ricercaAmici'] = $utente->cercaNuoviAmici(getLoginDataFromSession('id'), Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
+        $result['ricercaRichiesteAmiciziaInAttesa'] = $utente->findRichiesteAmiciziaInAttesa(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
 
     return json_encode($result);
 }
@@ -73,6 +74,102 @@ function richiesteInAttesa($request){
     $pdo = connettiPdo();
     $utente = new Utente($pdo);
     $result['richiesteInAttesa'] = $utente->findRichiesteInAttesaByIdRichiedente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')), Utente::FETCH_KEYARRAY);
+
+    return json_encode($result);
+}
+
+function accettaAmicizia($request){
+
+    $result = array();
+
+    $pdo = connettiPdo();
+
+    try{
+        $pdo->beginTransaction();
+        $relazione = new Relazione($pdo);
+        $relazione->findRelazioneByIdRichiedenteAndRichiesto($request->idRichiedente, Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
+        $relazione->setAmicizia(1);
+        $relazione->saveOrUpdate();
+        $pdo->commit();
+        $result['responseRel1'] = 'OK';
+    }catch (PDOException $e){
+        $pdo->rollBack();
+        $result['responseRel1'] = 'KO';
+        $result['messageRel1'] = $e->getMessage();
+    }
+    try{
+        $pdo->beginTransaction();
+        $relazione = new Relazione($pdo);
+        $relazione->setIdRichiedente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
+        $relazione->setIdRichiesto($request->idRichiedente);
+        $relazione->setAmicizia(1);
+        $relazione->saveOrUpdate();
+        $pdo->commit();
+        $result['responseRel2'] = 'OK';
+    }catch (PDOException $e){
+        $pdo->rollBack();
+        $result['responseRel2'] = 'KO';
+        $result['messageRel2'] = $e->getMessage();
+    }
+
+    return json_encode($result);
+}
+
+function rimuoviRelazione($request){
+
+    $result = array();
+
+    $pdo = connettiPdo();
+
+    //rimuovi richiesta
+    if($request->tipo == 0){
+        try{
+            $pdo->beginTransaction();
+            $relazione = new Relazione($pdo);
+            $relazione->deleteRelazioneByIdRichiedenteAndRichiesto(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')), $request->idAmico);
+            $relazione->saveOrUpdate();
+            $pdo->commit();
+            $result['response'] = 'OK';
+        }catch (PDOException $e){
+            $pdo->rollBack();
+            $result['response'] = 'KO';
+            $result['message'] = $e->getMessage();
+        }
+    }
+    //rimuovi amicizia
+    else{
+        $appResponse1 = $appResponse2 = false;
+        $appMessage1 = $appMessage2 = "";
+        try{
+            $pdo->beginTransaction();
+            $relazione = new Relazione($pdo);
+            $relazione->deleteRelazioneByIdRichiedenteAndRichiesto(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')), $request->idAmico);
+            $relazione->saveOrUpdate();
+            $pdo->commit();
+            $appResponse1 = true;
+        }catch (PDOException $e){
+            $pdo->rollBack();
+            $appMessage1 = $e->getMessage();
+        }
+        try{
+            $pdo->beginTransaction();
+            $relazione = new Relazione($pdo);
+            $relazione->deleteRelazioneByIdRichiedenteAndRichiesto($request->idAmico, Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
+            $relazione->saveOrUpdate();
+            $pdo->commit();
+            $appResponse2 = true;
+        }catch (PDOException $e){
+            $pdo->rollBack();
+            $appResponse2 = 'KO';
+            $appMessage1 = $e->getMessage();
+        }
+
+        if($appResponse1 and $appResponse2)
+            $result['response'] = 'OK';
+        else
+            $result['response'] = 'KO';
+            $result['message'] = $appMessage1 . ' ' . $appMessage2;
+    }
 
     return json_encode($result);
 }

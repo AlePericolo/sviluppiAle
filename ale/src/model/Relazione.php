@@ -24,4 +24,16 @@ class Relazione extends RelazioneModel
         return $this->createResultArray($query, array($idRichiedente), $typeResult);
     }
 
+    function findRelazioneByIdRichiedenteAndRichiesto($idRichiedente, $idRichiesto, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT * FROM relazione WHERE id_richiedente = ? AND id_richiesto = ?";
+        return $this->createResult($query, array($idRichiedente, $idRichiesto), $typeResult);
+    }
+
+    function deleteRelazioneByIdRichiedenteAndRichiesto($idRichiedente, $idRichiesto, $typeResult=self::FETCH_OBJ){
+
+        $query = "DELETE FROM relazione WHERE id_richiedente = ? AND id_richiesto = ?";
+        return $this->createResult($query, array($idRichiedente, $idRichiesto), $typeResult);
+    }
+
 }

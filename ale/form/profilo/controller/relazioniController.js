@@ -28,11 +28,29 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
         });
     };
 
-    $scope.accetta = function () {
+    $scope.accetta = function (idRichiedente) {
 
-        //ToDo: chiamata per creazione amicizia (2 record)
-        // - a amico di b 1
-        // - b amico di a 1
+        $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
+            {'function': 'accettaAmicizia', 'idRichiedente': idRichiedente}
+        ).then(function (data) {
+            console.log(data.data);
+
+            if(data.data.responseRel1 == "OK" && data.data.responseRel2 == "OK"){
+                swal({
+                    title: "Richiesta di amicizia accettata",
+                    text: "",
+                    type: "success",
+                    showCancelButton: false,
+                    confirmButtonClass: "btn-success",
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true,
+                },function () {
+                    window.location.reload();
+                });
+            }else{
+                swal("Errore", data.data.messageRel1 + " " + data.data.messageRel2, "error");
+            }
+        });
     };
 
     $scope.gestioneAmici = function () {
@@ -70,31 +88,45 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
             console.log(data.data);
 
             $scope.ricercaAmici = data.data.ricercaAmici;
+            $scope.ricercaRichiesteAmiciziaInAttesa = data.data.ricercaRichiesteAmiciziaInAttesa;
             $scope.caricamentoCompletato = true;
         });
     };
 
     $scope.aggiungiAmico = function (utente) {
 
-        $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
-            {'function': 'aggiungiAmico', 'idAmico': utente.id}
-        ).then(function (data) {
-            console.log(data.data);
-            if(data.data.response == "OK"){
-                swal({
-                    title: "Nuova amicizia",
-                    text: "Richiesta di amicizia inviata",
-
-                    showCancelButton: false,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "OK",
-                    closeOnConfirm: true,
-                    imageUrl: $scope.pathIcone + 'handshake.png'
-                },function () {
-                    window.location.reload();
+        swal({
+            title: "Nuova amicizia",
+            text: "Inviare richiesta di amicizia?",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "OK",
+            cancelButtonText: "Annulla",
+            closeOnConfirm: false,
+            imageUrl: $scope.pathIcone + 'handshake.png'
+        },function (isConfirm) {
+            if (isConfirm) {
+                $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
+                    {'function': 'aggiungiAmico', 'idAmico': utente.id}
+                ).then(function (data) {
+                    console.log(data.data);
+                    if(data.data.response == "OK"){
+                        swal({
+                                title: "Richiesta di amicizia inviata",
+                                text: "",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function(){
+                                window.location.reload();
+                            });
+                    }else{
+                        swal("Errore", data.data.message, "error");
+                    }
                 });
-            }else{
-                swal("Errore", data.data.message, "error");
             }
         });
     };
@@ -113,19 +145,45 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
         });
     };
 
-    $scope.rimuovi = function () {
+    $scope.rimuovi = function (idAmico, tipo) {
+
+        var tipoRel = "richiesta";
+        if(tipo == 1){
+            tipoRel = "amicizia";
+        }
+
         swal({
             title: "Attenzione",
-            text: "Rimuovere questa richiesta di amicizia?",
+            text: "Rimuovere questa " + tipoRel + "?",
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-danger",
             confirmButtonText: "Si, rimuovi",
             cancelButtonText: "No, annulla",
-            closeOnConfirm: true
+            closeOnConfirm: false
         },function (isConfirm) {
             if(isConfirm){
-
+                $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
+                    {'function': 'rimuoviRelazione', 'idAmico': idAmico, 'tipo': tipo}
+                ).then(function (data) {
+                    console.log(data.data);
+                    if(data.data.response == "OK"){
+                        swal({
+                                title: "Relazione cancellata",
+                                text: "",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function(){
+                                window.location.reload();
+                            });
+                    }else{
+                        swal("Errore", data.data.message, "error");
+                    }
+                });
             }
         });
     }

@@ -35,9 +35,19 @@ function cercaAmici($request){
     $pdo = connettiPdo();
     $utente = new Utente($pdo);
     if($request->filtro != null)
-        $result['ricercaAmici'] = [];//ToDo: ricerca amici con filtri
+        $result['ricercaAmici'] = $utente->cercaNuoviAmiciFiltro(
+                                                getLoginDataFromSession('id'),
+                                                Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),
+                                                $request->filtro->nome,
+                                                $request->filtro->cognome,
+                                                $request->filtro->etaDa,
+                                                $request->filtro->etaA,
+                                                Utente::FETCH_KEYARRAY);
     else
-        $result['ricercaAmici'] = $utente->cercaNuoviAmici(getLoginDataFromSession('id'), Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
+        $result['ricercaAmici'] = $utente->cercaNuoviAmici(
+                                                getLoginDataFromSession('id'),
+                                                Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),
+                                                Utente::FETCH_KEYARRAY);
 
     $result['ricercaRichiesteAmiciziaInAttesa'] = $utente->findRichiesteAmiciziaInAttesa(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')),Utente::FETCH_KEYARRAY);
 
@@ -85,6 +95,9 @@ function accettaAmicizia($request){
 
     $pdo = connettiPdo();
 
+    $appResponse1 = $appResponse2 = false;
+    $appMessage1 = $appMessage2 = "";
+
     try{
         $pdo->beginTransaction();
         $relazione = new Relazione($pdo);
@@ -92,11 +105,10 @@ function accettaAmicizia($request){
         $relazione->setAmicizia(1);
         $relazione->saveOrUpdate();
         $pdo->commit();
-        $result['responseRel1'] = 'OK';
+        $appResponse1 = true;
     }catch (PDOException $e){
         $pdo->rollBack();
-        $result['responseRel1'] = 'KO';
-        $result['messageRel1'] = $e->getMessage();
+        $appMessage1 = $e->getMessage();
     }
     try{
         $pdo->beginTransaction();
@@ -106,12 +118,17 @@ function accettaAmicizia($request){
         $relazione->setAmicizia(1);
         $relazione->saveOrUpdate();
         $pdo->commit();
-        $result['responseRel2'] = 'OK';
+        $appResponse2 = true;
     }catch (PDOException $e){
         $pdo->rollBack();
-        $result['responseRel2'] = 'KO';
-        $result['messageRel2'] = $e->getMessage();
+        $appMessage2 = $e->getMessage();
     }
+
+    if($appResponse1 and $appResponse2)
+        $result['response'] = 'OK';
+    else
+        $result['response'] = 'KO';
+    $result['message'] = $appMessage1 . ' ' . $appMessage2;
 
     return json_encode($result);
 }
@@ -161,8 +178,7 @@ function rimuoviRelazione($request){
             $appResponse2 = true;
         }catch (PDOException $e){
             $pdo->rollBack();
-            $appResponse2 = 'KO';
-            $appMessage1 = $e->getMessage();
+            $appMessage2 = $e->getMessage();
         }
 
         if($appResponse1 and $appResponse2)

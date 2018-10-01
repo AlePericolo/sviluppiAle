@@ -72,9 +72,34 @@ class Utente extends UtenteModel
                     FROM relazione
                     WHERE id_richiesto = ? AND amicizia = 0
                     GROUP BY id_richiedente
-                  );";
+                  )";
 
         return $this->createResultArray($query, array($idLogin, $idUtente, $idUtente), $typeResult);
+    }
+
+    function cercaNuoviAmiciFiltro($idLogin, $idUtente, $nome, $cognome, $etaDa, $etaA, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT id, CONCAT (nome, ' ', cognome) AS nominativo ,foto, TIMESTAMPDIFF(YEAR, data_nascita, CURDATE()) AS eta 
+                  FROM utente 
+                  WHERE id_login != ? 
+                  AND id NOT IN (
+	                SELECT id_richiesto 
+	                FROM relazione 
+	                WHERE id_richiedente = ? 
+	                GROUP BY id_richiesto
+                  )
+                  AND id NOT IN (
+                    SELECT id_richiedente
+                    FROM relazione
+                    WHERE id_richiesto = ? AND amicizia = 0
+                    GROUP BY id_richiedente
+                  )
+                  AND nome LIKE ?
+                  AND cognome LIKE ?
+                  HAVING eta BETWEEN ? AND ?
+                  ";
+
+        return $this->createResultArray($query, array($idLogin, $idUtente, $idUtente, '%'.$nome.'%', '%'.$cognome.'%', $etaDa, $etaA), $typeResult);
     }
 
     function findRichiesteInAttesaByIdRichiedente($idRichiedente, $typeResult=self::FETCH_OBJ){

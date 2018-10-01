@@ -24,18 +24,21 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
             $scope.richiesteAmiciziaInAttesa = data.data.richiesteAmiciziaInAttesa;
             $scope.pathIcone = data.data.pathIcone;
 
+        }).then(function (){
             $scope.caricamentoCompletato = true;
         });
     };
 
     $scope.accetta = function (idRichiedente) {
 
+        $scope.caricamentoCompletato = false;
+
         $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
             {'function': 'accettaAmicizia', 'idRichiedente': idRichiedente}
         ).then(function (data) {
             console.log(data.data);
 
-            if(data.data.responseRel1 == "OK" && data.data.responseRel2 == "OK"){
+            if(data.data.response == "OK"){
                 swal({
                     title: "Richiesta di amicizia accettata",
                     text: "",
@@ -43,15 +46,19 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
                     showCancelButton: false,
                     confirmButtonClass: "btn-success",
                     confirmButtonText: "OK",
-                    closeOnConfirm: true,
+                    closeOnConfirm: true
                 },function () {
                     window.location.reload();
                 });
             }else{
-                swal("Errore", data.data.messageRel1 + " " + data.data.messageRel2, "error");
+                swal("Errore", data.data.message, "error");
             }
+        }).then(function (data) {
+            $scope.caricamentoCompletato = true;
         });
     };
+
+    /* ======================================= SWITCH SEZIONE mici/cerca ============================================ */
 
     $scope.gestioneAmici = function () {
 
@@ -63,15 +70,24 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
         }
     };
 
+    /* ========================================== SEZIONE NUOVI AMICI =============================================== */
+
     $scope.filtraRicerca = function () {
-        $scope.filtraRicercaAmici = !$scope.filtraRicercaAmici;
+        $scope.filtraRicercaAmici = true;
         $scope.ricercaAmici = [];
+        $scope.ricercaRichiesteAmiciziaInAttesa = [];
     };
 
     $scope.annullaFiltraRicerca = function () {
         $scope.filtraRicercaAmici = false;
+        $scope.ricercaAmici = [];
+        $scope.ricercaRichiesteAmiciziaInAttesa = [];
     };
 
+    /* ricerca globale/filtrata
+    *  - elenco utenti che posso aggiungere agli amici
+    *  - elenco utenti che mi hanno aggiunto agli amici cui devo rispondere
+    * */
     $scope.cercaAmici = function (tipo) {
 
         $scope.caricamentoCompletato = false;
@@ -88,7 +104,12 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
             console.log(data.data);
 
             $scope.ricercaAmici = data.data.ricercaAmici;
+            if($scope.ricercaAmici.length == 0){
+                swal("Attenzione!", "La ricerca non ha prodotto risultati", "warning");
+            }
             $scope.ricercaRichiesteAmiciziaInAttesa = data.data.ricercaRichiesteAmiciziaInAttesa;
+
+        }).then(function () {
             $scope.caricamentoCompletato = true;
         });
     };
@@ -106,6 +127,9 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
             imageUrl: $scope.pathIcone + 'handshake.png'
         },function (isConfirm) {
             if (isConfirm) {
+
+                $scope.caricamentoCompletato = false;
+
                 $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
                     {'function': 'aggiungiAmico', 'idAmico': utente.id}
                 ).then(function (data) {
@@ -126,11 +150,14 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
                     }else{
                         swal("Errore", data.data.message, "error");
                     }
+                }).then(function () {
+                    $scope.caricamentoCompletato = true;
                 });
             }
         });
     };
 
+    /* elenco utenti cui ho inviato una richiesta di amicizia che non mi hanno ancora risposto */
     $scope.richiesteInAttesa = function () {
 
         $scope.caricamentoCompletato = false;
@@ -140,11 +167,20 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
         ).then(function (data) {
             console.log(data.data);
             $scope.richiesteEffettuateInAttesa = data.data.richiesteInAttesa;
-
+            if($scope.richiesteEffettuateInAttesa.length == 0){
+                swal("Attenzione!", "La ricerca non ha prodotto risultati", "warning");
+            }
+        }).then(function () {
             $scope.caricamentoCompletato = true;
         });
     };
 
+    /* ======================================== RIMUOVI amico/richiesta ============================================= */
+
+    /* rimuovi richiesta/amicizia
+     * - tipo = 0 (rimuovo richiesta) elimino 1 record
+     * - tipo = 1 (già amici) rimuovo 2 record
+     */
     $scope.rimuovi = function (idAmico, tipo) {
 
         var tipoRel = "richiesta";
@@ -163,6 +199,9 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
             closeOnConfirm: false
         },function (isConfirm) {
             if(isConfirm){
+
+                $scope.caricamentoCompletato = false;
+
                 $http.post($scope.params['form'] + '/profilo/controller/relazioniHandler.php',
                     {'function': 'rimuoviRelazione', 'idAmico': idAmico, 'tipo': tipo}
                 ).then(function (data) {
@@ -183,6 +222,8 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
                     }else{
                         swal("Errore", data.data.message, "error");
                     }
+                }).then(function () {
+                    $scope.caricamentoCompletato = true;
                 });
             }
         });

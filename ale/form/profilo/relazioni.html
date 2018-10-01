@@ -37,9 +37,8 @@
                     </div>
                     <div class="panel-body text-center">
                         <div class="row">
-
+                            <!--ELENCO AMICI-->
                             <div class="col-md-6 text-center">
-
                                 <div class="marginT20" ng-if="elencoAmici.length > 0">
                                     <div class="input-group">
                                         <span class="input-group-addon customHeaderTableOrdinaCerca" ng-click="sortType = 'nominativo'; sortReverse = !sortReverse;" title="Ordina per descrizione"><i class="glyphicon glyphicon-sort"></i> Nominativo:</span>
@@ -55,11 +54,16 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="alert alert-danger text-center font16" role="alert" ng-if="!elencoAmici.length > 0">
+                                    <strong>Attenzione!</strong> Ancora nessun amico presente.
+                                </div>
                             </div>
+                        </div>
 
+
+                        <!--RICHIESTE DI AMICIZIA DA ACCETTARE-->
                             <div class="modal fade" id="modalRichiesteAmicizia" role="dialog">
                                 <div class="modal-dialog width35 floatR marginR20">
-                                    <!-- Modal content-->
                                     <div class="modal-content marginT50">
                                         <div class="modal-header baseColor">
                                             <button type="button" class="btn btn-danger floatR" data-dismiss="modal">X</button>
@@ -83,8 +87,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
                     </div>
                 </div>
 
@@ -99,7 +101,9 @@
 
                             <div class="col-md-6 text-center" >
                                 <button class="btn btn-success padding3-6 marginR20" ng-click="cercaAmici()" ng-disabled="filtraRicercaAmici"> <i class="fa fa-search" aria-hidden="true"></i> Cerca Tutti</button>
-                                <button class="btn btn-info padding3-6" ng-click="filtraRicerca()"> <i class="fa fa-filter" aria-hidden="true"></i> Filtra Ricerca</button>
+                                <button class="btn btn-info padding3-6 marginR20" ng-click="filtraRicerca()" ng-disabled="filtraRicercaAmici"> <i class="fa fa-filter" aria-hidden="true"></i> Filtra Ricerca</button>
+                                <button class="btn btn-danger padding3-6" ng-click="annullaFiltraRicerca()"> <i class="fa fa-remove" aria-hidden="true"></i> Annulla Ricerca</button>
+
 
                                 <div class="form-horizontal marginT20" ng-show="filtraRicercaAmici">
                                     <div class="form-group form-inline">
@@ -121,7 +125,6 @@
                                     </div>
                                     <div class="row text-center">
                                         <button class="btn btn-success padding3-6 marginR20" ng-click="cercaAmici('F')"> <i class="fa fa-search" aria-hidden="true"></i> Cerca</button>
-                                        <button class="btn btn-danger padding3-6" ng-click="annullaFiltraRicerca()"> <i class="fa fa-remove" aria-hidden="true"></i> Annulla</button>
                                     </div>
                                 </div>
 
@@ -140,7 +143,9 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <label class="marginT20" ng-if="ricercaRichiesteAmiciziaInAttesa.length > 0"> AMICI CHE ASPETTANO UNA TUA RISPOSTA:</label>
+                                <div class="row" ng-if="ricercaRichiesteAmiciziaInAttesa.length > 0">
+                                    <label class="marginT20" > AMICI CHE ASPETTANO UNA TUA RISPOSTA:</label>
+                                </div>
                                 <div class="marginT5" ng-if="ricercaRichiesteAmiciziaInAttesa.length > 0">
                                     <div class="input-group">
                                         <span class="input-group-addon customHeaderTableOrdinaCerca" ng-click="sortType = 'nominativo'; sortReverse = !sortReverse;" title="Ordina per descrizione"><i class="glyphicon glyphicon-sort"></i> Nominativo:</span>
@@ -162,7 +167,6 @@
 
                             <div class="col-md-6 text-center">
                                 <button class="btn btn-warning padding3-6" ng-click="richiesteInAttesa()"> <i class="fa fa-clock-o" aria-hidden="true"></i> Richieste in Attesa</button>
-
                                 <div class="marginT20" ng-if="richiesteEffettuateInAttesa.length > 0">
                                     <div class="input-group">
                                         <span class="input-group-addon customHeaderTableOrdinaCerca" ng-click="sortType = 'nominativo'; sortReverse = !sortReverse;" title="Ordina per descrizione"><i class="glyphicon glyphicon-sort"></i> Nominativo:</span>
@@ -178,7 +182,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
 
                         </div>

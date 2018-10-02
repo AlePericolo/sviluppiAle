@@ -11,7 +11,7 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
         $scope.caricaDati();
     };
 
-    /*============================================= CARICO DATI PAGINA ===============================================*/
+    /*========================================== CARICO DATI PAGINA ==================================================*/
 
     $scope.caricaDati = function(){
         $http.post($scope.params['form'] + '/profilo/controller/profiloHandler.php',
@@ -20,9 +20,47 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
             console.log(data.data);
 
             $scope.utente = data.data.utente;
+            $scope.post = data.data.post;
+            $scope.elencoPost = data.data.elencoPost;
+
+        }).then(function () {
             $scope.caricamentoCompletato = true;
         });
     };
+
+    /* ============================================= GESTIONE POST ================================================== */
+
+    $scope.salvaPost = function () {
+
+        $scope.caricamentoCompletato = false;
+
+        $http.post($scope.params['form'] + '/profilo/controller/profiloHandler.php',
+            {'function': 'salvaPost', 'post': $scope.post}
+        ).then(function (data) {
+            console.log(data.data);
+
+            if(data.data.response == "OK"){
+                swal({
+                        title: "Post condiviso",
+                        text: "",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "OK",
+                        closeOnConfirm: true
+                    },
+                    function(){
+                        window.location.reload();
+                    });
+            }else{
+                swal("Errore", data.data.message, "error");
+            }
+        }).then(function () {
+            $scope.caricamentoCompletato = true;
+        });
+    };
+
+    /* ======================================== GESTIONE PROFILO UTENTE ============================================= */
 
     $scope.gestioneDatiProfilo = function () {
 
@@ -42,10 +80,11 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
         }
     };
 
+    /*---------------------------------------------immagine profilo---------------------------------------------------*/
+
     var uploader = $scope.uploader = new FileUploader({
         url: '../src/function/upload.php'
     });
-
     //console.log(uploader);
 
     // CALLBACKS
@@ -66,10 +105,12 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
                     window.location.reload();
                 });
         }else{
-            swal("Caricamento immagine completato", "", "success");
+            //swal("Caricamento immagine completato", "", "success");
             $scope.datiUtente.foto = response.file
         }
     };
+
+    /*--------------------------------------------salvataggio dati utente---------------------------------------------*/
 
     $scope.salvaDatiUtente = function () {
 

@@ -58,7 +58,7 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
         });
     };
 
-    /* ======================================= SWITCH SEZIONE mici/cerca ============================================ */
+    /* ======================================= SWITCH SEZIONE amici/cerca =========================================== */
 
     $scope.gestioneAmici = function () {
 
@@ -228,6 +228,5 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
             }
         });
     }
-
 
 }]); //CLOSE APP

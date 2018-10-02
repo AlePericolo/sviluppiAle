@@ -17,97 +17,60 @@
 
         <div class="container-fluid margin0">
 
-            <div class="col-md-10">
+            <!-- ======================================== SEZIONE POST ============================================= -->
 
-                <div class="panel panel-default" ng-show="showModificaDati">
-                    <div class="panel-heading text-center">
-                        MODIFICA DATI UTENTE
-                        <button class="btn btn-danger btn-sm floatR" ng-click="gestioneDatiProfilo()" title="Chiudi"> <i class="fa fa-remove" aria-hidden="true"></i> </button>
-                    </div>
+            <div class="col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">I TUOI POST</div>
                     <div class="panel-body text-center">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="name">Nome:</label>
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="name" type="text" ng-model="datiUtente.nome">
+                        <!-- NUOVO POST -->
+                        <div class="container" ng-if="post != null">
+                            <div class="flex">
+                                <div class="width10">
+                                    <img ng-src="{{urlFotoProfilo + utente.foto}}" err-src="{{urlFotoProfiloDefault}}" alt="Foto profilo" width="100%">
                                 </div>
-                                <label class="col-sm-2 control-label" for="surname">Cognome</label>
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="surname" type="text" ng-model="datiUtente.cognome">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="date">Data di Nascita:</label>
-                                <div class="col-sm-3">
-                                    <input class="form-control" id="date" type="date" ng-model="datiUtente.data_nascita">
-                                </div>
-                                <label class="col-sm-2 control-label">Sesso:</label>
-                                <div class="col-sm-3">
-                                    <input type="radio" ng-model="datiUtente.sesso" value="M"> <span class="marginR20"> M </span>
-                                    <input type="radio" ng-model="datiUtente.sesso" value="F"> <span> F </span>
+                                <div class="width90 paddingLR10">
+                                    <label class="floatL marginT5 font16">{{utente.nome}} {{utente.cognome}}</label>
+                                    <textarea class="form-control width100" rows="2" ng-model="post.testo"></textarea>
+                                    <button class="btn btn-success padding3-6 floatL marginT5" ng-disabled="!post.testo.length > 0" ng-click="salvaPost()">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Condividi
+                                    </button>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="date">Foto Profilo:</label>
-                                <div class="col-sm-8">
-                                    <label class="btn btn-default floatL marginB20">
-                                        <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
-                                        <i class="fa fa-upload"></i> Carica immagine
-                                    </label>
-                                    <table class="table table-bordered" ng-show="uploader.queue.length > 0">
-                                        <thead>
-                                        <tr>
-                                            <th width="50%" class="text-center">Nome</th>
-                                            <th class="text-center" ng-show="uploader.isHTML5">Dimensione</th>
-                                            <th class="text-center" ng-show="uploader.isHTML5">Caricamento</th>
-                                            <th class="text-center">Stato</th>
-                                            <th class="text-center">Azioni</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr ng-repeat="item in uploader.queue">
-                                            <td><strong>{{ item.file.name }}</strong></td>
-                                            <td class="text-center" ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024|number:2 }} kB</td>
-                                            <td ng-show="uploader.isHTML5">
-                                                <div class="progress marginB0">
-                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok green"></i></span>
-                                                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove red"></i></span>
-                                            </td>
-                                            <td nowrap class="text-center">
-                                                <button type="button" class="btn btn-success" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                    <span class="glyphicon glyphicon-upload"></span> Carica
-                                                </button>
-                                                <button type="button" class="btn btn-danger marginL20" ng-click="item.remove()"  ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                    <span class="glyphicon glyphicon-trash"></span> Rimuovi
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                        </div>
+                        <div class="alert alert-danger text-center font16" role="alert" ng-if="post == null">
+                            <strong>Attenzione!</strong> Crea un utente prima di condividere un post.
+                        </div>
+                        <hr>
+                        <!-- ELENCO POST -->
+                        <div class="container" ng-if="elencoPost.length > 0">
+                            <div class="flex marginT10" ng-repeat="p in elencoPost">
+                                <div class="width10">
+                                    <img ng-src="{{urlFotoProfilo + p.foto}}" err-src="{{urlFotoProfiloDefault}}" alt="Foto profilo" width="100%">
                                 </div>
-                            </div>
-                            <div class="row text-center">
-                                <button class="btn btn-success" ng-click="salvaDatiUtente()"> <i class="fa fa-floppy-o" aria-hidden="true"></i> Salva</button>
+                                <div class="width90 paddingLR10">
+                                    <label class="floatL marginT5 font16">{{p.nominativo}}</label>
+                                    <button class="floatR btn padding3-6" title="Data pubblicazione"> <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; {{p.data_pubblicazione | formatDate}} </button>
+                                    <textarea class="form-control width100" rows="2" ng-model="p.testo"></textarea>
+                                    <div class="marginT5">
+                                        <button class="btn btn-info padding3-6 floatL marginR10">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp; Modifica &nbsp;
+                                        </button>
+                                        <button class="btn btn-danger padding3-6 floatL">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;  Elimina &nbsp;
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading text-center">I TUOI POST</div>
-                    <div class="panel-body text-center">
-                    </div>
-                </div>
-
             </div>
 
+            <!-- ======================================= SEZIONE UTENTE ============================================ -->
 
             <div class="col-md-2">
-
+                <!--PANNELLO UTENTE-->
                 <div class="panel panel-default">
                     <div class="panel-heading text-center">SCHEDA UTENTE</div>
                     <div class="panel-body text-center">
@@ -131,10 +94,99 @@
                         </div>
                     </div>
                     <div class="panel-footer text-center">
-                        <button class="btn btn-default" ng-click="gestioneDatiProfilo()"> <i class="fa fa-pencil" aria-hidden="true"></i> Modifica </button>
+                        <button class="btn btn-default" ng-click="gestioneDatiProfilo()" data-toggle="modal" data-target="#modalModificaDatiUtente">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <span ng-if="post == null">Crea</span>
+                            <span ng-if="post != null">Modifica</span>
+                        </button>
                     </div>
                 </div>
-
+                <!--MODIFICA DATI UTENTE-->
+                <div class="modal fade" id="modalModificaDatiUtente" role="dialog">
+                    <div class="modal-dialog width50 floatR marginR20">
+                        <div class="modal-content marginT50" ng-show="showModificaDati">
+                            <div class="modal-header baseColor">
+                                <button type="button" class="btn btn-danger floatR" data-dismiss="modal" ng-click="gestioneDatiProfilo()">X</button>
+                                <h4 class="modal-title text-center colorWhite">MODIFICA DATI UTENTE</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="panel panel-default">
+                                    <div class="panel-body text-center">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="name">Nome:</label>
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="name" type="text" ng-model="datiUtente.nome">
+                                                </div>
+                                                <label class="col-sm-2 control-label" for="surname">Cognome</label>
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="surname" type="text" ng-model="datiUtente.cognome">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="date">Data di Nascita:</label>
+                                                <div class="col-sm-3">
+                                                    <input class="form-control" id="date" type="date" ng-model="datiUtente.data_nascita">
+                                                </div>
+                                                <label class="col-sm-2 control-label">Sesso:</label>
+                                                <div class="col-sm-3">
+                                                    <input type="radio" ng-model="datiUtente.sesso" value="M"> <span class="marginR20"> M </span>
+                                                    <input type="radio" ng-model="datiUtente.sesso" value="F"> <span> F </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label" for="date">Foto Profilo:</label>
+                                                <div class="col-sm-8">
+                                                    <label class="btn btn-default floatL marginB20">
+                                                        <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
+                                                        <i class="fa fa-upload"></i> Carica immagine
+                                                    </label>
+                                                    <table class="table table-bordered" ng-show="uploader.queue.length > 0">
+                                                        <thead>
+                                                        <tr>
+                                                            <th width="50%" class="text-center">Nome</th>
+                                                            <th class="text-center" ng-show="uploader.isHTML5">Dimensione</th>
+                                                            <th class="text-center" ng-show="uploader.isHTML5">Caricamento</th>
+                                                            <th class="text-center">Stato</th>
+                                                            <th class="text-center">Azioni</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr ng-repeat="item in uploader.queue">
+                                                            <td><strong>{{ item.file.name }}</strong></td>
+                                                            <td class="text-center" ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024|number:2 }} kB</td>
+                                                            <td ng-show="uploader.isHTML5">
+                                                                <div class="progress marginB0">
+                                                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok green"></i></span>
+                                                                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove red"></i></span>
+                                                            </td>
+                                                            <td nowrap class="text-center">
+                                                                <button type="button" class="btn btn-success" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                    <span class="glyphicon glyphicon-upload"></span> Carica
+                                                                </button>
+                                                                <button type="button" class="btn btn-danger marginL20" ng-click="item.remove()"  ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                    <span class="glyphicon glyphicon-trash"></span> Rimuovi
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row text-center">
+                                                <button class="btn btn-success" ng-click="salvaDatiUtente()"> <i class="fa fa-floppy-o" aria-hidden="true"></i> Salva</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

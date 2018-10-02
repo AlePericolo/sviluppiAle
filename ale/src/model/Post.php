@@ -18,4 +18,17 @@ class Post extends PostModel
         parent::__construct($pdo);
     }
 
+    function findPostByIdUtente($idUtente, $typeResult=self::FETCH_OBJ){
+
+        $query = "SELECT 
+                        post.*,
+                        CONCAT (utente.nome, ' ', utente.cognome) AS nominativo,
+                        utente.foto
+                    FROM post 
+                    INNER JOIN utente ON post.id_utente = utente.id
+                    WHERE id_utente = ?";
+
+        return $this->createResultArray($query, array($idUtente), $typeResult);
+    }
+
 }

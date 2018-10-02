@@ -206,6 +206,7 @@ ngApp.controller('relazioniController', ["$scope", "$http", function ($scope, $h
                     {'function': 'rimuoviRelazione', 'idAmico': idAmico, 'tipo': tipo}
                 ).then(function (data) {
                     console.log(data.data);
+
                     if(data.data.response == "OK"){
                         swal({
                                 title: "Relazione cancellata",

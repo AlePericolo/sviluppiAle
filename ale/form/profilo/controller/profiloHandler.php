@@ -52,7 +52,52 @@ function salvaPost($request){
         $post = new Post($pdo);
         $post->setIdUtente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
         $post->setTesto($request->post->testo);
-        $post->setDataPubblicazione(date("Y-m-d"));
+        $post->setDataPubblicazione(date("Y-m-d H:i:s"));
+        $post->saveOrUpdate();
+        $pdo->commit();
+        $result['response'] = 'OK';
+    }catch (PDOException $e){
+        $pdo->rollBack();
+        $result['response'] = 'KO';
+        $result['message'] = $e->getMessage();
+    }
+
+    return json_encode($result);
+}
+
+function eliminaPost($request){
+
+    $result = array();
+
+    $pdo = connettiPdo();
+
+    try{
+        $pdo->beginTransaction();
+        $post = new Post($pdo);
+        $post->deleteByPk($request->idPost);
+        $post->saveOrUpdate();
+        $pdo->commit();
+        $result['response'] = 'OK';
+    }catch (PDOException $e){
+        $pdo->rollBack();
+        $result['response'] = 'KO';
+        $result['message'] = $e->getMessage();
+    }
+
+    return json_encode($result);
+}
+
+function modificaPost($request){
+
+    $result = array();
+
+    $pdo = connettiPdo();
+
+    try{
+        $pdo->beginTransaction();
+        $post = new Post($pdo);
+        $post->findByPk($request->post->id);
+        $post->setTesto($request->post->testo);
         $post->saveOrUpdate();
         $pdo->commit();
         $result['response'] = 'OK';

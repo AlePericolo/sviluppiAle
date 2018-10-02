@@ -20,7 +20,13 @@ function formatStringToDate(string) {
 }
 
 function formatMySQLdata(date){
-    var string = date.split("-");
+    //console.log(date);
+    var string = null;
+    if(date.length > 10){
+        string = date.split(" ")[0].split("-")
+    }else{
+        string = date.split("-");
+    }
     return string[2] + '/' + string[1] + '/' + string[0];
 }
 

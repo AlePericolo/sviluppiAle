@@ -60,6 +60,81 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
         });
     };
 
+    $scope.eliminaPost = function(idPost){
+
+        swal({
+            title: "Attenzione",
+            text: "Eliminare questo post?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Si, rimuovi",
+            cancelButtonText: "No, annulla",
+            closeOnConfirm: false
+        },function (isConfirm) {
+            if(isConfirm){
+
+                $scope.caricamentoCompletato = false;
+
+                $http.post($scope.params['form'] + '/profilo/controller/profiloHandler.php',
+                    {'function': 'eliminaPost', 'idPost': idPost}
+                ).then(function (data) {
+                    console.log(data.data);
+
+                    if(data.data.response == "OK"){
+                        swal({
+                                title: "Post cancellato",
+                                text: "",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "OK",
+                                closeOnConfirm: false
+                            },
+                            function(){
+                                window.location.reload();
+                            });
+                    }else{
+                        swal("Errore", data.data.message, "error");
+                    }
+                }).then(function () {
+                    $scope.caricamentoCompletato = true;
+                });
+            }
+        });
+    };
+
+    $scope.modificaPost = function (post) {
+
+        //console.log(post);
+        $scope.caricamentoCompletato = false;
+
+        $http.post($scope.params['form'] + '/profilo/controller/profiloHandler.php',
+            {'function': 'modificaPost', 'post': post}
+        ).then(function (data) {
+            console.log(data.data);
+
+            if(data.data.response == "OK"){
+                swal({
+                        title: "Post modificato",
+                        text: "",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonClass: "btn-success",
+                        confirmButtonText: "OK",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        window.location.reload();
+                    });
+            }else{
+                swal("Errore", data.data.message, "error");
+            }
+        }).then(function () {
+            $scope.caricamentoCompletato = true;
+        });
+    };
+
     /* ======================================== GESTIONE PROFILO UTENTE ============================================= */
 
     $scope.gestioneDatiProfilo = function () {

@@ -15,7 +15,7 @@
 
     <div class="panelBodySezioneCustom" ng-show="caricamentoCompletato">
 
-        <div class="container-fluid margin0">
+        <div class="container-fluid">
 
             <!-- ======================================== SEZIONE POST ============================================= -->
 
@@ -32,8 +32,8 @@
                                 <div class="width90 paddingLR10">
                                     <label class="floatL marginT5 font16">{{utente.nome}} {{utente.cognome}}</label>
                                     <textarea class="form-control width100" rows="2" ng-model="post.testo"></textarea>
-                                    <button class="btn btn-success padding3-6 floatL marginT5" ng-disabled="!post.testo.length > 0" ng-click="salvaPost()">
-                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Condividi
+                                    <button class="btn btn-success padding3-6 floatL marginT5" ng-disabled="!post.testo.length > 0" ng-click="salvaPost()" title="Condividi Post">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i> Condividi &nbsp;
                                     </button>
                                 </div>
                             </div>
@@ -53,11 +53,11 @@
                                     <button class="floatR btn padding3-6" title="Data pubblicazione"> <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; {{p.data_pubblicazione | formatDate}} </button>
                                     <textarea class="form-control width100" rows="2" ng-model="p.testo"></textarea>
                                     <div class="marginT5">
-                                        <button class="btn btn-info padding3-6 floatL marginR10">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp; Modifica &nbsp;
+                                        <button class="btn btn-info padding3-6 floatL marginR10" ng-disabled="!p.testo.length > 0" ng-click="modificaPost(p)" title="Modifica Post">
+                                            &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; Modifica &nbsp;
                                         </button>
-                                        <button class="btn btn-danger padding3-6 floatL">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;  Elimina &nbsp;
+                                        <button class="btn btn-danger padding3-6 floatL" ng-click="eliminaPost(p.id)" title="Elimina Post">
+                                            &nbsp;<i class="fa fa-trash" aria-hidden="true"></i>&nbsp;&nbsp; Elimina &nbsp;
                                         </button>
                                     </div>
                                 </div>

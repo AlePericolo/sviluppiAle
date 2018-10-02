@@ -177,7 +177,7 @@ class PostModel extends AbstractModel
                             `id` INT NOT NULL AUTO_INCREMENT,
                             `id_utente` INT NOT NULL,
                             `testo` TEXT NULL,
-                            `data_pubblicazione` VARCHAR(45) NULL,
+                            `data_pubblicazione` DATETIME NULL,
                         PRIMARY KEY (`id`),
                               INDEX `fk_post_utente_idx` (`id_utente` ASC),
                               CONSTRAINT `fk_post_utente`

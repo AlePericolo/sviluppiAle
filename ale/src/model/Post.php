@@ -26,7 +26,8 @@ class Post extends PostModel
                         utente.foto
                     FROM post 
                     INNER JOIN utente ON post.id_utente = utente.id
-                    WHERE id_utente = ?";
+                    WHERE id_utente = ?
+                    ORDER BY data_pubblicazione DESC";
 
         return $this->createResultArray($query, array($idUtente), $typeResult);
     }

@@ -15,7 +15,24 @@
 
     <div class="panelBodySezioneCustom" ng-show="caricamentoCompletato">
 
-        <h2 class="text-center">Cruscotto</h2>
+        <div class="container height75vh overflowAuto" ng-if="elencoPost.length > 0">
+            <div class="flex marginT20" ng-repeat="p in elencoPost">
+                <div class="width10">
+                    <img ng-src="{{urlFotoProfilo + p.foto}}" err-src="{{urlFotoProfiloDefault}}" alt="Foto profilo" width="100%">
+                </div>
+                <div class="width90 paddingLR10">
+                    <label class="floatL marginT5 font16">{{p.nominativo}}</label>
+                    <button class="floatR btn padding3-6" title="Data pubblicazione"> <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; {{p.data_pubblicazione | formatDate}} </button>
+                    <textarea class="form-control width100" rows="2" ng-model="p.testo"></textarea>
+                    <div class="marginT5">
+                        pulsanti mi piace - non mi piace
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-danger text-center font16" role="alert" ng-if="!elencoPost.length > 0">
+            <strong>Attenzione!</strong> Ancora nessun post da visualizzare.
+        </div>
 
     </div>
 

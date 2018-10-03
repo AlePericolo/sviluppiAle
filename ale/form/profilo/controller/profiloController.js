@@ -6,7 +6,6 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
     $scope.caricamentoCompletato = false;
     $scope.showModificaDati = false;
 
-    //caricaDati
     $scope.init = function(){
         $scope.caricaDati();
     };
@@ -14,6 +13,7 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
     /*========================================== CARICO DATI PAGINA ==================================================*/
 
     $scope.caricaDati = function(){
+
         $http.post($scope.params['form'] + '/profilo/controller/profiloHandler.php',
             {'function': 'getDatiPagina'}
         ).then(function (data) {

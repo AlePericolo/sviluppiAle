@@ -207,11 +207,13 @@ input[type="file"] {
 .width75 { width: 75% !important; }
 .width80 { width: 80% !important; }
 .width90 { width: 90% !important; }
+.width95 { width: 95% !important; }
 .width100 { width: 100% !important; }
 
 /* ------------------------------------------------------ HEIGHT ---------------------------------------------------- */
 .height50vh{ height: 50vh !important; }
 .height65vh{ height: 65vh !important; }
+.height75vh{ height: 75vh !important; }
 .noHeight{height: unset;}
 
 /* ------------------------------------------------------CONTAINER--------------------------------------------------- */

@@ -28,7 +28,7 @@ function getDatiPagina($request){
     if($id){
         $result['utente'] = $utente->findByPk($id, Utente::FETCH_KEYARRAY);
         $result['post'] = $post->getEmptyDbKeyArray();
-        $result['elencoPost'] = $post->findPostByIdUtente($id, Post::FETCH_KEYARRAY);
+        $result['elencoPost'] = $post->findPostUtenteByIdUtente($id, Post::FETCH_KEYARRAY);
     //altrimenti recupero la struttura vuota di un utente(per crearlo)
     }else{
         $result['utente'] = $utente->getEmptyDbKeyArray();

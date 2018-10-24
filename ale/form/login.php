@@ -3,10 +3,10 @@
 
 <head>
     <!--import lib css js-->
-    <?php include_once '../grafica/header.html';?>
     <?php
-    $color = 'Blue';
-    echo '<link href="../grafica/css/color'.$color.'.css" rel="stylesheet" type="text/css" media="all">';
+        include_once '../conf/conf.php';
+        include_once '../grafica/header.html';
+        echo '<link href="../grafica/css/color'.COLOR.'.css" rel="stylesheet" type="text/css" media="all">';
     ?>
     <!-- import angularjs controller-->
     <script type="text/javascript" src="template/controller/loginController.js"></script>

@@ -1,4 +1,4 @@
-var ngApp = angular.module('ngApp', ["ngAnimate", "angularjs-dropdown-multiselect", "ngSanitize", "ngCsv", "angularjs-gauge", "angularFileUpload", "ngRoute", "slickCarousel", "rzModule"]);
+var ngApp = angular.module('ngApp', ["ngAnimate", "angularjs-dropdown-multiselect", "ngSanitize", "ngCsv", "angularjs-gauge", "angularFileUpload", "ngRoute", "slickCarousel", "rzModule", "ngRateIt"]);
 
 ngApp.controller('homeController', ['$scope', '$http', function ($scope, $http) {
 

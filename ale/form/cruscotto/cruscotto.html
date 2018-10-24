@@ -22,10 +22,13 @@
                 </div>
                 <div class="width90 paddingLR10">
                     <label class="floatL marginT5 font16">{{p.nominativo}}</label>
-                    <button class="floatR btn padding3-6" title="Data pubblicazione"> <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; {{p.data_pubblicazione | formatDate}} </button>
+                    <span class="containerDate" title="Data pubblicazione"> <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; {{p.data_pubblicazione | formatDate}} </span>
+                    <ng-gauge ng-if="p.numeroVoti > 0" size="28" type="full" thick="2" min="0" max="5" value="p.votoMedio" cap="round" duration="500"
+                              thresholds="thresholdVote" class="floatR helper marginR20" ng-attr-title="Valutazione media post ({{p.numeroVoti}} voti)">
+                    </ng-gauge>
                     <textarea class="form-control width100" rows="2" ng-model="p.testo"></textarea>
                     <div class="marginT5">
-                        pulsanti mi piace - non mi piace
+                        <ng-rate-it ng-model="p.valutazione.valutazione" step="1" rated="valutaPost(p.valutazione)"></ng-rate-it>
                     </div>
                 </div>
             </div>

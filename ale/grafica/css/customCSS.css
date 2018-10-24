@@ -262,26 +262,17 @@ input[type="file"] {
     color: #eaeaea !important;
     border: 2px solid #eaeaea !important;
     margin-right: 5px;
-}
-.horizontalBarErrorButton{
-    color: #eaeaea !important;
-    background-color: rgba(255, 0, 0, .8) !important;
-    border: 2px solid #eaeaea !important;
-    margin-right: 5px;
-}
-.horizontalBarButton:hover, .horizontalBarButton:active, .horizontalBarButton:visited{
-    color: #FFF !important;
     background-color: rgba(153, 6, 0, 0.87) !important;
 }
-.horizontalBarErrorButton:hover, .horizontalBarErrorButton:active, .horizontalBarErrorButton:visited{
-    color: #FFF !important;
-    background-color: rgba(255, 0, 0, .6) !important;
+.horizontalBarButton:hover, .horizontalBarButton:active, .horizontalBarButton:visited{
+    color: rgba(153, 6, 0, 0.87) !important;
+    border: 2px solid rgba(153, 6, 0, 0.87) !important;
+    background-color:  #eaeaea !important;
 }
 .bigBtn {
     color: #333;
     padding: 5px !important;
 }
-
 .buttonSort{
     text-align: center;
     background-color: #eee;
@@ -290,6 +281,20 @@ input[type="file"] {
     cursor: pointer;
     padding: 5px 10px;
     line-height: 2 !important;
+}
+.containerDate{
+    display: inline-block;
+    padding: 3px 6px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    border: 1px solid #4e4f62;
+    background-color: #d5e3e5;
+    border-radius: 2px;
+    float: right;
+    margin-right: 2px;
+    cursor: help;
 }
 
 /* -------------------------------------------------- CUSTOM HEADER TABLE-------------------------------------------- */
@@ -332,10 +337,10 @@ input[type="file"] {
     color: #fff !important;
 }
 
-
 /* -------------------------------------------------------- SIDEBAR ------------------------------------------------- */
-.bgColor{
+.bodyPage{
     background-color: #515b62;
+    overflow-y: hidden;
 }
 .horizontalBar{
     height: 100px;
@@ -477,8 +482,6 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 }
 
 /*----------------------------------------------------PULSE ICON------------------------------------------------------*/
-
-
 .fa-pulse {
     -webkit-animation: fa-pulse 1s infinite linear;
     animation: fa-pulse 1s infinite linear;
@@ -511,5 +514,3 @@ input[type=range]:focus::-webkit-slider-runnable-track {
         transform: scale(1);
     }
 }
-
-

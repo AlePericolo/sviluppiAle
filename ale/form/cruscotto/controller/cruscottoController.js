@@ -24,8 +24,27 @@ ngApp.controller('cruscottoController', ['$scope', '$http', function ($scope, $h
         }).then(function () {
             $scope.caricamentoCompletato = true;
         });
-
     };
 
+    $scope.valutaPost = function (valutazione) {
+        //console.log(valutazione);
+
+        $http.post($scope.params['form'] + '/cruscotto/controller/cruscottoHandler.php',
+            {'function': 'valutaPost', 'valutazione': valutazione}
+        ).then(function (data) {
+            console.log(data.data);
+            if(data.data.response == "OK"){
+                window.location.reload();
+            }else{
+                swal("Errore", data.data.message, "error");
+            }
+        })
+    };
+
+    $scope.thresholdVote = {
+        '0': {color: 'red' },
+        '2': {color: 'orange' },
+        '4': {color: 'green' }
+    };
 
 }]);

@@ -1,0 +1,68 @@
+.bodyPage{
+    background-color: #a5bdb9;
+}
+.background-light {
+    background-color: #edf5ff;
+}
+.containerLogo{
+    background-color: #edf5ff !important;
+    border: 1px solid #515b62;
+    border-radius: 5px;
+}
+.baseColor { background-color: #bb1f04 !important; }
+
+#containerMostraMenu {
+    background-color: #cd4701;
+}
+.mostraMenu {
+    background-color: #9f1b00;
+}
+.primoLivello {
+    background-color: #cd4701 !important;;
+}
+.primoLivello:hover {
+    background-color: #7cccd4 !important;;
+}
+.horizontalBar{
+    background-color: #cd4701 !important;
+}
+.loader {
+    border-top: 30px solid #cd4701;
+}
+.table-hover > tbody > tr:hover {
+    background-color: #eaf1fa;
+}
+.panelHeaderCruscottoCustom{
+    background-color: #cd4701 !important;
+}
+.bigBtn:hover {
+    background-color: #f1f6ff !important;
+    border-color: #cd4701 !important;
+}
+
+.tooltip > .tooltip-inner {border: 1px solid #9f1b00; color: #9f1b00; background-color: #f8f7ff}
+.tooltip > .tooltip-arrow {color: #9f1b00; background-color: #f8f7ff}
+.tooltip.top .tooltip-arrow {
+    border-top-color: #9f1b00 !important;
+}
+.tooltip.top-left .tooltip-arrow {
+    border-top-color: #9f1b00 !important;
+}
+.tooltip.top-right .tooltip-arrow {
+    border-top-color: #9f1b00 !important;
+}
+.tooltip.right .tooltip-arrow {
+    border-right-color: #9f1b00 !important;
+}
+.tooltip.left .tooltip-arrow {
+    border-left-color: #9f1b00 !important;
+}
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #9f1b00 !important;
+}
+.tooltip.bottom-left .tooltip-arrow {
+    border-bottom-color: #9f1b00 !important;
+}
+.tooltip.bottom-right .tooltip-arrow {
+    border-bottom-color: #9f1b00 !important;
+}

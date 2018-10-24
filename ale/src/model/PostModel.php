@@ -252,6 +252,4 @@ class PostModel extends AbstractModel
         $this->data_pubblicazione = $data_pubblicazione;
     }
 
-
 }
-

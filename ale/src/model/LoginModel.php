@@ -195,4 +195,5 @@ class LoginModel extends AbstractModel {
     {
         $this->password = $password;
     }
+
 }

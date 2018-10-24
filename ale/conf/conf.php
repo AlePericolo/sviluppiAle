@@ -19,6 +19,8 @@ if (!defined('SERVER')) {
     define('DBCHARSET', 'latin1');
     define('LOCALE', true);
 
+    define('COLOR', 'Orange');
+
     define("PATH_IMG_PROFILO", "/var/www/html/sviluppiAle/ale/grafica/img/fotoprofilo/");
     define("PATH_ICONE", "http://localhost/sviluppiAle/ale/grafica/img/icone/");
     define("PATH_IMG_PROFILO_SERVER", "http://localhost/sviluppiAle/ale/grafica/img/fotoprofilo/");

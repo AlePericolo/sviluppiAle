@@ -234,5 +234,4 @@ class RelazioneModel extends AbstractModel {
         $this->amicizia = $amicizia;
     }
 
-
 }

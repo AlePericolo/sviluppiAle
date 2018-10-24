@@ -26,9 +26,6 @@
 .loader {
     border-top: 30px solid #0083a9;
 }
-.horizontalBarButton {
-    background-color: #0083a9 !important;
-}
 .table-hover > tbody > tr:hover {
     background-color: #eaf1fa;
 }

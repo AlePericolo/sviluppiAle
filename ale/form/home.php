@@ -3,10 +3,11 @@
 
 <head>
     <!--import lib css js-->
-    <?php include_once '../grafica/header.html';?>
-    <?php //grafica custom per cliente
-    $color = 'Blue';
-    echo '<link href="../grafica/css/color'.$color.'.css" rel="stylesheet" type="text/css" media="all">';
+    <?php
+        include_once '../conf/conf.php';
+        include_once '../grafica/header.html';
+        //grafica custom per cliente
+        echo '<link href="../grafica/css/color'.COLOR.'.css" rel="stylesheet" type="text/css" media="all">';
     ?>
     <!--import controller-->
     <script type="text/javascript"  src="template/controller/homeController.js"></script>
@@ -25,7 +26,7 @@
     ?>
 </head>
 
-<body ng-app="ngApp" ng-controller="homeController" class="bgColor">
+<body ng-app="ngApp" ng-controller="homeController" class="bodyPage">
 
 <div class="horizontalBar">
     <div class="mostraMenuContainer">

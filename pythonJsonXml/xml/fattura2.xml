@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<p:FatturaElettronica xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" versione="FPR12" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd">
+	<FatturaElettronicaHeader>
+		<CessionarioCommittente>
+			<Sede>
+				<Nazione>IT</Nazione>
+				<Comune>ROMA</Comune>
+				<Indirizzo>VIA TORINO 38-B</Indirizzo>
+				<CAP>00145</CAP>
+				<Provincia>RM</Provincia>
+			</Sede>
+			<DatiAnagrafici>
+				<Anagrafica>
+					<Denominazione>BETA GAMMA</Denominazione>
+				</Anagrafica>
+				<CodiceFiscale>09876543210</CodiceFiscale>
+			</DatiAnagrafici>
+		</CessionarioCommittente>
+		<DatiTrasmissione>
+			<PECDestinatario>betagamma@pec.it</PECDestinatario>
+			<IdTrasmittente>
+				<IdPaese>IT</IdPaese>
+				<IdCodice>01234567890</IdCodice>
+			</IdTrasmittente>
+			<FormatoTrasmissione>FPR12</FormatoTrasmissione>
+			<ProgressivoInvio>00001</ProgressivoInvio>
+			<CodiceDestinatario>0000000</CodiceDestinatario>
+		</DatiTrasmissione>
+		<CedentePrestatore>
+			<Sede>
+				<Nazione>IT</Nazione>
+				<Comune>SASSARI</Comune>
+				<Indirizzo>VIALE ROMA 543</Indirizzo>
+				<CAP>07100</CAP>
+				<Provincia>SS</Provincia>
+			</Sede>
+			<DatiAnagrafici>
+				<IdFiscaleIVA>
+					<IdPaese>IT</IdPaese>
+					<IdCodice>01234567890</IdCodice>
+				</IdFiscaleIVA>
+				<RegimeFiscale>RF01</RegimeFiscale>
+				<Anagrafica>
+					<Denominazione>SOCIETA' ALPHA SRL</Denominazione>
+				</Anagrafica>
+			</DatiAnagrafici>
+		</CedentePrestatore>
+	</FatturaElettronicaHeader>
+	<FatturaElettronicaBody>
+		<DatiPagamento>
+			<CondizioniPagamento>TP01</CondizioniPagamento>
+			<DettaglioPagamento>
+				<ModalitaPagamento>MP01</ModalitaPagamento>
+				<DataScadenzaPagamento>2015-01-30</DataScadenzaPagamento>
+				<ImportoPagamento>30.50</ImportoPagamento>
+			</DettaglioPagamento>
+		</DatiPagamento>
+		<DatiGenerali>
+			<DatiOrdineAcquisto>
+				<IdDocumento>66685</IdDocumento>
+				<NumItem>1</NumItem>
+				<RiferimentoNumeroLinea>1</RiferimentoNumeroLinea>
+			</DatiOrdineAcquisto>
+			<DatiTrasporto>
+				<DataOraConsegna>2012-10-22T16:46:12.000+02:00</DataOraConsegna>
+				<DatiAnagraficiVettore>
+					<IdFiscaleIVA>
+						<IdPaese>IT</IdPaese>
+						<IdCodice>24681012141</IdCodice>
+					</IdFiscaleIVA>
+					<Anagrafica>
+						<Denominazione>Trasporto spa</Denominazione>
+					</Anagrafica>
+				</DatiAnagraficiVettore>
+			</DatiTrasporto>
+			<DatiGeneraliDocumento>
+				<Divisa>EUR</Divisa>
+				<TipoDocumento>TD01</TipoDocumento>
+				<Causale>LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS</Causale>
+				<Causale>SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB</Causale>
+				<Data>2014-12-18</Data>
+				<Numero>123</Numero>
+			</DatiGeneraliDocumento>
+		</DatiGenerali>
+		<DatiBeniServizi>
+			<DettaglioLinee>
+				<Quantita>5.00</Quantita>
+				<NumeroLinea>1</NumeroLinea>
+				<PrezzoUnitario>1.00</PrezzoUnitario>
+				<Descrizione>LA DESCRIZIONE DELLA FORNITURA PUO' SUPERARE I CENTO CARATTERI CHE RAPPRESENTAVANO IL PRECEDENTE LIMITE DIMENSIONALE. TALE LIMITE NELLA NUOVA VERSIONE E' STATO PORTATO A MILLE CARATTERI</Descrizione>
+				<PrezzoTotale>5.00</PrezzoTotale>
+				<AliquotaIVA>22.00</AliquotaIVA>
+			</DettaglioLinee>
+			<DettaglioLinee>
+				<Quantita>10.00</Quantita>
+				<NumeroLinea>2</NumeroLinea>
+				<PrezzoUnitario>2.00</PrezzoUnitario>
+				<Descrizione>FORNITURE VARIE PER UFFICIO</Descrizione>
+				<PrezzoTotale>20.00</PrezzoTotale>
+				<AliquotaIVA>22.00</AliquotaIVA>
+			</DettaglioLinee>
+			<DatiRiepilogo>
+				<AliquotaIVA>22.00</AliquotaIVA>
+				<Imposta>5.50</Imposta>
+				<ImponibileImporto>25.00</ImponibileImporto>
+				<EsigibilitaIVA>D</EsigibilitaIVA>
+			</DatiRiepilogo>
+		</DatiBeniServizi>
+	</FatturaElettronicaBody>
+</p:FatturaElettronica>

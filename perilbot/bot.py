@@ -1,10 +1,9 @@
+import os
 import constant
-import sys
 import time
 import random
 import telepot
 import emoji
-import json
 from telepot.loop import MessageLoop
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -83,9 +82,11 @@ def reply(id, msg):
 # PERILBOT -------------------------------------------------------------------------------------------------------------
 
 #set proxy
-telepot.api.set_proxy('http://192.168.8.8:3128')
+#telepot.api.set_proxy(constant.PROXY)
+telepot.api.set_proxy(os.environ['PROXY'])
 
-bot = telepot.Bot(constant.TOKEN)
+#bot = telepot.Bot(constant.TOKEN)
+bot = telepot.Bot(os.environ['TOKEN'])
 MessageLoop(bot, {'chat': on_chat_message,'callback_query': on_callback_query}).run_as_thread()
 
 print ('Listening ...')

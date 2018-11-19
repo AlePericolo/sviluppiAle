@@ -1,3 +1,4 @@
+PROXY = "insert proxy here"
 TOKEN = "insert token here"
 
 

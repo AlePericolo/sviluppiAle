@@ -12,43 +12,6 @@ def on_chat_message(msg):
     if content_type == 'text':
         reply(chat_id, msg['text'])
 
-def ciclaParoleChiave(array):
-    string = ''
-    for x in array:
-        string += '- '+ x + '\n'
-    return string
-
-def printKeyWords(id):
-    list = 'SUSHI?\n'
-    list += ciclaParoleChiave(constant.SUSHI)
-    list += '\nAFORISMI CELEBRI\n'
-    list += ciclaParoleChiave(constant.ZUC)
-    list += '\nIPNOROSPO\n'
-    list += ciclaParoleChiave(constant.IPNOROSPO)
-    list += '\nTAKE A BREAK?\n'
-    list += ciclaParoleChiave(constant.PAUSA)
-    list += '\nCAPITAN MUTANDA\n'
-    list += '- leo\n'
-    list += '\nCORDIALITA\n'
-    list += ciclaParoleChiave(constant.GRAZIE)
-    list += '\nSPORT NAZIONALE\n'
-    list += '- votazione\n'
-    bot.sendMessage(id, list)
-
-def on_callback_query(msg):
-    query_id, chat_id, query_data = telepot.glance(msg, flavor='callback_query')
-    chat_group_id = bot.getUpdates()[0]['callback_query']['message']['chat']['id']
-    if query_data == '1':
-        bot.sendMessage(chat_group_id, emoji.emojize(':poop:', use_aliases=True))
-    elif query_data == '2':
-        bot.sendMessage(chat_group_id, emoji.emojize(':-1:', use_aliases=True))
-    elif query_data == '3':
-        bot.sendMessage(chat_group_id, emoji.emojize(':neutral_face:', use_aliases=True))
-    elif query_data == '4':
-        bot.sendMessage(chat_group_id, emoji.emojize(':+1:', use_aliases=True))
-    elif query_data == '5':
-        bot.sendMessage(chat_group_id, emoji.emojize(':tada:', use_aliases=True))
-
 def reply(id, msg):
     msg = msg.lower()
     if msg == '/keyword':
@@ -78,6 +41,47 @@ def reply(id, msg):
         bot.sendMessage(id, 'Esprimi il tuo parere', reply_markup=keyboard)
     #else:
         #bot.sendMessage(id, emoji.emojize(':japanese_ogre:', use_aliases=True))
+
+def printKeyWords(id):
+    list = 'SUSHI?\n'
+    list += ciclaParoleChiave(constant.SUSHI)
+    list += '\nAFORISMI CELEBRI\n'
+    list += ciclaParoleChiave(constant.ZUC)
+    list += '\nIPNOROSPO\n'
+    list += ciclaParoleChiave(constant.IPNOROSPO)
+    list += '\nTAKE A BREAK?\n'
+    list += ciclaParoleChiave(constant.PAUSA)
+    list += '\nCAPITAN MUTANDA\n'
+    list += '- leo\n'
+    list += '\nCORDIALITA\n'
+    list += ciclaParoleChiave(constant.GRAZIE)
+    list += '\nSPORT NAZIONALE\n'
+    list += '- votazione\n'
+    bot.sendMessage(id, list)
+
+def ciclaParoleChiave(array):
+    string = ''
+    for x in array:
+        string += '- '+ x + '\n'
+    return string
+
+def on_callback_query(msg):
+    query_id, chat_id, query_data = telepot.glance(msg, flavor='callback_query')
+    info_response = bot.getUpdates()[0]['callback_query']
+    #print info_response
+    chat_group_id = info_response['message']['chat']['id']
+    user = info_response['from']['first_name'] + ' ' + info_response['from']['last_name']
+    if query_data == '1':
+        bot.sendMessage(chat_group_id, user + ' vota: ' + emoji.emojize(':poop:', use_aliases=True))
+    elif query_data == '2':
+        bot.sendMessage(chat_group_id, user + ' vota: ' +  emoji.emojize(':-1:', use_aliases=True))
+    elif query_data == '3':
+        bot.sendMessage(chat_group_id, user + ' vota: ' +  emoji.emojize(':neutral_face:', use_aliases=True))
+    elif query_data == '4':
+        bot.sendMessage(chat_group_id, user + ' vota: ' +  emoji.emojize(':+1:', use_aliases=True))
+    elif query_data == '5':
+        bot.sendMessage(chat_group_id, user + ' vota: ' +  emoji.emojize(':tada:', use_aliases=True))
+
 
 # PERILBOT -------------------------------------------------------------------------------------------------------------
 

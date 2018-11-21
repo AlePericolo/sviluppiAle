@@ -31,3 +31,5 @@ cmake-build-debug/
 snake/data/score/score\.txt
 
 *.pyc
+
+ale/conf/

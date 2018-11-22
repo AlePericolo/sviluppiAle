@@ -1,7 +1,8 @@
 {
   "mongo":
           {
-            "host": "mongodb://localhost:27017/",
+            "host": "localhost:27017",
+            "port": "27017",
             "database": "Ale",
             "user": "root",
             "password": "abc123",

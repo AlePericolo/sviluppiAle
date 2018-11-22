@@ -5,11 +5,11 @@ class Client:
 
     def __init__(self, conf):
         try:
-            self.client = MongoClient(conf['host'],
-                                  username=conf['user'],
-                                  password=conf['password'],
-                                  authSource=conf['authSourc'],
-                                  ) #serverSelectionTimeoutMS=0
+            self.client = MongoClient(host=conf['host'])
+                                      #username=conf['user'],
+                                      #password=conf['password'],
+                                      #authSource=conf['authSourc'],
+                                      #serverSelectionTimeoutMS=0)
         except errors.PyMongoError:
             # The ChangeStream encountered an unrecoverable error or the
             # resume attempt failed to recreate the cursor.

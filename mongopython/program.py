@@ -1,6 +1,8 @@
 import csv,pymongo
+from pymongo import MongoClient
 
-from mongo.src import ReadConf, Client, Database, Collection
+from Documentale import ReadConf
+from Mongo import Client, Database, Collection
 
 conf = ReadConf.ReadConf()
 

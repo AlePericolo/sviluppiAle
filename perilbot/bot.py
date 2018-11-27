@@ -87,7 +87,7 @@ def on_callback_query(msg):
 
 #set proxy
 #telepot.api.set_proxy(constant.PROXY)
-telepot.api.set_proxy(os.environ['PROXY'])
+#telepot.api.set_proxy(os.environ['PROXY'])
 
 #bot = telepot.Bot(constant.TOKEN)
 bot = telepot.Bot(os.environ['TOKEN'])

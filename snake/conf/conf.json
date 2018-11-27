@@ -2,7 +2,7 @@
   "database": {
     "host": "127.0.0.1",
     "user": "root",
-    "password": "alessandro",
+    "password": "Password14!",
     "database": "snake"
   },
   "file": {

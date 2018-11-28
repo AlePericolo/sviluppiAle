@@ -18,5 +18,4 @@ class Connection:
 
     def getColumnsByTable(self, table):
         self.cursor.execute("SHOW columns FROM " + table)
-        columns = [column[0] for column in self.cursor.fetchall()]
-        return columns
+        return self.cursor.fetchall()

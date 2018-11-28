@@ -35,3 +35,5 @@ snake/data/score/score\.txt
 ale/conf/
 
 pythonModeler/conf/conf\.json
+
+snake/conf/conf\.json

@@ -1,0 +1,22 @@
+import MySQLdb
+
+class Connection:
+
+    def __init__(self, conf, dbname=None):
+        try:
+            if dbname is None:
+                self.connection = MySQLdb.connect(conf['host'], conf['user'], conf['password'], conf['database'], connect_timeout = 10)
+            else:
+                self.connection = MySQLdb.connect(conf['host'], conf['user'], conf['password'], dbname, connect_timeout = 10)
+            self.cursor = self.connection.cursor()
+        except:
+            self.connection = False
+
+    def getAllTables(self):
+        self.cursor.execute("SHOW TABLES")
+        return self.cursor.fetchall()
+
+    def getColumnsByTable(self, table):
+        self.cursor.execute("SHOW columns FROM " + table)
+        columns = [column[0] for column in self.cursor.fetchall()]
+        return columns

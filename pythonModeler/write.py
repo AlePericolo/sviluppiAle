@@ -1,29 +1,26 @@
-import ReadConf, MySQLdb
-
-def check_db_connection(conf, dbname = None):
-    try:
-        if dbname is None:
-            connection = MySQLdb.connect(conf['host'], conf['user'], conf['password'], conf['database'], connect_timeout=10)
-        else:
-            connection = MySQLdb.connect(conf['host'], conf['user'], conf['password'], dbname, connect_timeout=10)
-    except:
-        return False
-    else:
-        return connection
+from conf import ReadConf
+from connection import Connection
+from writer import WriterModel
 
 
 conf = ReadConf.ReadConf()
-conn = check_db_connection(conf.database, 'ale_test')
+conn = Connection.Connection(conf.database, 'ale_test')
 
-if conn is False:
+if conn.connection is False:
     print 'SUKA'
 else:
     print 'CONNESSO'
-    cursor = conn.cursor()
 
-    cursor.execute("SHOW TABLES")  # execute 'SHOW TABLES' (but data is not returned)
+    tables = conn.getAllTables()
 
-    tables = cursor.fetchall()  # return data from last query
+    for (table,) in tables:
 
-    for (table_name,) in tables:
-        print(table_name)
+        try:
+            with open('writtenClasses/' + table.title() + 'Model.php', 'w') as outfile:
+
+                columns = conn.getColumnsByTable(table)
+                w = WriterModel.WriterModel(table, columns)
+                outfile.write(w.writeFile())
+
+        except IOError:
+            print 'Errore Scrittura'

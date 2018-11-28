@@ -87,10 +87,11 @@ class WriterModel:
     # ------------------------------------------------------------------------------------------------------------------
 
     def __costructor(self):
-        app = 'function __construct($pdo){\n'
+        app = '\n/*CONSTRUCTOR*/\n'
+        app += 'function __construct($pdo){\n'
         app += '\tparent::__construct($pdo);\n'
         app += '\t$this->tableName = "' + self.table +'";\n'
-        app += '}\n'
+        app += '}\n\n'
         return app
 
     # ------------------------------------------------------------------------------------------------------------------

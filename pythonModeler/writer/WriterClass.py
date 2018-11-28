@@ -41,7 +41,8 @@ class WriterClass:
     # ------------------------------------------------------------------------------------------------------------------
 
     def __costructor(self):
-        app = 'function __construct(PDO $pdo){\n'
+        app = '/*CONSTRUCTOR*/\n'
+        app += 'function __construct(PDO $pdo){\n'
         app += '\tparent::__construct($pdo);\n'
         app += '}\n'
         return app

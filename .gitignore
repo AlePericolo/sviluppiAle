@@ -37,3 +37,5 @@ ale/conf/
 pythonModeler/conf/conf\.json
 
 snake/conf/conf\.json
+
+pythonModeler/writtenClasses/

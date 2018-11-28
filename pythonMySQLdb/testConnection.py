@@ -2,7 +2,7 @@ import MySQLdb
 
 db = MySQLdb.connect(host="127.0.0.1",    # your host, usually localhost
                      user="root",         # your username
-                     passwd="Password14!",  # your password
+                     passwd="",  # your password ToDo check password container mysql portainer
                      db="snake")        # name of the data base
 
 # you must create a Cursor object. It will let

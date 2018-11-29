@@ -2,9 +2,13 @@ from datetime import datetime
 
 class WriterModel:
 
-    def __init__(self, table, columns):
+    def __init__(self, table, columns, format):
         self.table = table
         self.columns = columns
+        if format:
+            self.format = '\n'
+        else:
+            self.format = ''
         self.file = '<?php\n'
 
     def writeFile(self):
@@ -15,6 +19,13 @@ class WriterModel:
         self.file += self.__attributes() + '\n'
         self.file += self.__costructor() + '\n'
         self.file += self.__pkFunctions() + '\n'
+        self.file += self.__findAll() + '\n'
+        #createKeyArray
+        #createObjKeyArray
+        #getEmptyDbKeyArray
+        #getListColumns
+        #createTable
+        #getters&setters
         self.file += self.__endClass()
         return self.file
 
@@ -88,10 +99,10 @@ class WriterModel:
 
     def __costructor(self):
         app = '\n/*CONSTRUCTOR*/\n'
-        app += 'function __construct($pdo){\n'
-        app += '\tparent::__construct($pdo);\n'
-        app += '\t$this->tableName = "' + self.table +'";\n'
-        app += '}\n\n'
+        app += 'function __construct($pdo){' + self.format
+        app += '\tparent::__construct($pdo);' + self.format
+        app += '\t$this->tableName = "' + self.table +'";' + self.format
+        app += '}\n'
         return app
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -106,20 +117,34 @@ class WriterModel:
         #find byPK
         find = '/** \n* find by PrimaryKey: \n* @return ' + self.table.title() + '|array|string|null\n**/'
         app = find + '\n'
-        app += 'public function findByPk(' + pk + ', $typeResult = self::FETCH_OBJ){\n'
-        app += '\t$query = "SELECT * FROM $this->tableName USE INDEX(PRIMARY) WHERE ID=?";\n'
-        app += '\treturn $this->createResult($query, array(' + pk + '), $typeResult);\n'
+        app += 'public function findByPk(' + pk + ', $typeResult = self::FETCH_OBJ){' + self.format
+        app += '\t$query = "SELECT * FROM $this->tableName USE INDEX(PRIMARY) WHERE ID=?";' + self.format
+        app += '\treturn $this->createResult($query, array(' + pk + '), $typeResult);' + self.format
         app += '}\n'
         # delete byPK
         delete = '\n/** \n* delete by PrimaryKey: \n**/'
         app += delete + '\n'
-        app += 'public function deleteByPk(' + pk + '){\n'
-        app += '\t$query = "DELETE FROM $this->tableName WHERE ID=?";\n'
-        app += '\treturn $this->createResultValue($query, array(' + pk + '));\n'
+        app += 'public function deleteByPk(' + pk + '){' + self.format
+        app += '\t$query = "DELETE FROM $this->tableName WHERE ID=?";' + self.format
+        app += '\treturn $this->createResultValue($query, array(' + pk + '));' + self.format
         app += '}\n'
         return app
 
     # ------------------------------------------------------------------------------------------------------------------
 
+    def __findAll(self):
+        findAll = '/** \n find all record of table \n* @return ' + self.table.title() + '[]|array|string\n**/'
+        app = findAll + '\n'
+        app += 'public function findAll($distinct = false, $typeResult = self::FETCH_OBJ, $limit = -1, $offset = -1){' + self.format
+        app += '\t$distinctStr = ($distinct) ? "DISTINCT" : "";' + self.format
+        app += '\t$query = "SELECT $distinctStr * FROM $this->tableName ";' + self.format
+        app += '\tif ($this->whereBase) $query .= " WHERE $this->whereBase";' + self.format
+        app += '\tif ($this->orderBase) $query .= " ORDER BY $this->orderBase";' + self.format
+        app += '\t$query .= $this->createLimitQuery($limit, $offset);' + self.format
+        app += '\treturn $this->createResultArray($query, null, $typeResult);' + self.format
+        app += '}\n'
+        return app
+    # ------------------------------------------------------------------------------------------------------------------
+
     def __endClass(self):
-        return '}\n'
+        return '}'

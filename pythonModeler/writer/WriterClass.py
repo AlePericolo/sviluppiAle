@@ -2,8 +2,12 @@ from datetime import datetime
 
 class WriterClass:
 
-    def __init__(self, table):
+    def __init__(self, table, format):
         self.table = table
+        if format:
+            self.format = '\n'
+        else:
+            self.format = ''
         self.file = '<?php\n'
 
     def writeFile(self):
@@ -42,12 +46,12 @@ class WriterClass:
 
     def __costructor(self):
         app = '/*CONSTRUCTOR*/\n'
-        app += 'function __construct(PDO $pdo){\n'
-        app += '\tparent::__construct($pdo);\n'
+        app += 'function __construct(PDO $pdo){' + self.format
+        app += '\tparent::__construct($pdo);' + self.format
         app += '}\n'
         return app
 
     # ------------------------------------------------------------------------------------------------------------------
 
     def __endClass(self):
-        return '}\n'
+        return '}'

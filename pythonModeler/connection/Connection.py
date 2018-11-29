@@ -5,7 +5,7 @@ class Connection:
     def __init__(self, conf, dbname=None):
         try:
             if dbname is None:
-                self.connection = MySQLdb.connect(conf['host'], conf['user'], conf['password'], conf['database'], connect_timeout = 10)
+                self.connection = MySQLdb.connect(conf['host'], conf['user'], conf['password'], conf['dbName'], connect_timeout = 10)
             else:
                 self.connection = MySQLdb.connect(conf['host'], conf['user'], conf['password'], dbname, connect_timeout = 10)
             self.cursor = self.connection.cursor()

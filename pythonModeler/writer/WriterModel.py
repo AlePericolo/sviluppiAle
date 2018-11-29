@@ -151,7 +151,11 @@ class WriterModel:
         app = ObjKeyArray + '\n'
         app += 'public function createObjKeyArray(array $keyArray){\n'
         for element in self.columns:
-            app += '\tif (isset($keyArray["' + element[0] + '"])) $this->' + element[0] + ' = $keyArray["' + element[0] + '"];' + self.format
+            type = self.__getAttributeTypeByElement(element)
+            if type == 'DateTime':
+                app += '\tif (isset($keyArray["' + element[0] + '"]) && $keyArray["' + element[0] + '"] != "") $this->' + element[0] + ' = date("Ymd", strtotime($keyArray["' + element[0] + '"]));' + self.format
+            else:
+                app += '\tif (isset($keyArray["' + element[0] + '"])) $this->' + element[0] + ' = $keyArray["' + element[0] + '"];' + self.format
         app += '}\n'
         return app
 

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * User: Claudio COLOMBO - P.D.A. Srl
+ * Date: <date>
+ * Version 0.0.1
+ */
 
 abstract class AbstractModel
 {
@@ -32,18 +37,20 @@ abstract class AbstractModel
     protected $id;
 
     /** @var  string */
+    protected $nomeTabella;
+
+    /** @var  string */
     protected $tableName;
 
-    /** @var string Condizioni Where aggiuntive per query base */
+    /** Condizioni Where aggiuntive per query base */
     protected $whereBase = "";
 
-    /** @var string  Condizioni Order aggiuntive per query base*/
+    /** @var string  */
     protected $orderBase = "";
-
     /**
      *se settato esegue la limit con gli attributi passati<br/>
-     * - Per ottenere i primi 10 elementi della query basterà passare '10'
-     * - Per ottenere 10 elementi partendo dal terzo si passerà '3,10'
+     *                           es: - Per ottenere i primi 10 elementi della query basterà passare '10'<br/>
+     *                               - Per ottenere 10 elementi partendo dal terzo si passerà '3,10'
      *
      * @var integer
      */
@@ -87,7 +94,7 @@ abstract class AbstractModel
      */
     public final function truncateTable()
     {
-        return $this->pdo->exec('TRUNCATE TABLE ' . $this->tableName);
+        return $this->pdo->exec('TRUNCATE TABLE ' . $this->nomeTabella);
     }
 
     /**
@@ -97,7 +104,31 @@ abstract class AbstractModel
      */
     public final function deleteTable()
     {
-        return $this->pdo->exec('DELETE FROM ' . $this->tableName);
+        return $this->pdo->exec('DELETE FROM  ' . $this->nomeTabella);
+    }
+
+    /**
+     * Funzione per la truncate della tabella
+     *
+     * @param PDO $pdo
+     *
+     * @return  boolean
+     */
+    public final static function truncateTableStatic(PDO $pdo)
+    {
+        return $pdo->exec('TRUNCATE TABLE ' . self::getNomeTabella());
+    }
+
+    /**
+     * Funzione per la cancellazione di tutto il contenuto della tabella
+     *
+     * @param PDO $pdo
+     *
+     * @return  boolean
+     */
+    public final static function deleteTableStatic(PDO $pdo)
+    {
+        return $pdo->exec('DELETE FROM  ' . self::getNomeTabella());
     }
 
     /**
@@ -115,10 +146,23 @@ abstract class AbstractModel
         return str_replace(" ", "", $variabile);
     }
 
-    //TODO: Risolvere problema update chiavi multiple
+
+    /**
+     * @param array $arrayPosizionale
+     * @return null|string
+     */
+    public function saveOrUpdatePosizionale($arrayPosizionale)
+    {
+        $arrayValori = $this->createKeyArrayFromPositional($arrayPosizionale);
+
+        return $this->saveKeyArray($arrayValori);
+    }
+
+    //TODO: Risolere problema update chiavi multiple
     /**
      * @param array $arrayValori
-     * @param bool  $boolKey ser settato a true forza il salvataggio del nuovo recor anche se è presnete la chiave primaria
+     * @param bool  $boolKey ser settato a true forza il salvataggio del nuovo recor anche se è presnete la chiave
+     *                       primaria
      * @return null|string
      */
     public function saveKeyArray($arrayValori = null, $boolKey = false)
@@ -130,16 +174,16 @@ abstract class AbstractModel
                 $this->id = $id;
             }
             else {
-                $this->id = insertKeyArrayPdo($this->pdo,$this->tableName, $arrayValori);
+                $this->id = insertKeyArrayPdo($this->pdo,$this->nomeTabella, $arrayValori);
             }
         }
         else if ($this->id) {
-            //error_log("Update");
-            updateKeyArrayPdo($this->pdo,$this->tableName, $arrayValori, $this->id);
+          //  error_log("Update");
+            updateKeyArrayPdo($this->pdo,$this->nomeTabella, $arrayValori, $this->id);
         }
         else {
-            //error_log("Insert");
-            $this->id = insertKeyArrayPdo($this->pdo,$this->tableName, $arrayValori);
+         //   error_log("Insert");
+            $this->id = insertKeyArrayPdo($this->pdo,$this->nomeTabella, $arrayValori);
         }
 
 
@@ -150,7 +194,9 @@ abstract class AbstractModel
      * @param string $query
      * @param array|null parameters
      * @return int|string
+     *
      */
+
     protected function createResultValue($query, $parameters = null, $boolValue=false)
     {
         $val= queryPreparedPdo($this->pdo, $this->pdo->prepare($query), $parameters, "v");
@@ -185,7 +231,7 @@ abstract class AbstractModel
                 break;
             case self::FETCH_JSON:
                 while ($valori = $valoriPdo->fetch(PDO::FETCH_ASSOC)) {
-                    $arrayObj[] = $this->encodeString($valori, $encodeType);
+                    $arrayObj[] = $this->encodeString($valori,$encodeType);
                 }
                 $valoriPdo->closeCursor();
 
@@ -193,7 +239,7 @@ abstract class AbstractModel
                 break;
             case self::FETCH_KEYARRAY:
                 while ($valori = $valoriPdo->fetch(PDO::FETCH_ASSOC)) {
-                    $arrayObj[] = $this->encodeArray($valori, $encodeType);
+                    $arrayObj[] = $this->encodeArray($valori,$encodeType);
                 }
                 $valoriPdo->closeCursor();
 
@@ -209,7 +255,7 @@ abstract class AbstractModel
                 break;
             case self::FETCH_NUMARRAY:
                 while ($valori = $valoriPdo->fetch(PDO::FETCH_NUM)) {
-                    $arrayObj[] = $this->encodeArray($valori, $encodeType);
+                    $arrayObj[] = $this->encodeArray($valori,$encodeType);
                 }
                 $valoriPdo->closeCursor();
 
@@ -218,11 +264,11 @@ abstract class AbstractModel
             case self::FETCH_XML:
                 $xml = '<obj>';
                 while ($valori = $valoriPdo->fetch(PDO::FETCH_ASSOC)) {
-                    $xml .= "<$this->tableName>";
+                    $xml .= "<$this->nomeTabella>";
                     foreach ($valori as $chiave => $valore) {
                         $xml .= "<$chiave>$valore</$chiave>";
                     }
-                    $xml .= "</$this->tableName>";
+                    $xml .= "</$this->nomeTabella>";
                 }
                 $xml = '</obj>';
 
@@ -251,24 +297,24 @@ abstract class AbstractModel
             case self::FETCH_OBJ:
                 foreach ($valori as $chiave => $valore) {
                     $variabile = $this->creaNomeVariabile($chiave);
-                    $this->$variabile = $this->encodeString($valore, $encodeType);
+                    $this->$variabile = $this->encodeString($valore,$encodeType);
                 }
                 break;
             case self::FETCH_JSON:
-                return json_encode($this->encodeArray($valori, $encodeType));
+                return json_encode($this->encodeArray($valori,$encodeType));
                 break;
             case self::FETCH_KEYARRAY:
-                return $this->encodeArray($valori, $encodeType);
+                return $this->encodeArray($valori,$encodeType);
                 break;
             case self::FETCH_NUMARRAY:
-                //TODO: Da sistemare
+                //TODO: Da istemare
                 break;
             case self::FETCH_XML:
-                $xml = "<$this->tableName>";
+                $xml = "<$this->nomeTabella>";
                 foreach ($valori as $chiave => $valore) {
                     $xml .= "<$chiave>$valore</$chiave>";
                 }
-                $xml .= "</$this->tableName>";
+                $xml .= "</$this->nomeTabella>";
 
                 return $xml;
                 break;
@@ -299,18 +345,16 @@ abstract class AbstractModel
         return json_encode(get_object_vars($this));
     }
 
-    public function getEmptyDbJson()
-    {
-        return json_encode($this->getEmptyKeyArray());
+    public function getEmptyDbJson(){
+        return json_encode($this->getEmptyDbKeyArray());
     }
-
     /**
      * Restituisce la rappresentazione della classe in formato array
      * @return array
      */
     public function getEmptyObjKeyArray()
     {
-        return get_object_vars($this);
+    return get_object_vars($this);
     }
 
     /**
@@ -364,6 +408,7 @@ abstract class AbstractModel
             return $input;
     }
 
+
     /**
      * @param $input
      * @param $typeEncode
@@ -400,6 +445,23 @@ abstract class AbstractModel
     }
 
     /**
+     * @param $input
+     * @param $typeEncode
+     * @return string|int
+     */
+    public function dencodeString($input,$typeEncode) {
+        if (is_string($input))
+            switch($typeEncode){
+                case self::STR_UTF8:
+                    return utf8_decode($input);
+                    break;
+                default: return $input;
+            }
+        else
+            return $input;
+    }
+
+    /**
      * @param string $string search string
      * @param int $likeMatching pattern for like matching
      */
@@ -417,11 +479,7 @@ abstract class AbstractModel
         }
     }
 
-    /**
-     * @param int $limit
-     * @param int $offset
-     * @return string
-     */
+
     public function createLimitQuery($limit = -1,$offset = -1){
         $s='';
         if($limit > -1)
@@ -437,9 +495,9 @@ abstract class AbstractModel
         return $s;
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------
     // Getter & Setter
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------
 
     /**
      * @return PDO
@@ -455,54 +513,6 @@ abstract class AbstractModel
     public function setPdo($pdo)
     {
         $this->pdo = $pdo;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTableName()
-    {
-        return $this->tableName;
-    }
-
-    /**
-     * @param string $tableName
-     */
-    public function setTableName($tableName)
-    {
-        $this->tableName = $tableName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNomeTabella()
-    {
-        return $this->nomeTabella;
-    }
-
-    /**
-     * @param string $nomeTabella
-     */
-    public function setNomeTabella($nomeTabella)
-    {
-        $this->nomeTabella = $nomeTabella;
     }
 
     /**
@@ -538,6 +548,22 @@ abstract class AbstractModel
     }
 
     /**
+     * @return string
+     */
+    public function getNomeTabella()
+    {
+        return $this->nomeTabella;
+    }
+
+    /**
+     * @param string $nomeTabella
+     */
+    public function setNomeTabella($nomeTabella)
+    {
+        $this->nomeTabella = $nomeTabella;
+    }
+
+    /**
      * @return integer
      */
     public function getLimitBase()
@@ -570,39 +596,41 @@ abstract class AbstractModel
         $this->offsetBase = $offsetBase;
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------
     // Abstract
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------
 
     /**
      * Transforms the object into a key array
      * @return array
      */
     public abstract function createKeyArray();
-
     /**
      * It transforms the keyarray in an object
      * @param array $keyArray
      */
     public abstract function createObjKeyArray(array $keyArray);
-
-    public abstract function getEmptyKeyArray();
-
+    /**
+     * @param array $positionalArray
+     * @return array
+     */
+    public abstract function createKeyArrayFromPositional($positionalArray);
     /**
      * Return columns' list
      * @return string
      */
     public abstract function getListColumns();
-
     /**
      * DDL Table
      */
     public abstract function createTable();
 
 
-    //------------------------------------------------------------------------------------------------------------------
+    public abstract function getEmptyDbKeyArray();
+
+    //------------------------------
     // Overrided
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------
 
     /**
      * @param $id

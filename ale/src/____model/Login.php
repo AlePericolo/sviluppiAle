@@ -1,19 +1,22 @@
 <?php
 /**
-* Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
-* Version: 0.1
-**/
+ * Created by PhpStorm.
+ * User: alessandro
+ * Date: 25/09/18
+ * Time: 17.48
+ */
 
 require_once 'LoginModel.php';
 
-class Login extends LoginModel {
-
-/*CONSTRUCTOR*/
-function __construct(PDO $pdo){
-	parent::__construct($pdo);
-}
+class Login extends LoginModel
+{
+    /*-------------------*/
+    /* METODI            */
+    /*-------------------*/
+    function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+    }
 
     function findIdByUsernamePassword($username, $password){
 
@@ -29,4 +32,4 @@ function __construct(PDO $pdo){
         return $this->createResultValue($query, array($username, $password));
     }
 
-} //close Class Login
+}

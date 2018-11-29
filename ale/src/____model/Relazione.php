@@ -1,19 +1,22 @@
 <?php
 /**
-* Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
-* Version: 0.1
-**/
+ * Created by PhpStorm.
+ * User: alessandro
+ * Date: 28/09/18
+ * Time: 10.48
+ */
 
 require_once 'RelazioneModel.php';
 
-class Relazione extends RelazioneModel {
-
-/*CONSTRUCTOR*/
-function __construct(PDO $pdo){
-	parent::__construct($pdo);
-}
+class Relazione extends RelazioneModel
+{
+    /*-------------------*/
+    /* METODI            */
+    /*-------------------*/
+    function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+    }
 
     function findIdRichiestiFromIdRichiedente($idRichiedente, $typeResult=self::FETCH_OBJ){
 
@@ -33,5 +36,4 @@ function __construct(PDO $pdo){
         return $this->createResult($query, array($idRichiedente, $idRichiesto), $typeResult);
     }
 
-
-} //close Class Relazione
+}

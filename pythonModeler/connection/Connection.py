@@ -19,3 +19,8 @@ class Connection:
     def getColumnsByTable(self, table):
         self.cursor.execute("SHOW columns FROM " + table)
         return self.cursor.fetchall()
+
+    def getCreateTableSyntax(self, table):
+        self.cursor.execute("SHOW CREATE TABLE " + table)
+        syntax = self.cursor.fetchall()
+        return syntax[0][1]

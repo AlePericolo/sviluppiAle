@@ -8,30 +8,26 @@
 
 require_once 'AbstractModel.php';
 
-class ValutazioneModel extends AbstractModel {
+class ElementsModel extends AbstractModel {
 
 /** @var integer PrimaryKey */
 protected $id;
-/** @var integer */
-protected $id_post;
-/** @var integer */
-protected $id_utente;
-/** @var integer */
-protected $valutazione;
+/** @var string */
+protected $descrizione;
 
 /* CONSTRUCTOR ------------------------------------------------------------------------------------------------------ */
 
 //constructor
 function __construct($pdo){
 	parent::__construct($pdo);
-	$this->tableName = "valutazione";
+	$this->tableName = "elements";
 }
 
 /* FUNCTIONS -------------------------------------------------------------------------------------------------------- */
 
 /** 
 * find by PrimaryKey: 
-* @return Valutazione|array|string|null
+* @return Elements|array|string|null
 **/
 public function findByPk($id, $typeResult = self::FETCH_OBJ){
 	$query = "SELECT * FROM $this->tableName USE INDEX(PRIMARY) WHERE ID=?";
@@ -48,7 +44,7 @@ public function deleteByPk($id){
 
 /** 
 * find all record of table 
-* @return Valutazione[]|array|string
+* @return Elements[]|array|string
 **/
 public function findAll($distinct = false, $typeResult = self::FETCH_OBJ, $limit = -1, $offset = -1){
 	$distinctStr = ($distinct) ? "DISTINCT" : "";
@@ -66,9 +62,7 @@ public function findAll($distinct = false, $typeResult = self::FETCH_OBJ, $limit
 public function createKeyArray(){
 	$keyArray = array();
 	if (isset($this->id)) $keyArray["id"] = $this->id;
-	if (isset($this->id_post)) $keyArray["id_post"] = $this->id_post;
-	if (isset($this->id_utente)) $keyArray["id_utente"] = $this->id_utente;
-	if (isset($this->valutazione)) $keyArray["valutazione"] = $this->valutazione;
+	if (isset($this->descrizione)) $keyArray["descrizione"] = $this->descrizione;
 	return $keyArray;
 }
 
@@ -78,9 +72,7 @@ public function createKeyArray(){
 **/
 public function createObjKeyArray(array $keyArray){
 	if (isset($keyArray["id"])) $this->id = $keyArray["id"];
-	if (isset($keyArray["id_post"])) $this->id_post = $keyArray["id_post"];
-	if (isset($keyArray["id_utente"])) $this->id_utente = $keyArray["id_utente"];
-	if (isset($keyArray["valutazione"])) $this->valutazione = $keyArray["valutazione"];
+	if (isset($keyArray["descrizione"])) $this->descrizione = $keyArray["descrizione"];
 }
 
 /** 
@@ -90,9 +82,7 @@ public function createObjKeyArray(array $keyArray){
 public function getEmptyKeyArray(){
 	$emptyKeyArray = array();
 	$emptyKeyArray["id"] = "";
-	$emptyKeyArray["id_post"] = "";
-	$emptyKeyArray["id_utente"] = "";
-	$emptyKeyArray["valutazione"] = "";
+	$emptyKeyArray["descrizione"] = "";
 	return $emptyKeyArray;
 }
 
@@ -101,7 +91,7 @@ public function getEmptyKeyArray(){
 * @return string
 **/
 public function getListColumns(){
-	return "id, id_post, id_utente, valutazione";
+	return "id, descrizione";
 }
 
 /* CREATE TABLE ----------------------------------------------------------------------------------------------------- */
@@ -111,16 +101,10 @@ public function getListColumns(){
 **/
 public function createTable(){
 return $this->pdo->exec(
-"CREATE TABLE `valutazione` (
+"CREATE TABLE `elements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_post` int(11) NOT NULL,
-  `id_utente` int(11) NOT NULL,
-  `valutazione` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_valutazione_post_idx` (`id_post`),
-  KEY `fk_valutazione_utente_idx` (`id_utente`),
-  CONSTRAINT `fk_valutazione_post` FOREIGN KEY (`id_post`) REFERENCES `post` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_valutazione_utente` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `descrizione` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1"
 );
 }
@@ -142,46 +126,19 @@ public function setId($id){
 }
 
 /** 
-* @return integer
+* @return string
 **/
-public function getId_Post(){
-	 return $this->id_post;
+public function getDescrizione(){
+	 return $this->descrizione;
 }
 
 /** 
-* @param integer $id_post
-**/
-public function setId_Post($id_post){
-	 $this->id_post = $id_post;
-}
-
-/** 
-* @return integer
-**/
-public function getId_Utente(){
-	 return $this->id_utente;
-}
-
-/** 
-* @param integer $id_utente
-**/
-public function setId_Utente($id_utente){
-	 $this->id_utente = $id_utente;
-}
-
-/** 
-* @return integer
-**/
-public function getValutazione(){
-	 return $this->valutazione;
-}
-
-/** 
-* @param integer $valutazione
-**/
-public function setValutazione($valutazione){
-	 $this->valutazione = $valutazione;
+* @param string $descrizione
+* @param int $encodeType
+ **/
+public function setDescrizione($descrizione, $encodeType = self::STR_DEFAULT){
+	 $this->descrizione = $this->decodeString($descrizione, $encodeType);
 }
 
 
-} //close Class ValutazioneModel
+} //close Class ElementsModel

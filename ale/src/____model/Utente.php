@@ -1,19 +1,22 @@
 <?php
 /**
-* Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
-* Version: 0.1
-**/
+ * Created by PhpStorm.
+ * User: alessandro
+ * Date: 26/09/18
+ * Time: 15.26
+ */
 
 require_once 'UtenteModel.php';
 
-class Utente extends UtenteModel {
-
-/*CONSTRUCTOR*/
-function __construct(PDO $pdo){
-	parent::__construct($pdo);
-}
+class Utente extends UtenteModel
+{
+    /*-------------------*/
+    /* METODI            */
+    /*-------------------*/
+    function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+    }
 
     function findIdUtenteByIdLogin($idLogin){
 
@@ -112,4 +115,4 @@ function __construct(PDO $pdo){
         return $this->createResultArray($query, array($idRichiedente), $typeResult);
     }
 
-} //close Class Utente
+}

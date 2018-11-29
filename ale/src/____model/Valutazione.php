@@ -1,19 +1,22 @@
 <?php
 /**
-* Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
-* Version: 0.1
-**/
+ * Created by PhpStorm.
+ * User: alessandro
+ * Date: 24/10/18
+ * Time: 10.40
+ */
 
 require_once 'ValutazioneModel.php';
 
-class Valutazione extends ValutazioneModel {
-
-/*CONSTRUCTOR*/
-function __construct(PDO $pdo){
-	parent::__construct($pdo);
-}
+class Valutazione extends ValutazioneModel
+{
+    /*-------------------*/
+    /* METODI            */
+    /*-------------------*/
+    function __construct(PDO $pdo)
+    {
+        parent::__construct($pdo);
+    }
 
     function findValutazioneByIdPostIdUtente($idPost, $idUtente, $typeResult=self::FETCH_OBJ){
 
@@ -47,5 +50,4 @@ function __construct(PDO $pdo){
         $app = new self($pdo);
         return $app->countNumeroVoti($idPost);
     }
-
-} //close Class Valutazione
+}

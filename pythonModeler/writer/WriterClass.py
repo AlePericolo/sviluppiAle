@@ -54,4 +54,4 @@ class WriterClass:
     # ------------------------------------------------------------------------------------------------------------------
 
     def __endClass(self):
-        return '}'
+        return '} //close Class ' + self.table.title()

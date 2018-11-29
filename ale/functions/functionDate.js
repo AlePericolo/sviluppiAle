@@ -21,6 +21,8 @@ function formatStringToDate(string) {
 
 function formatMySQLdata(date){
     //console.log(date);
+    if (date === '0000-00-00 00:00:00' || date === '0000-00-00')
+        return ''
     var string = null;
     if(date.length > 10){
         string = date.split(" ")[0].split("-")

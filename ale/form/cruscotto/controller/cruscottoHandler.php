@@ -33,7 +33,7 @@ function getDatiPagina($request){
             $result['elencoPost'][$i]['valutazione'] = $valutazione;
         //altrimenti recupero la struttura della valutazione vuota e presetto l'id del post e dell'utente loggato
         }else{
-            $valutazione = $v->getEmptyDbKeyArray();
+            $valutazione = $v->getEmptyKeyArray();
             $valutazione['id_utente'] = Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id'));
             $valutazione['id_post'] = $result['elencoPost'][$i]['id'];
             $result['elencoPost'][$i]['valutazione'] = $valutazione;

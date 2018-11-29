@@ -27,11 +27,11 @@ function getDatiPagina($request){
     //se esiste l'utente lo recupero con i suoi post e la struttura di un post vuoto
     if($id){
         $result['utente'] = $utente->findByPk($id, Utente::FETCH_KEYARRAY);
-        $result['post'] = $post->getEmptyDbKeyArray();
+        $result['post'] = $post->getEmptyKeyArray();
         $result['elencoPost'] = $post->findPostUtenteByIdUtente($id, Post::FETCH_KEYARRAY);
     //altrimenti recupero la struttura vuota di un utente(per crearlo)
     }else{
-        $result['utente'] = $utente->getEmptyDbKeyArray();
+        $result['utente'] = $utente->getEmptyKeyArray();
         $result['post'] = null;
         $result['elencoPost'] = [];
     }
@@ -50,9 +50,9 @@ function salvaPost($request){
     try{
         $pdo->beginTransaction();
         $post = new Post($pdo);
-        $post->setIdUtente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
+        $post->setId_Utente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
         $post->setTesto($request->post->testo);
-        $post->setDataPubblicazione(date("Y-m-d H:i:s"));
+        $post->setData_Pubblicazione(date("Y-m-d H:i:s"));
         $post->saveOrUpdate();
         $pdo->commit();
         $result['response'] = 'OK';
@@ -124,7 +124,7 @@ function getDatiUtente($request){
     if($id)
         $result['utente'] = $utente->findByPk($id, Utente::FETCH_KEYARRAY);
     else
-        $result['utente'] = $utente->getEmptyDbKeyArray();
+        $result['utente'] = $utente->getEmptyKeyArray();
 
     return json_encode($result);
 }
@@ -141,11 +141,11 @@ function salvaDatiUtente($request){
         //se mi arriva un id cerco il record e faccio l'update degli altri campi
         if ($request->utente->id)
             $utente->findByPk($request->utente->id);
-        $utente->setIdLogin(getLoginDataFromSession('id'));
+        $utente->setId_Login(getLoginDataFromSession('id'));
         $utente->setNome($request->utente->nome);
         $utente->setCognome($request->utente->cognome);
         $utente->setSesso($request->utente->sesso);
-        $utente->setDataNascita(date("Ymd", strtotime($request->utente->data_nascita)));
+        $utente->setData_Nascita(date("Ymd", strtotime($request->utente->data_nascita)));
         $utente->setFoto($request->utente->foto);
         $utente->saveOrUpdate();
         $pdo->commit();

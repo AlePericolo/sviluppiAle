@@ -2,7 +2,7 @@
 /**
 * Developed by: Alessandro Pericolo
 * Date: 29/11/2018
-* Time: 17:02
+* Time: 18:00
 * Version: 0.1
 **/
 
@@ -14,6 +14,8 @@ class ElementsModel extends AbstractModel {
 protected $id;
 /** @var string */
 protected $descrizione;
+/** @var DateTime */
+protected $date;
 
 /* CONSTRUCTOR ------------------------------------------------------------------------------------------------------ */
 
@@ -63,6 +65,7 @@ public function createKeyArray(){
 	$keyArray = array();
 	if (isset($this->id)) $keyArray["id"] = $this->id;
 	if (isset($this->descrizione)) $keyArray["descrizione"] = $this->descrizione;
+	if (isset($this->date)) $keyArray["date"] = $this->date;
 	return $keyArray;
 }
 
@@ -73,6 +76,7 @@ public function createKeyArray(){
 public function createObjKeyArray(array $keyArray){
 	if (isset($keyArray["id"])) $this->id = $keyArray["id"];
 	if (isset($keyArray["descrizione"])) $this->descrizione = $keyArray["descrizione"];
+	if (isset($keyArray["date"])) $this->date = $keyArray["date"];
 }
 
 /** 
@@ -83,6 +87,7 @@ public function getEmptyKeyArray(){
 	$emptyKeyArray = array();
 	$emptyKeyArray["id"] = "";
 	$emptyKeyArray["descrizione"] = "";
+	$emptyKeyArray["date"] = "";
 	return $emptyKeyArray;
 }
 
@@ -91,7 +96,7 @@ public function getEmptyKeyArray(){
 * @return string
 **/
 public function getListColumns(){
-	return "id, descrizione";
+	return "id, descrizione, date";
 }
 
 /* CREATE TABLE ----------------------------------------------------------------------------------------------------- */
@@ -104,6 +109,7 @@ return $this->pdo->exec(
 "CREATE TABLE `elements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descrizione` varchar(45) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1"
 );
@@ -138,6 +144,20 @@ public function getDescrizione(){
  **/
 public function setDescrizione($descrizione, $encodeType = self::STR_DEFAULT){
 	 $this->descrizione = $this->decodeString($descrizione, $encodeType);
+}
+
+/** 
+* @return DateTime
+**/
+public function getDate(){
+	 return $this->date;
+}
+
+/** 
+* @param DateTime $date
+**/
+public function setDate($date){
+	 $this->date = $date;
 }
 
 

@@ -11,7 +11,7 @@ require_once '../../../conf/conf.php';
 require_once '../../../src/lib/pdo.php';
 require_once '../../../src/lib/functions.php';
 
-require_once '../../../src/model/elements.php';
+require_once '../../../src/model/Elements.php';
 
 function getDatiPagina($request){
 
@@ -38,7 +38,7 @@ function recuperaElemento($request){
     $elements = new Elements($pdo);
 
     if($request->id == -1)
-        $result['elemento'] = $elements->getEmptyDbKeyArray();
+        $result['elemento'] = $elements->getEmptyKeyArray();
     else
         $result['elemento'] = $elements->findByPk($request->id, Elements::FETCH_KEYARRAY);
 

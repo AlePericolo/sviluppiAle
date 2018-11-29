@@ -4,6 +4,7 @@
 <head>
     <!--import lib css js-->
     <?php
+        date_default_timezone_set('Europe/Rome');
         include_once '../conf/conf.php';
         include_once '../grafica/header.html';
         //grafica custom per cliente

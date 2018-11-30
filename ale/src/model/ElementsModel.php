@@ -63,7 +63,7 @@ public function findAll($distinct = false, $typeResult = self::FETCH_OBJ, $limit
 **/
 public function createKeyArray(){
 	$keyArray = array();
-	if (isset($this->id)) $keyArray["id"] = $this->id;
+	if (isset($this->id)) $keyArray["id"] = (int)$this->id;
 	if (isset($this->descrizione)) $keyArray["descrizione"] = $this->descrizione;
 	if (isset($this->date)) $keyArray["date"] = $this->date;
 	return $keyArray;
@@ -76,7 +76,7 @@ public function createKeyArray(){
 public function createObjKeyArray(array $keyArray){
 	if (isset($keyArray["id"])) $this->id = $keyArray["id"];
 	if (isset($keyArray["descrizione"])) $this->descrizione = $keyArray["descrizione"];
-	if (isset($keyArray["date"])) $this->date = $keyArray["date"];
+	if (isset($keyArray["date"]) && $keyArray["date"] != '') $this->date = date("Ymd", strtotime($keyArray["date"]));
 }
 
 /** 

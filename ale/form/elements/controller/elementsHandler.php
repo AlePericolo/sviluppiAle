@@ -50,6 +50,7 @@ function salva($request){
     $result = array();
 
     $pdo = connettiPdo();
+
     try{
         $pdo->beginTransaction();
         $elements = new Elements($pdo);
@@ -71,6 +72,7 @@ function elimina($request){
     $result = array();
 
     $pdo = connettiPdo();
+
     try{
         $pdo->beginTransaction();
         $elements = new Elements($pdo);

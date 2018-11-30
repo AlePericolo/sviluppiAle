@@ -148,8 +148,8 @@ ngApp.controller('profiloController', ["$scope", "$http", 'FileUploader', functi
                 console.log(data.data);
 
                 $scope.datiUtente = data.data.utente;
-                if($scope.datiUtente.data_nascita != ''){
-                    $scope.datiUtente.data_nascita = getJsDateFromYYYYMMGG($scope.datiUtente.data_nascita);
+                if($scope.datiUtente.data_nascita){
+                    $scope.datiUtente.data_nascita = getJsDateFromMySQLdate($scope.datiUtente.data_nascita);
                 }
             });
         }

@@ -1,8 +1,8 @@
 <?php
 /**
 * Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
+* Date: 30/11/2018
+* Time: 00:17
 * Version: 0.1
 **/
 
@@ -91,7 +91,7 @@ public function createObjKeyArray(array $keyArray){
 	if (isset($keyArray["nome"])) $this->nome = $keyArray["nome"];
 	if (isset($keyArray["cognome"])) $this->cognome = $keyArray["cognome"];
 	if (isset($keyArray["sesso"])) $this->sesso = $keyArray["sesso"];
-	if (isset($keyArray["data_nascita"])) $this->data_nascita = $keyArray["data_nascita"];
+	if (isset($keyArray["data_nascita"]) && $keyArray["data_nascita"] != "") $this->data_nascita = date("Ymd", strtotime($keyArray["data_nascita"]));
 	if (isset($keyArray["foto"])) $this->foto = $keyArray["foto"];
 }
 
@@ -137,7 +137,7 @@ return $this->pdo->exec(
   PRIMARY KEY (`id`),
   KEY `fk_utente_login_idx` (`id_login`),
   CONSTRAINT `fk_utente_login` FOREIGN KEY (`id_login`) REFERENCES `login` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1"
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1"
 );
 }
 

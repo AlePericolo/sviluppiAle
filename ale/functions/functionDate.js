@@ -194,41 +194,9 @@ function getNumberOfMonth(mese) {
 }
 
 
-function getJsDateFromYYYYMMGG(date){
-    var data = new Date();
-    var YYYY=date.substr(0,4);
-    var MM=date.substr(5,2)-1;
-    var DD=date.substr(-2);
-    data.setFullYear(YYYY,MM,DD);
-
-    return data;
+function getJsDateFromMySQLdate(date){
+    return new Date(date.replace(/-/g,"/"));
 }
-
-
-function getYYYYMMGGFromJsDate(date){
-    if(date==null){return null;}
-    var app=new Date(date);
-    var dd = app.getDate();
-    var mm = app.getMonth() + 1;
-    var yyyy = app.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd
-    }
-    if (mm < 10) {
-        mm = '0' + mm
-    }
-    return yyyy + '-' + mm + '-' + dd;
-}
-
-
-formattaDataDbToIta = function (date) {
-    var today = new Date(date);
-    var dd = '00' + today.getDate();
-    var mm = '00' + (today.getMonth() + 1);
-    var yyyy = today.getFullYear();
-    return dd.substr(-2) + '/' + mm.substr(-2) + '/' + yyyy;
-};
-
 
 /*
 Controlla che la data passata come YYYY-MM-DD sia una data valida

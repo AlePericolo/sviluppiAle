@@ -29,18 +29,17 @@ ngApp.controller('elementsController', ['$scope', '$http', function ($scope, $ht
             {'function': 'recuperaElemento', 'id': id}
         ).then(function (data) {
             console.log(data.data);
+
             $scope.element = data.data.elemento;
             if($scope.element.date){
-                console.log($scope.element.date);
-                $scope.element.date = getJsDateFromYYYYMMGG($scope.element.date);
+                $scope.element.date = getJsDateFromMySQLdate($scope.element.date);
             }
             $scope.gestisciElemento = true;
         });
     };
 
     $scope.salva = function () {
-        console.log('Salvataggio:');
-        console.log($scope.element);
+
         $http.post($scope.params['form'] + '/elements/controller/elementsHandler.php',
             {'function': 'salva', 'elemento': $scope.element}
         ).then(function (data) {

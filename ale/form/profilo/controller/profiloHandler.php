@@ -138,6 +138,10 @@ function salvaDatiUtente($request){
     try{
         $pdo->beginTransaction();
         $utente = new Utente($pdo);
+
+        //ToDo non funziona il 1 insert! se casto a (int) gli id nel createObjKeyArray va, update ok
+        //$utente->creaObjJson($request->utente, true);
+
         //se mi arriva un id cerco il record e faccio l'update degli altri campi
         if ($request->utente->id)
             $utente->findByPk($request->utente->id);
@@ -145,7 +149,8 @@ function salvaDatiUtente($request){
         $utente->setNome($request->utente->nome);
         $utente->setCognome($request->utente->cognome);
         $utente->setSesso($request->utente->sesso);
-        $utente->setData_Nascita(date("Ymd", strtotime($request->utente->data_nascita)));
+        if($request->utente->data_nascita != '')
+            $utente->setData_Nascita(date("Ymd", strtotime($request->utente->data_nascita)));
         $utente->setFoto($request->utente->foto);
         $utente->saveOrUpdate();
         $pdo->commit();

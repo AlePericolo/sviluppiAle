@@ -209,7 +209,7 @@ class WriterModel:
             #getter
             getter = ''
             app = '/** \n* @return ' + type + '\n**/\n'
-            app += 'public function get' + element[0].title() + '(){\n'
+            app += 'public function get' + element[0].title().replace("_", "") + '(){\n'
             app += '\t return $this->' + element[0] + ';\n'
             app += '}\n\n'
             getter += app
@@ -218,13 +218,13 @@ class WriterModel:
             setter = ''
             if type == 'string':
                 app = '/** \n* @param ' + type + ' $' + element[0] + '\n* @param int $encodeType\n **/\n'
-                app += 'public function set' + element[0].title() + '($' + element[0] + ', $encodeType = self::STR_DEFAULT){\n'
+                app += 'public function set' + element[0].title().replace("_", "") + '($' + element[0] + ', $encodeType = self::STR_DEFAULT){\n'
                 app += '\t $this->' + element[0] + ' = $this->decodeString($' + element[0] + ', $encodeType);\n'
                 app += '}\n\n'
                 setter += app
             else:
                 app = '/** \n* @param ' + type + ' $' + element[0] + '\n**/\n'
-                app += 'public function set' + element[0].title() + '($' + element[0] + '){\n'
+                app += 'public function set' + element[0].title().replace("_", "") + '($' + element[0] + '){\n'
                 app += '\t $this->' + element[0] + ' = $' + element[0] + ';\n'
                 app += '}\n\n'
                 setter += app

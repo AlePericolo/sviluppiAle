@@ -1,8 +1,8 @@
 <?php
 /**
 * Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
+* Date: 28/12/2018
+* Time: 11:03
 * Version: 0.1
 **/
 
@@ -80,7 +80,7 @@ public function createObjKeyArray(array $keyArray){
 	if (isset($keyArray["id"])) $this->id = $keyArray["id"];
 	if (isset($keyArray["id_utente"])) $this->id_utente = $keyArray["id_utente"];
 	if (isset($keyArray["testo"])) $this->testo = $keyArray["testo"];
-	if (isset($keyArray["data_pubblicazione"])) $this->data_pubblicazione = $keyArray["data_pubblicazione"];
+	if (isset($keyArray["data_pubblicazione"]) && $keyArray["data_pubblicazione"] != "") $this->data_pubblicazione = date("Ymd", strtotime($keyArray["data_pubblicazione"]));
 }
 
 /** 
@@ -119,7 +119,7 @@ return $this->pdo->exec(
   PRIMARY KEY (`id`),
   KEY `fk_post_utente_idx` (`id_utente`),
   CONSTRAINT `fk_post_utente` FOREIGN KEY (`id_utente`) REFERENCES `utente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1"
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1"
 );
 }
 
@@ -142,14 +142,14 @@ public function setId($id){
 /** 
 * @return integer
 **/
-public function getId_Utente(){
+public function getIdUtente(){
 	 return $this->id_utente;
 }
 
 /** 
 * @param integer $id_utente
 **/
-public function setId_Utente($id_utente){
+public function setIdUtente($id_utente){
 	 $this->id_utente = $id_utente;
 }
 
@@ -171,14 +171,14 @@ public function setTesto($testo, $encodeType = self::STR_DEFAULT){
 /** 
 * @return DateTime
 **/
-public function getData_Pubblicazione(){
+public function getDataPubblicazione(){
 	 return $this->data_pubblicazione;
 }
 
 /** 
 * @param DateTime $data_pubblicazione
 **/
-public function setData_Pubblicazione($data_pubblicazione){
+public function setDataPubblicazione($data_pubblicazione){
 	 $this->data_pubblicazione = $data_pubblicazione;
 }
 

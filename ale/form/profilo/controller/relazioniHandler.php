@@ -113,8 +113,8 @@ function accettaAmicizia($request){
     try{
         $pdo->beginTransaction();
         $relazione = new Relazione($pdo);
-        $relazione->setId_Richiedente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
-        $relazione->setId_Richiesto($request->idRichiedente);
+        $relazione->setIdRichiedente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
+        $relazione->setIdRichiesto($request->idRichiedente);
         $relazione->setAmicizia(1);
         $relazione->saveOrUpdate();
         $pdo->commit();

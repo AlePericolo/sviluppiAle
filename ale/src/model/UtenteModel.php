@@ -1,8 +1,8 @@
 <?php
 /**
 * Developed by: Alessandro Pericolo
-* Date: 30/11/2018
-* Time: 00:17
+* Date: 28/12/2018
+* Time: 11:03
 * Version: 0.1
 **/
 
@@ -137,7 +137,7 @@ return $this->pdo->exec(
   PRIMARY KEY (`id`),
   KEY `fk_utente_login_idx` (`id_login`),
   CONSTRAINT `fk_utente_login` FOREIGN KEY (`id_login`) REFERENCES `login` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1"
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1"
 );
 }
 
@@ -160,14 +160,14 @@ public function setId($id){
 /** 
 * @return integer
 **/
-public function getId_Login(){
+public function getIdLogin(){
 	 return $this->id_login;
 }
 
 /** 
 * @param integer $id_login
 **/
-public function setId_Login($id_login){
+public function setIdLogin($id_login){
 	 $this->id_login = $id_login;
 }
 
@@ -219,14 +219,14 @@ public function setSesso($sesso, $encodeType = self::STR_DEFAULT){
 /** 
 * @return DateTime
 **/
-public function getData_Nascita(){
+public function getDataNascita(){
 	 return $this->data_nascita;
 }
 
 /** 
 * @param DateTime $data_nascita
 **/
-public function setData_Nascita($data_nascita){
+public function setDataNascita($data_nascita){
 	 $this->data_nascita = $data_nascita;
 }
 

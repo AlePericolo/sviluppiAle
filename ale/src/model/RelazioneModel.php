@@ -1,8 +1,8 @@
 <?php
 /**
 * Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
+* Date: 28/12/2018
+* Time: 11:03
 * Version: 0.1
 **/
 
@@ -140,28 +140,28 @@ public function setId($id){
 /** 
 * @return integer
 **/
-public function getId_Richiedente(){
+public function getIdRichiedente(){
 	 return $this->id_richiedente;
 }
 
 /** 
 * @param integer $id_richiedente
 **/
-public function setId_Richiedente($id_richiedente){
+public function setIdRichiedente($id_richiedente){
 	 $this->id_richiedente = $id_richiedente;
 }
 
 /** 
 * @return integer
 **/
-public function getId_Richiesto(){
+public function getIdRichiesto(){
 	 return $this->id_richiesto;
 }
 
 /** 
 * @param integer $id_richiesto
 **/
-public function setId_Richiesto($id_richiesto){
+public function setIdRichiesto($id_richiesto){
 	 $this->id_richiesto = $id_richiesto;
 }
 

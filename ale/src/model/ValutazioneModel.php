@@ -1,8 +1,8 @@
 <?php
 /**
 * Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
+* Date: 28/12/2018
+* Time: 11:03
 * Version: 0.1
 **/
 
@@ -144,28 +144,28 @@ public function setId($id){
 /** 
 * @return integer
 **/
-public function getId_Post(){
+public function getIdPost(){
 	 return $this->id_post;
 }
 
 /** 
 * @param integer $id_post
 **/
-public function setId_Post($id_post){
+public function setIdPost($id_post){
 	 $this->id_post = $id_post;
 }
 
 /** 
 * @return integer
 **/
-public function getId_Utente(){
+public function getIdUtente(){
 	 return $this->id_utente;
 }
 
 /** 
 * @param integer $id_utente
 **/
-public function setId_Utente($id_utente){
+public function setIdUtente($id_utente){
 	 $this->id_utente = $id_utente;
 }
 

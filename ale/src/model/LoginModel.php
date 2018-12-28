@@ -1,8 +1,8 @@
 <?php
 /**
 * Developed by: Alessandro Pericolo
-* Date: 29/11/2018
-* Time: 17:02
+* Date: 28/12/2018
+* Time: 11:03
 * Version: 0.1
 **/
 
@@ -111,7 +111,7 @@ return $this->pdo->exec(
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1"
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1"
 );
 }
 

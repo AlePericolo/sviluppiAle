@@ -50,9 +50,9 @@ function salvaPost($request){
     try{
         $pdo->beginTransaction();
         $post = new Post($pdo);
-        $post->setId_Utente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
+        $post->setIdUtente(Utente::findIdUtenteByIdLoginStatic($pdo, getLoginDataFromSession('id')));
         $post->setTesto($request->post->testo);
-        $post->setData_Pubblicazione(date("Y-m-d H:i:s"));
+        $post->setDataPubblicazione(date("Y-m-d H:i:s"));
         $post->saveOrUpdate();
         $pdo->commit();
         $result['response'] = 'OK';
@@ -145,12 +145,12 @@ function salvaDatiUtente($request){
         //se mi arriva un id cerco il record e faccio l'update degli altri campi
         if ($request->utente->id)
             $utente->findByPk($request->utente->id);
-        $utente->setId_Login(getLoginDataFromSession('id'));
+        $utente->setIdLogin(getLoginDataFromSession('id'));
         $utente->setNome($request->utente->nome);
         $utente->setCognome($request->utente->cognome);
         $utente->setSesso($request->utente->sesso);
         if($request->utente->data_nascita != '')
-            $utente->setData_Nascita(date("Ymd", strtotime($request->utente->data_nascita)));
+            $utente->setDataNascita(date("Ymd", strtotime($request->utente->data_nascita)));
         $utente->setFoto($request->utente->foto);
         $utente->saveOrUpdate();
         $pdo->commit();

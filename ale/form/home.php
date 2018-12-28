@@ -31,7 +31,7 @@
 
 <div class="horizontalBar">
     <div class="mostraMenuContainer">
-        <?php echo'<img src="../grafica/img/'.$logo.'" alt="Logo" width="35%" class="marginT5 marginL5p containerLogo">' ?>
+        <?php echo'<img src="../grafica/img/logo/logo.jpg" alt="Logo" width="23%" class="marginT5 marginL5p containerLogo">' ?>
     </div>
 
     <div id="gestioneUtente" class="containerUtenteHeader">

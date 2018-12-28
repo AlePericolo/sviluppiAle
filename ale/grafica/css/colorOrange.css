@@ -10,6 +10,8 @@
     border-radius: 5px;
 }
 .baseColor { background-color: #bb1f04 !important; }
+.baseColor2 { background-color: #cd4701 !important; }
+.baseColor3 { background-color: #7cccd4 !important; }
 
 #containerMostraMenu {
     background-color: #cd4701;
@@ -65,4 +67,8 @@
 }
 .tooltip.bottom-right .tooltip-arrow {
     border-bottom-color: #9f1b00 !important;
+}
+
+.horizontalBarButton:hover, .horizontalBarButton:active, .horizontalBarButton:visited{
+    background-color:  #7cccd4 !important;
 }

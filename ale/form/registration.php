@@ -3,21 +3,21 @@
 
 <head>
     <!--import lib css js-->
-    <?php include_once '../grafica/header.html';?>
-<?php
-$color = 'Blue';
-echo '<link href="../grafica/css/color'.$color.'.css" rel="stylesheet" type="text/css" media="all">';
-?>
-<!-- import angularjs controller-->
-<script type="text/javascript" src="template/controller/registrationController.js"></script>
-<title>Registration</title>
+    <?php
+        include_once '../conf/conf.php';
+        include_once '../grafica/header.html';
+        echo '<link href="../grafica/css/color'.COLOR.'.css" rel="stylesheet" type="text/css" media="all">';
+    ?>
+    <!-- import angularjs controller-->
+    <script type="text/javascript" src="template/controller/registrationController.js"></script>
+    <title>Registration</title>
 </head>
 
 <body ng-app="ngApp" ng-controller="registrationController" class="background-light">
 
 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 marginT5percent">
     <div class="panel panel-default text-center">
-        <div class="panel-heading baseColor"><label class="font18 padding0 colorWhite"> REGISTRATION </label></div>
+        <div class="panel-heading baseColor3"><label class="font18 padding0 colorWhite"> REGISTRATION </label></div>
         <div class="panel-body">
             <div class="form-group input-group col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2" title="Username">
                 <span class="input-group-addon"> <i class="fa fa-user" aria-hidden="true"></i> </span>
@@ -43,7 +43,7 @@ echo '<link href="../grafica/css/color'.$color.'.css" rel="stylesheet" type="tex
             <div class="row text-left marginL10"> <u class="pointer" ng-click="goToLogin()">Login</u> </div>
         </div>
         <div class="panel-footer text-center">
-            <small>&copy;Peril</small>
+            <small>&copy;Developed by Peril - 2018</small>
         </div>
     </div>
 </div>

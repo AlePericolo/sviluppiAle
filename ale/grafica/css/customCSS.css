@@ -124,6 +124,8 @@ input[type="file"] {
 .font18 { font-size: 18px !important; }
 .font20 { font-size: 20px !important; }
 
+.courier { font-family: "Courier New", Courier, monospace}
+
 /* ----------------------------------------------------- BORDI ------------------------------------------------------ */
 .border0 { border: none !important; }
 .borderT1 {border-top: 1px solid; }
@@ -157,6 +159,7 @@ input[type="file"] {
 .marginL15 { margin-left: 15px !important; }
 .marginL20 { margin-left: 20px !important; }
 .marginL20p { margin-left: 20% !important; }
+.marginL25p { margin-left: 25% !important; }
 .marginX2 { margin: 0 2px; }
 .marginX10 { margin: 0 10px; }
 .marginY20 { margin: 20px 0; }
@@ -218,9 +221,8 @@ input[type="file"] {
 
 /* ------------------------------------------------------CONTAINER--------------------------------------------------- */
 .mostraMenuContainer{
-    margin-left: 20px;
     float: left;
-    width: 20%;
+    width: 10%;
 }
 .nomeClienteContainer{
     width: 60%;

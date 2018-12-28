@@ -31,9 +31,11 @@
 
 <div class="horizontalBar">
     <div class="mostraMenuContainer">
-        <?php echo'<img src="../grafica/img/logo/logo.jpg" alt="Logo" width="23%" class="marginT5 marginL5p containerLogo">' ?>
+        <?php echo'<img src="../grafica/img/logo/logo.jpg" alt="Logo" width="45%" class="marginT5 marginL25p containerLogo">' ?>
     </div>
-
+    <div class="floatL marginL20">
+        <h1 class="azure courier">Peril Network</h1>
+    </div>
     <div id="gestioneUtente" class="containerUtenteHeader">
         <div class="horizontalBarButtonContainer">
             <button type="button" class="btn btn-sm horizontalBarButton pointer" title="Logout" ng-click="logout()">

@@ -19,7 +19,7 @@
         <h1>Click button to copy text to clipboard</h1>
         <textarea ng-model="textToCopy" rows="5" cols="30"></textarea><br />
         <button clipboard text="textToCopy" on-copied="success()" on-error="fail(err)">Copy</button>
-
+        <br><br><br>
         <table>
             <tr ng-repeat="c in contatti">
                 <td>{{c.nome}}</td>

@@ -2,7 +2,7 @@
  * Created by clickale on 04/04/17.
  */
 
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ["ngSanitize", "ngCsv"]);
 
 app.controller('stampaController', function ($scope, $http) {
 

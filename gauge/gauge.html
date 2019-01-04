@@ -2,20 +2,20 @@
 <html lang="en"  id="ng-app" ng-app="app">
 <head>
     <meta charset="UTF-8">
-    <title>Tachimetro</title>
+    <title>Gauge</title>
     <!-- import angularjs -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <!-- import bootstrap -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-
+    <!--controller-->
     <script type="text/javascript" src="controller.js"></script>
+    <!--gauge lib-->
     <script type="text/javascript" src="lib/angularjs-gauge.min.js"></script>
 </head>
+
 <body ng-controller="AppController" >
 
-    <h1 class="text-center">Tachimetro</h1>
-    <br/><br/><br/>
-
+    <h1 class="text-center">Gauge</h1>
     <div class="col-sm-4 text-center">
         <ng-gauge size="150" type="full" thick="5"
               min="0" max="100" value="statoAvanzamento1"

@@ -23,8 +23,7 @@ function csv_to_array($filename='', $delimiter=';')
     }
     return $data;
 }
-/**
- * Example
- */
+
+echo "<h3>Get CSV data from file</h3>";
 print_r(csv_to_array('test.csv'));
 ?>

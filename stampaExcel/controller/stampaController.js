@@ -39,7 +39,6 @@ app.controller('stampaController', function ($scope, $http) {
             app.push($scope.data[i].note);
             app.push($scope.data[i].millesimi);
 
-
             $scope.fileExport.push(app);
         }
 

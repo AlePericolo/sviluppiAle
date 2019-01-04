@@ -9,7 +9,7 @@
     <!-- import angularjs -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <!-- import angularjs controller-->
-    <script type="text/javascript" src="../angular/elencoTicketController.js"></script>
+    <script type="text/javascript" src="../controller/elencoTicketController.js"></script>
     <!-- import bootstrap ui js -->
     <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
 
@@ -22,9 +22,12 @@
 
     <div class="panel-default panelCustom">
 
-        <div class="panel-heading panleHeadingCustom">
-            <p class="text-center">ELENCO TICKET di: {{username}}</p>
-            <button type="button" class="btn btn-custom btnRight margineAltoMeno35" ng-click="goToNewTicket()">Nuovo Ticket</button>
+        <div class="panel-heading panleHeadingCustom fotm-group form-inline">
+            <div class="row">
+                <div class="col-md-4"> <button class="btn btn-custom" ng-click="goToTestColor()">Test color</button> </div>
+                <div class="col-md-4 text-center">ELENCO TICKET di: {{username}}</div>
+                <div class="col-md-4"> <button class="btn btn-custom btnRight" ng-click="goToNewTicket()">Nuovo Ticket</button> </div>
+            </div>
         </div>
 
         <div class="panel-body">

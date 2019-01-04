@@ -46,7 +46,7 @@ app.directive('myDirective', function (httpPostFactory) {
             element.bind('change', function () {
                 var formData = new FormData();
                 formData.append('file', element[0].files[0]);
-                httpPostFactory('../file-upload.php', formData, function (callback) {
+                httpPostFactory('../utility/file-upload.php', formData, function (callback) {
                     // recieve image name to use in a ng-src
                     alert("file uploaded");
                     console.log(callback);

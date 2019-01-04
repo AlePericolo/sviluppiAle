@@ -12,8 +12,12 @@ app.controller('elencoTicketController', function($scope) {
         $scope.username = /username=([^&]+)/.exec(url)[1];
     }
 
+    $scope.goToTestColor = function() {
+        location.href = '../pagine/testColor.html';
+    };
+
     $scope.goToNewTicket = function() {
-        location.href = '../pagine/nuovoTicket.html?username='+$scope.username;;
+        location.href = '../pagine/nuovoTicket.html?username='+$scope.username;
     };
 
     $scope.sortType     = 'titolo'; // set the default sort type
@@ -67,7 +71,7 @@ app.controller('elencoTicketController', function($scope) {
             $scope.itemsPerPage = num;
             $scope.currentPage = 1; //reset to first paghe
         }
-    }
+    };
 
     $scope.clearSearch = function () {
         $scope.search.titolo = '';
@@ -75,7 +79,7 @@ app.controller('elencoTicketController', function($scope) {
         $scope.search.descrizione = '';
         $scope.search.stato = '';
         $scope.search.priorita = '';
-    }
+    };
 
     $scope.show = function(item){
         $scope.singleItem = item;

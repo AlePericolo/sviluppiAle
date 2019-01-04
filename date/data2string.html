@@ -4,28 +4,24 @@
 <body>
 
 <div ng-app="myApp" ng-controller="myCtrl">
-
-    <input type="date" ng-model="dataSelezionata"> {{dataSelezionata}}
+    <h3>Convert from js date 2 string YYYYMMDD</h3>
+    <input type="date" ng-model="dataSelezionata"> <br><br>
+    DATA: {{dataSelezionata}} <br><br>
     <button ng-click="cambia()">converti</button>
-
 </div>
 
 <script>
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function($scope) {
-
         $scope.dataSelezionata = "";
-
         $scope.cambia = function(){
             $scope.dataSelezionata = $scope.dataSelezionata.yyyymmdd();
         }
-
     });
 
     Date.prototype.yyyymmdd = function() {
         var mm = this.getMonth() + 1; // getMonth() is zero-based
         var dd = this.getDate();
-
         return [this.getFullYear(),
             (mm>9 ? '' : '0') + mm,
             (dd>9 ? '' : '0') + dd

@@ -14,20 +14,12 @@
     <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-loader-static-files/2.16.0/angular-translate-loader-static-files.js"></script>
     <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-handler-log/2.16.0/angular-translate-handler-log.js"></script>
     <script src="script.js"></script>
+    <title>Translatore</title>
 </head>
-<body>
-<div ng-controller="Ctrl">
-
-
+<body ng-controller="Ctrl">
+    <h3>Translator</h3>
     <label translate>{{ 'labelNome' | translate}}</label>
-
-
-
-
-
-
     <button ng-click="changeLanguage('it')" translate="BUTTON_LANG_IT"></button>
     <button ng-click="changeLanguage('en')" translate="BUTTON_LANG_EN"></button>
-</div>
 </body>
 </html>

@@ -2,7 +2,7 @@
  * Created by clickale on 04/04/17.
  */
 
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ["ngSanitize", "ngCsv"]);
 
 app.controller('stampaController', function ($scope, $http) {
 
@@ -38,7 +38,6 @@ app.controller('stampaController', function ($scope, $http) {
             app.push($scope.data[i].sesso);
             app.push($scope.data[i].note);
             app.push($scope.data[i].millesimi);
-
 
             $scope.fileExport.push(app);
         }

@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>VUEJS</title>
     <script src="lib/vue.js"></script>
+    <title>Test Vue</title>
 </head>
-
 <body>
-
+    <h3>Test VueJS</h3>
     <div id="app">
-
         {{ message }} <br/><br/>
-
         <span v-bind:title="message2"> Hover your mouse over me for a few seconds to see my dynamically bound title! </span> <br/><br/>
-
         <span v-if="seen">Now you see me</span> <br/><br/>
-
         <table>
             <tbody>
                 <tr>
@@ -29,17 +24,11 @@
                 </tr>
             </tbody>
         </table> <br/><br/>
-
         <p>{{ message3 }}</p>
         <button v-on:click="messageAlert">click</button>
-
-
     </div>
-
 </body>
-
 <footer>
     <script src="app.js"></script>
 </footer>
-
 </html>

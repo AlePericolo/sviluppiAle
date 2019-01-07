@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css">
     <link rel="stylesheet" href="css/style.css">
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
@@ -19,22 +18,23 @@
 
 <body data-ng-controller="MainCtrl">
 
-<section class="blue">
-    <div class="container">
-        <div class="content" role="toolbar">
-            <h2 class="content-title">Sample - Selected index: {{slickCurrentIndex}}</h2>
-            <slick class="slider" settings="slickConfig" ng-if="slickConfigLoaded">
-                <div ng-repeat="item in items track by $index">
-                    <div>
-                        <img ng-src="http://192.168.8.170/sviluppiAle/sliderImg/copertine/{{item.label}}" err-SRC src="http://192.168.8.170/sviluppiAle/sliderImg/copertine/notAvailable.jpg" width="100%" ng-click="show(item.label)">
-                    </div>
+    <div class="container-fluid">
+        <h3>Slider 3</h3>
+        <section class="blue">
+            <div class="container">
+                <div class="content" role="toolbar">
+                    <h2 class="content-title">Sample - Selected index: {{slickCurrentIndex}}</h2>
+                    <slick class="slider" settings="slickConfig" ng-if="slickConfigLoaded">
+                        <div ng-repeat="item in items track by $index">
+                            <div>
+                                <img ng-src="http://192.168.8.170/sviluppiAle/sliderImg/copertine/{{item.label}}" err-SRC src="http://192.168.8.170/sviluppiAle/sliderImg/copertine/notAvailable.jpg" width="100%" ng-click="show(item.label)">
+                            </div>
+                        </div>
+                    </slick>
                 </div>
-            </slick>
-        </div>
+            </div>
+        </section>
     </div>
-</section>
-
 
 </body>
-
 </html>

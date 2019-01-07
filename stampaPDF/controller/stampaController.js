@@ -116,7 +116,6 @@ app.controller('stampaController', function($scope) {
             app.push($scope.data[i].note);
             app.push($scope.data[i].millesimi);
 
-
             $scope.fileExport.push(app);
         }
 
@@ -152,7 +151,6 @@ app.controller('stampaController', function($scope) {
             }
         }
 
-
         if($scope.hf){
             var pageContent = function (data) {
                 doc.setFontSize($scope.stampa.dimensioneFontHeader);
@@ -168,7 +166,6 @@ app.controller('stampaController', function($scope) {
                 doc.text(foot, data.settings.margin.left, doc.internal.pageSize.height - 5);
             };
         }
-
 
         var columns = $scope.getHeaderTable();
         var rows = $scope.creaFileDaScaricare();
@@ -188,7 +185,6 @@ app.controller('stampaController', function($scope) {
                 right: $scope.stampa.margineDestro,
                 bottom: $scope.stampa.margineBasso
             },
-
             styles: {
                 cellPadding: $scope.stampa.paddingCella,
                 font: $scope.stampa.tipoFont,
@@ -197,8 +193,6 @@ app.controller('stampaController', function($scope) {
                 overflow: $scope.stampa.testoCella,
                 columnWidth: 'auto'
             },
-
-
 
             columnStyles: {
                 0: {
@@ -222,15 +216,10 @@ app.controller('stampaController', function($scope) {
                 6: {
                     columnWidth: 'auto'
                 }
-            },
-
-
-
+            }
         });
 
         doc.save($scope.stampa.nomeFile+'.pdf');
     };
-
-
 
 });

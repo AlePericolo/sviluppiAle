@@ -7,13 +7,9 @@
  */
 
 require_once '../lib/functions.php';
-
 require_once '../PHPExcel/Classes/PHPExcel.php';
 
-
-
 function stampaExcel($name){
-
 
     // Create new PHPExcel object
     $objPHPExcel = new PHPExcel();
@@ -38,9 +34,7 @@ function stampaExcel($name){
         ->setCellValue('A4', 'Miscellaneous glyphs')
         ->setCellValue('A5', 'éàèùâêîôûëïüÿäöüç');
 
-
     $objPHPExcel->getActiveSheet()->setTitle('Foglio 1');
-
 
     // Set active sheet index to the first sheet, so Excel opens this as the first sheet
     $objPHPExcel->setActiveSheetIndex(0);

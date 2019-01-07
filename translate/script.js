@@ -3,7 +3,6 @@ var translationsEN = {
     BUTTON_LANG_EN: 'English',
     labelNome: 'Name'
 };
-
 var translationsIT= {
     BUTTON_LANG_IT: 'Italiano',
     BUTTON_LANG_EN: 'Inglese',
@@ -21,7 +20,6 @@ app.config(['$translateProvider', function ($translateProvider) {
 }]);
 
 app.controller('Ctrl', ['$translate', '$scope', function ($translate, $scope) {
-
     $scope.changeLanguage = function (langKey) {
         $translate.use(langKey);
     };

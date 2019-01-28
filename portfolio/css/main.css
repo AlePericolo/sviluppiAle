@@ -19,7 +19,7 @@ html, body{
 
 .foot{
     text-align: center!important;
-    padding: 1.5rem;
+    padding: 0.2rem;
     background-color: #e9ecef;
 }
 
@@ -30,8 +30,8 @@ html, body{
 
 /*CONTAINER*/
 .dataBodyContainer {
-    background-color: #5dc2f1;
-    height: 70vh;
+    background-color: #b6dff1;
+    height: 75vh;
     position: relative;
     overflow-y: auto;
 }
@@ -54,4 +54,21 @@ html, body{
 .dataBodyView.ng-leave.ng-leave-active {
     left: -200px;
     opacity: 0;
+}
+
+/*BOTTONI SOCIAL*/
+.btn-circle {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 40px;
+    line-height: 1.33;
+    margin: 10px;
+    background-color: #dee3e5;
+}
+
+.btn-circle:hover {
+    transform: scale(1.1);
+    background-color: #fff;
 }

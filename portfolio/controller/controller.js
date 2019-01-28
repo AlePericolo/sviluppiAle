@@ -25,23 +25,24 @@ app.controller("projectController", function ($scope) {
 
 
 
-app.controller("contactController", function ($scope) {
-    $scope.user = {
-        title: 'Developer',
-        email: 'ipsum@lorem.com',
-        firstName: '',
-        lastName: '',
-        company: 'Google',
-        address: '1600 Amphitheatre Pkwy',
-        city: 'Mountain View',
-        state: 'CA',
-        biography: 'Loves kittens, snowboarding, and can type at 130 WPM.\n\nAnd rumor has it she bouldered up Castle Craig!',
-        postalCode: '94043'
+app.controller("contactController",  ['$scope', '$http', function ($scope, $http) {
+    $scope.email = {
+        email: '',
+        subject: '',
+        message: ''
     };
-
-    $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
-        'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
-        'WY').split(' ').map(function(state) {
-        return {abbrev: state};
-    });
-});
+    $scope.sendEmail = function () {
+        $http({
+            method: 'POST',
+            url: 'http://alessandropericolo14.altervista.org/page/contact.php',
+            data: $scope.email,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).then(function(data){
+            if(data.statusText === "OK"){
+                Swal.fire('Your email was sent successfully!', 'La sua email è stata inviata correttamente.', 'success')
+            }else{
+                Swal.fire('Error, email not sent!', 'Errore, la sua email non è stata inviata.', 'error')
+            }
+        });
+    };
+}]);

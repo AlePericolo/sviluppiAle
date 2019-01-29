@@ -20,7 +20,7 @@ app.config(function($routeProvider) {
 
 
 app.controller("projectController", function ($scope) {
-    $scope.msg = "PROGETTI";
+
 });
 
 

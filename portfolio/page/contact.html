@@ -3,31 +3,30 @@
         <div class="col-sm-6 px-5 mt-5">
             <h1 class="mt-2 text-center">Contact me:</h1>
             <form name="emailForm" ng-submit="sendEmail()">
-                    <md-input-container class="w-100">
-                        <label>Email</label>
-                        <input type="email" name="email" ng-model="email.email" required="" ng-pattern="/^.+@.+\..+$/" autocomplete="off">
-                        <div ng-messages="emailForm.email.$error" role="alert">
-                            <div ng-message-exp="['required', 'pattern']"> Email field is required and must be valid. </div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container class="w-100">
-                        <label>Subject</label>
-                        <input type="text" name="subject" ng-model="email.subject" required="" md-maxlength="30" autocomplete="off">
-                        <div ng-messages="emailForm.subject.$error">
-                            <div ng-message-exp="['required', 'maxlength']"> Subject field is required and must be less than 30 characters long. </div>
-                        </div>
-                    </md-input-container>
-
-                    <md-input-container class="w-100">
-                        <label>Message</label>
-                        <textarea name="message" ng-model="email.message" required="" md-maxlength="150" rows="3" md-select-on-focus=""></textarea>
-                        <div ng-messages="emailForm.message.$error">
-                            <div ng-message-exp="['required', 'maxlength']"> Message field is required and must be less than 150 characters long. </div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container class="w-100 text-center">
-                        <md-button type="submit" class="md-raised md-cornered" ng-disabled="emailForm.$invalid">Send Email</md-button>
-                    </md-input-container>
+                <md-input-container class="w-100">
+                    <label>Email</label>
+                    <input type="email" name="email" ng-model="email.email" required="" ng-pattern="/^.+@.+\..+$/" autocomplete="off">
+                    <div ng-messages="emailForm.email.$error" role="alert">
+                        <div ng-message-exp="['required', 'pattern']"> Email field is required and must be valid. </div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="w-100">
+                    <label>Subject</label>
+                    <input type="text" name="subject" ng-model="email.subject" required="" md-maxlength="30" autocomplete="off">
+                    <div ng-messages="emailForm.subject.$error">
+                        <div ng-message-exp="['required', 'maxlength']"> Subject field is required and must be less than 30 characters long. </div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="w-100">
+                    <label>Message</label>
+                    <textarea name="message" ng-model="email.message" required="" md-maxlength="150" rows="3" md-select-on-focus=""></textarea>
+                    <div ng-messages="emailForm.message.$error">
+                        <div ng-message-exp="['required', 'maxlength']"> Message field is required and must be less than 150 characters long. </div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="w-100 text-center">
+                    <md-button type="submit" class="md-raised md-cornered" ng-disabled="emailForm.$invalid">Send Email</md-button>
+                </md-input-container>
             </form>
         </div>
         <div class="col-sm-6 px-5 mt-5 mb-5">
@@ -45,6 +44,9 @@
                 <a href="https://www.instagram.com/alepericolo/" target="_blank">
                     <button type="button" class="btn btn-default btn-circle" title="Instagram"><i class="fab fa-instagram"></i></button>
                 </a>
+            </div>
+            <div class="col-sm-12 text-center mt-2 p-0">
+                <p>make it easy to keep in contact</p>
             </div>
         </div>
     </div>

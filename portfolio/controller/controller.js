@@ -21,6 +21,14 @@ app.config(function($routeProvider) {
 
 app.controller("projectController", function ($scope) {
 
+    $scope.projects = [
+                        {title: 'SVILUPPIALE', description: 'Random projects developed for test.', link: 'sviluppiAle'},
+                        {title: 'PYTHONALE', description: 'Python local test.', link: 'pythonAle'},
+                        {title: 'PERILBOT', description: 'Telegram Bot. Developed for fun.', link: 'perilBot'},
+                        {title: 'PYTHONMODELER', description: 'Write PHP classes from MySQL db.', link: 'pythonModeler'},
+                        {title: 'SNAKE', description: 'The classic snake game.', link: 'snake'},
+                        {title: 'PERILNETWORK', description: 'Mini social network.', link: 'perilNetwork'}
+                      ];
 });
 
 

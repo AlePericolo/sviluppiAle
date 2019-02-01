@@ -1,52 +1,58 @@
 <div ng-controller="contactController" ng-app="dangerApp">
     <div class="row">
-        <div class="col-sm-6 px-5 mt-5">
-            <h1 class="mt-2 text-center">Contact me:</h1>
-            <form name="emailForm" ng-submit="sendEmail()">
-                <md-input-container class="w-100">
-                    <label>Email</label>
-                    <input type="email" name="email" ng-model="email.email" required="" ng-pattern="/^.+@.+\..+$/" autocomplete="off">
-                    <div ng-messages="emailForm.email.$error" role="alert">
-                        <div ng-message-exp="['required', 'pattern']"> Email field is required and must be valid. </div>
-                    </div>
-                </md-input-container>
-                <md-input-container class="w-100">
-                    <label>Subject</label>
-                    <input type="text" name="subject" ng-model="email.subject" required="" md-maxlength="30" autocomplete="off">
-                    <div ng-messages="emailForm.subject.$error">
-                        <div ng-message-exp="['required', 'maxlength']"> Subject field is required and must be less than 30 characters long. </div>
-                    </div>
-                </md-input-container>
-                <md-input-container class="w-100">
-                    <label>Message</label>
-                    <textarea name="message" ng-model="email.message" required="" md-maxlength="150" rows="3" md-select-on-focus=""></textarea>
-                    <div ng-messages="emailForm.message.$error">
-                        <div ng-message-exp="['required', 'maxlength']"> Message field is required and must be less than 150 characters long. </div>
-                    </div>
-                </md-input-container>
-                <md-input-container class="w-100 text-center">
-                    <md-button type="submit" class="md-raised md-cornered" ng-disabled="emailForm.$invalid">Send Email</md-button>
-                </md-input-container>
-            </form>
-        </div>
-        <div class="col-sm-6 px-5 mt-5 mb-5">
-            <h1 class="mt-2 text-center">Social:</h1>
-            <div class="col-sm-12 text-center">
-                <a href="https://www.linkedin.com/in/alessandro-pericolo-83074310a/" target="_blank">
-                    <button type="button" class="btn btn-default btn-circle" title="LinkedIn"><i class="fab fa-linkedin"></i></button>
-                </a>
-                <a href="https://github.com/AlePericolo" target="_blank">
-                    <button type="button" class="btn btn-default btn-circle" title="GitHub"><i class="fab fa-github"></i></button>
-                </a>
-                <a href="https://www.facebook.com/alessandro.pericolo.7" target="_blank">
-                    <button type="button" class="btn btn-default btn-circle" title="Facebook"><i class="fab fa-facebook"></i></button>
-                </a>
-                <a href="https://www.instagram.com/alepericolo/" target="_blank">
-                    <button type="button" class="btn btn-default btn-circle" title="Instagram"><i class="fab fa-instagram"></i></button>
-                </a>
+        <div class="col-md-6 col-sm-12">
+            <div class="row justify-content-center">
+                <h3 class="mt-2 mb-3 font-weight-bold">Contact me:</h3>
+                <div class="col-md-10 offset-md-1 col-sm-12">
+                    <form name="emailForm" ng-submit="sendEmail()">
+                        <md-input-container class="w-100">
+                            <label class="labelEmail"><i class="fas fa-at"></i> E-MAIL</label>
+                            <input type="email" name="email" ng-model="email.email" required="" ng-pattern="/^.+@.+\..+$/" autocomplete="off">
+                            <div ng-messages="emailForm.email.$error" role="alert">
+                                <div ng-message-exp="['required', 'pattern']"> Email field is required and must be valid. </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="w-100">
+                            <label class="labelEmail">SUBJECT</label>
+                            <input type="text" name="subject" ng-model="email.subject" required="" md-maxlength="30" autocomplete="off">
+                            <div ng-messages="emailForm.subject.$error">
+                                <div ng-message-exp="['required', 'maxlength']"> Subject field is required and must be less than 30 characters long. </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="w-100">
+                            <label class="labelEmail">MESSAGE</label>
+                            <textarea name="message" ng-model="email.message" required="" md-maxlength="150" rows="3" md-select-on-focus=""></textarea>
+                            <div ng-messages="emailForm.message.$error">
+                                <div ng-message-exp="['required', 'maxlength']"> Message field is required and must be less than 150 characters long. </div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="w-100 text-center">
+                            <md-button type="submit" class="md-raised md-cornered" ng-disabled="emailForm.$invalid">&nbsp;Send <i class="far fa-envelope"></i> &nbsp;</md-button>
+                        </md-input-container>
+                    </form>
+                </div>
             </div>
-            <div class="col-sm-12 text-center mt-2 p-0">
-                <p>make it easy to keep in contact</p>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="row justify-content-center">
+                <h3 class="mt-2 mb-3 font-weight-bold">Social:</h3>
+                <div class="col-12 text-center">
+                    <a href="https://www.linkedin.com/in/alessandro-pericolo-83074310a/" target="_blank">
+                        <button type="button" class="btn btn-default btn-circle" title="LinkedIn"><i class="fab fa-linkedin"></i></button>
+                    </a>
+                    <a href="https://github.com/AlePericolo" target="_blank">
+                        <button type="button" class="btn btn-default btn-circle" title="GitHub"><i class="fab fa-github"></i></button>
+                    </a>
+                    <a href="https://www.facebook.com/alessandro.pericolo.7" target="_blank">
+                        <button type="button" class="btn btn-default btn-circle" title="Facebook"><i class="fab fa-facebook"></i></button>
+                    </a>
+                    <a href="https://www.instagram.com/alepericolo/" target="_blank">
+                        <button type="button" class="btn btn-default btn-circle" title="Instagram"><i class="fab fa-instagram"></i></button>
+                    </a>
+                </div>
+                <div class="col-12 text-center mt-2 p-0">
+                    <h5>make it easy to keep in contact</h5>
+                </div>
             </div>
         </div>
     </div>

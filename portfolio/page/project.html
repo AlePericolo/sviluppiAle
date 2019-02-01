@@ -1,9 +1,9 @@
 <div ng-controller="projectController" ng-app="dangerApp">
     <div class="row">
-        <div class="col-md-5 col-sm-12">
+        <div class="col-md-6 col-sm-12">
             <div class="row justify-content-center">
-                <h3 class="text-center mt-2 mb-5">Experience in the use of <b>MVC</b> architectural pattern:</h3>
-                <div class="col-md-6 col-sm-12 text-center">
+                <h3 class="mt-2 mb-3 text-center">Experience in the use of <b>MVC</b> architectural pattern:</h3>
+                <div class="col-md-4 offset-md-1 col-sm-12 text-center">
                     <h5><b>MODEL</b></h5>
                     <div class="row justify-content-center mb-3">
                         <img src="img/php.png" alt="PHP" class="imageLogo">
@@ -20,7 +20,7 @@
                         <img src="img/javascript.png" alt="JavaScript" class="imageLogo">
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 text-center">
+                <div class="col-md-4 col-sm-12 text-center">
                     <h5><b>DATABASE</b></h5>
                     <div class="row justify-content-center mb-3">
                         <img src="img/mysql.png" alt="MySQL" class="imageLogo">
@@ -28,14 +28,29 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-7 col-sm-12 p-0">
-            <div class="row justify-content-center">
-                <h3 class="text-center mt-2 mb-5">PROJECTS:</h3>
-                <div class="col-12">
-                    <span class="projectTitle effect-shine"> SUKA </span>
+        <div class="col-md-6 col-sm-12">
+            <div class="row justify-content-md-center">
+                <div class="col-md-8 col-sm-12 align-self-center">
+                    <h3 class="mt-2 mb-3 font-weight-bold text-center">Projects:</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item pl-2 pr-2" ng-repeat="p in projects">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 text-md-right font-weight-bold mt-md-2"> {{p.title}} </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-10 mt-2 pr-0"> {{p.description}} </div>
+                                        <div class="col-2">
+                                            <a ng-href="https://github.com/AlePericolo/{{p.link}}" target="_blank">
+                                                <button class="btn btn-outline-dark btn-sm" title="See on GitHub"> <i class="fab fa-github"></i> </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

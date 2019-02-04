@@ -1,8 +1,8 @@
 <div ng-controller="projectsController" ng-app="dangerApp">
     <div class="row">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-6 col-sm-12 mb-2">
             <div class="row justify-content-center">
-                <h3 class="mt-2 mb-3 text-center">Experience in the use of <b>MVC</b> architectural pattern:</h3>
+                <h3 class="mt-2 mb-3 w-100 text-center">Experience in <b>MVC</b> architectural pattern:</h3>
                 <div class="col-md-4 offset-md-1 col-sm-12 text-center">
                     <h5><b>MODEL</b></h5>
                     <div class="row justify-content-center mb-3">
@@ -28,18 +28,18 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-6 col-sm-12 mb-2">
             <div class="row justify-content-md-center">
-                <div class="col-md-8 col-sm-12 align-self-center">
-                    <h3 class="mt-2 mb-3 font-weight-bold text-center">Projects:</h3>
+                <h3 class="mt-2 mb-3 w-100 font-weight-bold text-center">Projects:</h3>
+                <div class="col-md-10 col-sm-12 lightContainer">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item pl-2 pr-2" ng-repeat="p in projects">
+                        <li class="list-group-item px-2 py-1" ng-repeat="p in projects">
                             <div class="row">
-                                <div class="col-md-3 col-sm-12 text-md-right font-weight-bold mt-md-2"> {{p.title}} </div>
-                                <div class="col-md-9 col-sm-12">
+                                <div class="col-12 font-weight-bold mt-md-2"> {{p.title}} </div>
+                                <div class="col-12">
                                     <div class="row">
                                         <div class="col-10 mt-2 pr-0"> {{p.description}} </div>
-                                        <div class="col-2">
+                                        <div class="col-2 text-right">
                                             <a ng-href="https://github.com/AlePericolo/{{p.link}}" target="_blank">
                                                 <button class="btn btn-outline-dark btn-sm" title="See on GitHub"> <i class="fab fa-github"></i> </button>
                                             </a>

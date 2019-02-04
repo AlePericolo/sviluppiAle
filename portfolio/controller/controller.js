@@ -27,7 +27,8 @@ app.controller("projectsController", function ($scope) {
                         {title: 'PERILBOT', description: 'Telegram Bot. Developed for fun.', link: 'perilBot'},
                         {title: 'PYTHONMODELER', description: 'Write PHP classes from MySQL db.', link: 'pythonModeler'},
                         {title: 'SNAKE', description: 'The classic snake game.', link: 'snake'},
-                        {title: 'PERILNETWORK', description: 'Mini social network.', link: 'perilNetwork'}
+                        {title: 'PERILNETWORK', description: 'Mini social network.', link: 'perilNetwork'},
+                        {title: 'CRYPTO', description: 'Crypt data with openssl keys.', link: 'crypto'}
                       ];
 });
 

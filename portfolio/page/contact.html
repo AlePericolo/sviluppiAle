@@ -1,9 +1,9 @@
 <div ng-controller="contactController" ng-app="dangerApp">
     <div class="row">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-6 col-sm-12 mb-2">
             <div class="row justify-content-center">
-                <h3 class="mt-2 mb-3 font-weight-bold">Contact me:</h3>
-                <div class="col-md-10 offset-md-1 col-sm-12">
+                <h3 class="mt-2 mb-3 w-100 font-weight-bold text-center">Contact me:</h3>
+                <div class="col-md-10 col-sm-12 lightContainer">
                     <form name="emailForm" ng-submit="sendEmail()">
                         <md-input-container class="w-100">
                             <label class="labelEmail"><i class="fas fa-at"></i> E-MAIL</label>
@@ -26,16 +26,16 @@
                                 <div ng-message-exp="['required', 'maxlength']"> Message field is required and must be less than 150 characters long. </div>
                             </div>
                         </md-input-container>
-                        <md-input-container class="w-100 text-center">
+                        <md-input-container class="w-100 text-center mb-0">
                             <md-button type="submit" class="md-raised md-cornered" ng-disabled="emailForm.$invalid">&nbsp;Send <i class="far fa-envelope"></i> &nbsp;</md-button>
                         </md-input-container>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-6 col-sm-12 mb-2">
             <div class="row justify-content-center">
-                <h3 class="mt-2 mb-3 font-weight-bold">Social:</h3>
+                <h3 class="mt-2 mb-3 w-100 font-weight-bold text-center">Social:</h3>
                 <div class="col-12 text-center">
                     <a href="https://www.linkedin.com/in/alessandro-pericolo-83074310a/" target="_blank">
                         <button type="button" class="btn btn-default btn-circle" title="LinkedIn"><i class="fab fa-linkedin"></i></button>

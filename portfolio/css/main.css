@@ -19,8 +19,8 @@ html, body{
 }
 
 .head{
-    text-align: center!important;
-    padding: 1.8rem;
+    font-size: 2.5rem;
+    padding: 1rem;
     background-color: #e9ecef
 }
 
@@ -30,9 +30,9 @@ html, body{
     background-color: #212529
 }
 
-.pLR-8{
-    padding-left: 8px !important;
-    padding-right: 8px !important;
+.lightContainer {
+    background-color: #f0f8ff78;
+    padding: 10px;
 }
 
 .fakeimg {
@@ -42,11 +42,13 @@ html, body{
 
 /*---------------------------------------------------- CONTAINER -----------------------------------------------------*/
 .dataBodyContainer {
-    background-color: #c1d3d8;
+    background-color: #518492;
     height: 75vh;
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
+    background-image: url('../img/texture/skulls.png');
+    background-repeat: repeat;
 }
 
 .dataBodyView {
@@ -83,6 +85,25 @@ html, body{
 .red{color: #e0522a}
 
 /*----------------------------------------------------------- IMAGE --------------------------------------------------*/
+.containerHeadImage{
+    padding: .25rem;
+    margin-bottom: .25rem;
+    position: absolute;
+    height: auto;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    top: -10px;
+    left: 0;
+    transition: left ease 2s;
+    z-index: 1;
+}
+
+.containerHeadImage:hover {
+    left: -200px
+}
+
 .imageFoot{
     padding: .25rem;
     margin: .25rem;
@@ -120,7 +141,7 @@ html, body{
     border-radius: 35px;
     font-size: 40px;
     line-height: 1.33;
-    margin: 20px;
+    margin: 25px;
     background-color: #dee3e5
 }
 

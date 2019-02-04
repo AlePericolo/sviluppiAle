@@ -5,19 +5,34 @@
 }
 *{font-family: myFirstFont}
 
+.fontFoot{
+    font-size: 1rem;
+    vertical-align: -webkit-baseline-middle;
+    color: #e9ecef
+}
+
 /*----------------------------------------------------- BODY ---------------------------------------------------------*/
-html, body{margin: 0;padding: 0}
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color: #212529
+}
 
 .head{
     text-align: center!important;
-    padding: 2rem;
+    padding: 1.8rem;
     background-color: #e9ecef
 }
 
 .foot{
     text-align: center!important;
-    padding: 0.2rem;
-    background-color: #e9ecef
+    padding: 0.3rem;
+    background-color: #212529
+}
+
+.pLR-8{
+    padding-left: 8px !important;
+    padding-right: 8px !important;
 }
 
 .fakeimg {
@@ -27,7 +42,7 @@ html, body{margin: 0;padding: 0}
 
 /*---------------------------------------------------- CONTAINER -----------------------------------------------------*/
 .dataBodyContainer {
-    background-color: #b6dff1;
+    background-color: #c1d3d8;
     height: 75vh;
     position: relative;
     overflow-y: auto;
@@ -60,8 +75,24 @@ html, body{margin: 0;padding: 0}
     left: -200px;
     opacity: 0
 }
+/*----------------------------------------------------------- COLOR --------------------------------------------------*/
 
-/*------------------------------------------------------- PROGIMAGE --------------------------------------------------*/
+.yellow{color: #e0a800}
+.green{color: #44e07c}
+.blue{color: #5c69e0}
+.red{color: #e0522a}
+
+/*----------------------------------------------------------- IMAGE --------------------------------------------------*/
+.imageFoot{
+    padding: .25rem;
+    margin: .25rem;
+    border-radius: .25rem;
+    height: auto;
+    width: auto;
+    max-width: 35px;
+    max-height: 35px;
+}
+
 .imageLogo{
     padding: .25rem;
     margin: .25rem;
@@ -103,9 +134,9 @@ html, body{margin: 0;padding: 0}
     background-color: transparent;
 }
 
-md-input-container .md-input:focus {
+.md-input:focus {
     border-color: #212529 !important;
-    border-width: 0 0 0.5px;
+    border-width: 0 0 0.2px;
 }
 
 a:hover {

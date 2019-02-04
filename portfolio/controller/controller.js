@@ -5,9 +5,9 @@ app.config(function($routeProvider) {
         .when("/", {
             templateUrl : "page/main.html"
         })
-        .when("/project", {
-            templateUrl : "page/project.html",
-            controller : "projectController"
+        .when("/projects", {
+            templateUrl : "page/projects.html",
+            controller : "projectsController"
         })
         .when("/contact", {
             templateUrl : "page/contact.html",
@@ -19,7 +19,7 @@ app.config(function($routeProvider) {
 });
 
 
-app.controller("projectController", function ($scope) {
+app.controller("projectsController", function ($scope) {
 
     $scope.projects = [
                         {title: 'SVILUPPIALE', description: 'Random projects developed for test.', link: 'sviluppiAle'},

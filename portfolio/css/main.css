@@ -32,6 +32,9 @@
 @media only screen and (max-width: 600px) {
     .cit{
         font-size: 1.3rem;
+        color: #f8f9fa;
+        text-align: center;
+        font-style: italic;
     }
 }
 
@@ -102,33 +105,14 @@ html, body{
     left: -200px;
     opacity: 0
 }
-/*----------------------------------------------------------- COLOR --------------------------------------------------*/
 
+/*----------------------------------------------------------- COLOR --------------------------------------------------*/
 .yellow{color: #e0a800}
 .green{color: #44e07c}
 .blue{color: #5c69e0}
 .red{color: #e0522a}
 
 /*----------------------------------------------------------- IMAGE --------------------------------------------------*/
-.containerHeadImage{
-    padding: .25rem;
-    margin-bottom: .25rem;
-    position: absolute;
-    height: auto;
-    width: 100%;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: .25rem;
-    top: -10px;
-    left: 0;
-    transition: left ease 2s;
-    z-index: 1;
-}
-
-.containerHeadImage:hover {
-    left: -200px
-}
-
 .imageFoot{
     padding: .25rem;
     margin-left: 1rem;
@@ -140,14 +124,50 @@ html, body{
     max-height: 35px;
 }
 
-.imageCode{
+.containerCodeImage {
+    display: inline-grid;
     padding: .25rem;
     margin: .25rem;
     background-color: #fff;
     border: 1px solid #dee2e6;
     border-radius: .25rem;
-    height: 110px;
-    width: 110px;
+    position: relative;
+    height: 100px;
+    width: 100px;
+}
+
+.imageCode {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.textCode {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 49, 120, 0.97);
+    background: rgba(152, 167, 191, 0.5); /* Black see-through */
+    color: #212529;
+    width: 100%;
+    height: 100%;
+    transition: .5s ease;
+    opacity:0;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding-top: 35%;
+    text-align: center;
+}
+
+.containerCodeImage:hover{
+    box-shadow:-1px 1px 3px 1px #212529;
+}
+
+.containerCodeImage:hover .imageCode {
+    opacity: 0.3;
+}
+
+.containerCodeImage:hover .textCode {
+    opacity: 1;
 }
 
 /* --------------------------------------------------------- EMAIL ---------------------------------------------------*/

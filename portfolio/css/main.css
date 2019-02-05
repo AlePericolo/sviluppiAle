@@ -8,7 +8,31 @@
 .fontFoot{
     font-size: 1rem;
     vertical-align: -webkit-baseline-middle;
-    color: #e9ecef
+    color: #e9ecef;
+    display: -webkit-inline-box;
+}
+
+.titleCode{
+    font-size: 1.12em;
+}
+
+@media only screen and (max-width: 600px) {
+    .titleCode{
+        font-size: 0.8em;
+    }
+}
+
+.cit{
+    font-size: 2rem;
+    color: #f8f9fa;
+    text-align: center;
+    font-style: italic;
+}
+
+@media only screen and (max-width: 600px) {
+    .cit{
+        font-size: 1.3rem;
+    }
 }
 
 /*----------------------------------------------------- BODY ---------------------------------------------------------*/
@@ -19,9 +43,10 @@ html, body{
 }
 
 .head{
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     padding: 1rem;
-    background-color: #e9ecef
+    background-color: #e9ecef;
+    text-align: center;
 }
 
 .foot{
@@ -43,7 +68,7 @@ html, body{
 /*---------------------------------------------------- CONTAINER -----------------------------------------------------*/
 .dataBodyContainer {
     background-color: #518492;
-    height: 75vh;
+    height: 80vh;
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
@@ -106,7 +131,8 @@ html, body{
 
 .imageFoot{
     padding: .25rem;
-    margin: .25rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     border-radius: .25rem;
     height: auto;
     width: auto;
@@ -114,16 +140,14 @@ html, body{
     max-height: 35px;
 }
 
-.imageLogo{
+.imageCode{
     padding: .25rem;
     margin: .25rem;
     background-color: #fff;
     border: 1px solid #dee2e6;
     border-radius: .25rem;
-    height: auto;
-    width: auto;
-    max-width: 110px;
-    max-height: 110px;
+    height: 110px;
+    width: 110px;
 }
 
 /* --------------------------------------------------------- EMAIL ---------------------------------------------------*/

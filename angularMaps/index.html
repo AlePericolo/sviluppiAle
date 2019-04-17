@@ -1,0 +1,43 @@
+<!doctype html>
+<html ng-app="mapsApp">
+<head>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="lib/ng-map.min.js"></script>
+    <script src="controller.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div ng-controller="mapsController">
+
+    <div class="container p-5">
+        <h1 class="text-center">maps</h1>
+        <div class="jumbotron p-3">
+            <map center="[{{geopos.lat}}, {{geopos.lng}}]" zoom-control="true" zoom="8"  on-click="click()" style="height: 60vh;"> </map>
+        </div>
+        <div class="row mb-5">
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Latitude</span></div>
+                    <input type="text" class="form-control" placeholder="Latitude" ng-model="geopos.lat" disabled>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group-prepend"><span class="input-group-text">Longitude</span></div>
+                    <input type="text" class="form-control" placeholder="Longitude" ng-model="geopos.lng" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-outline-info" ng-click="getCurrentPosition()">Get Current Position</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

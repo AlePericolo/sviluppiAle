@@ -1,32 +1,52 @@
-angular.module('mapsApp', ['ui.bootstrap', 'ngMap']).controller('mapsController', function ($scope) {
+angular.module('mapsApp', ['ui.bootstrap', 'ngMap']).controller('mapsController', function ($scope, NgMap) {
 
-    $scope.geopos = {lat:51.50722,lng:-0.12750};
+    //milano
+    $scope.geopos = {lat:45.4642700,lng:9.1895100};
 
-    $scope.$on('mapInitialized', function(evt, evtMap) {
-        $scope.map = evtMap;
-        $scope.marker = new google.maps.Marker({position: evt.latLng, map: $scope.map});
-
-        $scope.click = function(evt) {
-            var latitude = evt.latLng.lat().toPrecision(8);
-            var longitude = evt.latLng.lng().toPrecision(8);
-            $scope.marker.setPosition(evt.latLng);
-            $scope.map.panTo(evt.latLng);
-            $scope.geopos.lat = latitude;
-            $scope.geopos.lng = longitude;
-            //$scope.map.setZoom(10);
-        }
+    NgMap.getMap().then(function (map) {
+        $scope.map = map;
     });
-    
+
+    $scope.cities = [
+        { id: 1, name: 'Legnano', pos: [45.5978800, 8.9150600] , icon: {url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'}},
+        { id: 2, name: 'Cinisello Balsamo', pos: [45.5582300, 9.2149500] },
+        { id: 3, name: 'Robbio', pos: [45.2890100, 8.5928900] },
+        { id: 4, name: 'San Giuliano Milanese', pos: [45.3940200, 9.2910900] },
+        { id: 5, name: 'Vimodrone', pos: [45.5146100, 9.2877200] }
+    ];
+
+    $scope.setPosition = function (event) {
+        $scope.geopos.lat = event.latLng.lat().toPrecision(8);
+        $scope.geopos.lng = event.latLng.lng().toPrecision(8);
+    };
+
+    $scope.showInfo = function (event,city) {
+        alert(JSON.stringify(city));
+    };
+
     $scope.getCurrentPosition = function () {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position){
-                $scope.$apply(function(){
-                    $scope.position = position;
-                    console.log($scope.position);
-                });
-            });
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showLocation);
+        }else{
+            alert('Geolocation is not supported by this browser.');
         }
     };
+
+    function showLocation(position){
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        $http.post('controller/indexHandler.php',
+            {
+                'function': 'timeoutLocalization',
+                'latitude' :latitude,
+                'longitude' :longitude
+            }
+        ).then(function (data) {
+            console.log(data);
+            $scope.geopos.lat = data.data.latitudine;
+            $scope.geopos.lng = data.data.longitude;
+        });
+    }
 
 
 });

@@ -1,13 +1,8 @@
-a {
-    text-decoration: none;
-  }
+
 .map{
     height: 60vh;
     width: 100%;
 }
-#repeat{ 
-     display: inline;
-     }
 #country_container { 
      margin: 8px 2px 2px 0px; 
      text-align: center; 

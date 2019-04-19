@@ -1,4 +1,5 @@
-angular.module('mapsApp', ['ui.bootstrap', 'ngMap']).controller('mapsController', function ($scope, NgMap) {
+var mapApp = angular.module('mapApp', ['ui.bootstrap', 'ngMap']);
+mapApp.controller('map1Controller', function ($scope, NgMap) {
 
     //milano
     $scope.geopos = {lat:45.4642700,lng:9.1895100};
@@ -35,9 +36,9 @@ angular.module('mapsApp', ['ui.bootstrap', 'ngMap']).controller('mapsController'
     function showLocation(position){
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-        $http.post('controller/indexHandler.php',
+        $http.post('handlerMap1.php',
             {
-                'function': 'timeoutLocalization',
+                'function': 'showLocation',
                 'latitude' :latitude,
                 'longitude' :longitude
             }
@@ -47,6 +48,5 @@ angular.module('mapsApp', ['ui.bootstrap', 'ngMap']).controller('mapsController'
             $scope.geopos.lng = data.data.longitude;
         });
     }
-
 
 });

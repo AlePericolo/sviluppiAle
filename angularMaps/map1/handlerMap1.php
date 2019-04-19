@@ -6,7 +6,7 @@
  * Time: 10.24
  */
 
-function timeoutLocalization($request) {
+function showLocation($request) {
     return json_encode(array("latitude"=>$request->latitude,"longitude"=>$request->longitude));
 }
 

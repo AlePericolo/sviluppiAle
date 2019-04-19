@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="mapApp">
+<head>
+    <title>Map 2</title>
+    <meta charset="ISO-8859-1">
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&language=it"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="controllerMap2.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/map2.css">
+</head>
+<body>
+<div ng-controller="map2Controller">
+    <div class="container p-5">
+        <h1 class="text-center">map 2</h1>
+        <div class="jumbotron p-3">
+            <div class="map" id="map"></div>
+            <div id="repeat" ng-repeat="marker in markers | orderBy : 'title'">
+                 <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
+                 <label id="names" >{{marker.title}}</label></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

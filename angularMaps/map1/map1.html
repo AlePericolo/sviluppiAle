@@ -1,21 +1,22 @@
 <!doctype html>
-<html ng-app="mapsApp">
+<html ng-app="mapApp">
 <head>
-    <script src="http://maps.google.com/maps/api/js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
-    <script src="lib/ng-map.min.js"></script>
-    <script src="controller.js"></script>
+    <title>Map 1</title>
+    <meta charset="ISO-8859-1">
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=it"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="lib/ng-map.min.js"></script>
+    <script type="text/javascript" src="controllerMap1.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/map1.css">
 </head>
 <body>
-
-<div ng-controller="mapsController">
-
+<div ng-controller="map1Controller">
     <div class="container p-5">
-        <h1 class="text-center">maps</h1>
+        <h1 class="text-center">map 1</h1>
         <div class="jumbotron p-3">
-            <ng-map center="[{{geopos.lat}}, {{geopos.lng}}]" zoom-control="true" zoom="8"  on-click="setPosition()" style="height: 60vh;">
+            <ng-map class="height60" center="[{{geopos.lat}}, {{geopos.lng}}]" zoom-control="true" zoom="8"  on-click="setPosition()">
                 <marker ng-repeat="c in cities" position="{{c.pos}}" title="{{c.name}}" id="{{c.id}}" icon="{{c.icon}}" on-click="showInfo({{c}})"></marker>
             </ng-map>
         </div>
@@ -38,7 +39,6 @@
                 <button class="btn btn-outline-info" ng-click="getCurrentPosition()">Get Current Position</button>
             </div>
         </div>
-
     </div>
 </div>
 </body>

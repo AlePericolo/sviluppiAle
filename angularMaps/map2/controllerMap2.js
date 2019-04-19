@@ -11,7 +11,7 @@ mapApp.controller('map2Controller', function ($scope) {
         $scope.map = new google.maps.Map(document.getElementById('map'), {
                zoom: 6,
                center: new google.maps.LatLng(43, 10), //italia
-               mapTypeId: google.maps.MapTypeId.SATELLITE
+               mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
         $scope.geolocalizza();

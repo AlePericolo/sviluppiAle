@@ -61,11 +61,8 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
 
     $scope.setMarker = function (data) {
 
-        if (!data.length > 0) {
-            alert('Nessun marker');
-        } else {
+        if (data.length > 0) {
 
-            console.log(data);
             $scope.markers = [];
 
             data.forEach(function (c) {
@@ -106,9 +103,9 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         infoWindow.open($scope.map);
     };
 
-    $scope.$watch(function() {
+    $scope.$watch(function(){
         return $scope.filtered;
-    }, function() {
+    },function() {
         $scope.updateMarkers($scope.filtered);
     });
 

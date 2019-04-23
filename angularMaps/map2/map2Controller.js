@@ -1,5 +1,5 @@
 var mapApp = angular.module('mapApp', ['ui.bootstrap', 'ngMap']);
-mapApp.controller('map1Controller', function ($scope, NgMap) {
+mapApp.controller('map2Controller', function ($scope, NgMap) {
 
     //milano
     $scope.geopos = {lat:45.4642700,lng:9.1895100};

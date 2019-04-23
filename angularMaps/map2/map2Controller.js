@@ -36,7 +36,7 @@ mapApp.controller('map2Controller', function ($scope, NgMap) {
     function showLocation(position){
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-        $http.post('handlerMap1.php',
+        $http.post('handlerMap2.php',
             {
                 'function': 'showLocation',
                 'latitude' :latitude,

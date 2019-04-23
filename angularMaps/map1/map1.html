@@ -7,7 +7,9 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>    <script type="text/javascript" src="map1Controller.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/utility.js"></script>
+    <script type="text/javascript" src="map1Controller.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/map1.css">
 </head>
@@ -15,14 +17,9 @@
 <div ng-controller="map1Controller" data-ng-init="init()">
     <div class="container p-5">
         <h1 class="text-center">Europa</h1>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Map Type </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownType">
-                <button class="dropdown-item" ng-click="map.setMapTypeId('roadmap')">Roadmap</button>
-                <button class="dropdown-item" ng-click="map.setMapTypeId('satellite')">Satellite</button>
-                <button class="dropdown-item" ng-click="map.setMapTypeId('hybrid')">Hybrid</button>
-                <button class="dropdown-item" ng-click="map.setMapTypeId('terrain')">Terrain</button>
-            </div>
+        <div class="input-group w-25">
+            <div class="input-group-prepend"><label class="input-group-text" for="mapType">Map Type: </label></div>
+            <select id="mapType" class="custom-select" ng-options="type for type in ['roadmap','satellite','hybrid','terrain']" ng-model="type" ng-change="map.setMapTypeId(type)"></select>
         </div>
         <div class="jumbotron p-3">
             <div id="map" class="map"></div>

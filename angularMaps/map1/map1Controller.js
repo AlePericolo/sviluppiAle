@@ -48,17 +48,18 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         infoWindow.open($scope.map);
     }
 
+    //recupero l'elenco delle città
     $scope.getData = function () {
 
         $http.post('map1Handler.php',{'function': 'getCities'}
         ).then(function (data) {
-            console.log(data);
             $scope.cities = data.data.cities;
         }).then(function () {
             $scope.setMarker($scope.cities);
         });
     };
 
+    //passo l'array delle città e per ogni città instanzio il suo marker + infowindow sulla mappa
     $scope.setMarker = function (data) {
 
         if (data.length > 0) {
@@ -67,7 +68,7 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
 
             data.forEach(function (c) {
 
-                //instanzio l'oggetto marker + setto i contenuti che visualizzero in infoWindow
+                //instanzio l'oggetto marker + assegno i contenuti che visualizzero in infoWindow e lo setto sull mappa
                 var marker = new google.maps.Marker({
                     map: $scope.map,
                     position: new google.maps.LatLng(c.pos[0], c.pos[1]),
@@ -82,7 +83,7 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
                     maxWidth: 400
                 });
 
-                //collego InfoWindow e Marker
+                //collego Marker e InfoWindow
                 google.maps.event.addListener(marker, 'click', function () {
                     infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
                     infoWindow.open($scope.map, marker);
@@ -93,6 +94,7 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         }
     };
 
+    //creo e apro infowindow in corrispondenza della sua città dall'elenco delle città sotto la mappa (se ci sono infowindow aperti li chiudo)
     $scope.openInfoWindow = function (c) {
         infoWindow.close($scope.map);
         infoWindow = new google.maps.InfoWindow({
@@ -103,13 +105,14 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         infoWindow.open($scope.map);
     };
 
+    //monitoro il filtro sulle città in pagina appena cambia chiamo l'update
     $scope.$watch(function(){
         return $scope.filtered;
     },function() {
         $scope.updateMarkers($scope.filtered);
     });
 
-
+    //rimuovo tutti i marker e richiamo la funzione per risettarli sulle città filtrate
     $scope.updateMarkers = function (data) {
         for(i=0; i<$scope.markers.length; i++){
             $scope.markers[i].setMap(null);

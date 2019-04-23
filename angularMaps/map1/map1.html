@@ -23,8 +23,11 @@
         </div>
         <div class="jumbotron p-3">
             <div id="map" class="map"></div>
-            <div class="container text-center">
-                <button class="btn btn-sm btn-outline-dark m-3" ng-repeat="m in markers | orderBy : 'name'" ng-click="openInfoWindow($event, m)">{{m.title}}</button>
+            <div class="container">
+                <div class="row">
+                    <input type="text" class="form-control w-25" ng-model="search.name" placeholder="Search..">
+                    <button class="btn btn-sm btn-outline-dark m-1" ng-repeat="c in cities | filter:search as filtered" ng-click="openInfoWindow(c)">{{c.name}}</button>
+                </div>
             </div>
         </div>
     </div>

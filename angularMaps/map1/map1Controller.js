@@ -20,6 +20,9 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         $scope.geolocalizza();
 
         $scope.getData();
+
+        $scope.selectedCities = [];
+        $scope.polygons = [];
     };
 
     $scope.geolocalizza = function () {
@@ -74,19 +77,12 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
                     position: new google.maps.LatLng(c.pos[0], c.pos[1]),
                     title: c.name,
                     icon: c.icon,
-                    animation: google.maps.Animation.DROP,
-                    content: '<div class="text-justify">' + c.desc + '<br/><a href="https://it.wikipedia.org/w/index.php?title=' + c.name + '" target="_blank"> more info</a> <br/><br/>Lat: ' + c.pos[0] + ' Lon:' + c.pos[1] + '</div>'
+                    animation: google.maps.Animation.DROP //BOUNCE
                 });
 
-                //instanzio l'oggetto infoWindow (finestra che si apre sulla mappa, contenitore)
-                infoWindow = new google.maps.InfoWindow({
-                    maxWidth: 400
-                });
-
-                //collego Marker e InfoWindow
+                //ad ogni marker aggiungo l'evento che al click apre l'infoWindow
                 google.maps.event.addListener(marker, 'click', function () {
-                    infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
-                    infoWindow.open($scope.map, marker);
+                    $scope.cityInfo(c);
                 });
 
                 $scope.markers.push(marker);
@@ -94,12 +90,15 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         }
     };
 
-    //creo e apro infowindow in corrispondenza della sua città dall'elenco delle città sotto la mappa (se ci sono infowindow aperti li chiudo)
-    $scope.openInfoWindow = function (c) {
+    //creo e apro infowindow in corrispondenza della città che passo (se ci sono infowindow aperti li chiudo)
+    $scope.cityInfo = function (c) {
         infoWindow.close($scope.map);
         infoWindow = new google.maps.InfoWindow({
             position: new google.maps.LatLng(c.pos[0], c.pos[1]),
-            content: '<div class="text-justify">' + c.desc + '<br/><a href="https://it.wikipedia.org/w/index.php?title=' + c.name + '" target="_blank"> more info</a> <br/><br/>Lat: ' + c.pos[0] + ' Lon:' + c.pos[1] + '</div>',
+            content: '<h3>' + c.name + '</h3>' +
+                     '<div class="text-justify">' + c.desc + '</div>' +
+                     '<p><a href="https://it.wikipedia.org/w/index.php?title=' + c.name + '" target="_blank"> More Info</a></p>' +
+                     '<b>Latitudine:</b> ' + c.pos[0] + '&deg; <b>Longitudine:</b> ' + c.pos[1] + '&deg;',
             maxWidth: 400
         });
         infoWindow.open($scope.map);
@@ -114,10 +113,68 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
 
     //rimuovo tutti i marker e richiamo la funzione per risettarli sulle città filtrate
     $scope.updateMarkers = function (data) {
-        for(i=0; i<$scope.markers.length; i++){
-            $scope.markers[i].setMap(null);
+        if($scope.markers){
+            $scope.markers.forEach(function (m) {
+               m.setMap(null);
+            });
+            $scope.setMarker(data);
         }
-        $scope.setMarker(data);
+    };
+
+    //disegno un poligono prendento come vertici le coordinate delle città che ho selezionato
+    $scope.drawPolygon = function () {
+
+        var path = [];
+        var title = 'Polygon:';
+        var coordinate = '';
+        $scope.selectedCities.forEach(function (c) {
+            var p = {lat: c.pos[0], lng: c.pos[1]};
+            path.push(p);
+            title += ' ' + c.name;
+            coordinate += '<b>' + c.name + ':</b> ' + c.pos[0] + '&deg; ' + c.pos[1] + '&deg;<br>'
+        });
+
+        var polygon = new google.maps.Polygon({
+            paths: path,
+            strokeColor: '#a8c2ff',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#d3eeff',
+            fillOpacity: 0.35,
+            content: '<h3>' + title + '</h3>' +
+                     '<p>' + coordinate + '</p>'
+        });
+        polygon.setMap($scope.map);
+
+        //al poligono aggiungo l'evento che al click apre l'infoWindow
+        google.maps.event.addListener(polygon, 'click', function (event) {
+            var clickCoordinates = [event.latLng.lat(), event.latLng.lng()];
+            $scope.polygonInfo(polygon, clickCoordinates)
+        });
+        //aggiungo il poligono all'array dei poligoni
+        $scope.polygons.push(polygon);
+    };
+
+    //infoWindow sul poligono che ho clickato che si apre in corrispondenza del click
+    $scope.polygonInfo = function (polygon, clickCoordinates) {
+
+        infoWindow.close($scope.map);
+        infoWindow = new google.maps.InfoWindow({
+            position: new google.maps.LatLng(clickCoordinates[0], clickCoordinates[1]),
+            content:  polygon.content +
+                     '<p> Clicked location: ' + clickCoordinates[0] + '&deg; ' + clickCoordinates[1] + '&deg;</p>',
+            maxWidth: 400
+        });
+        infoWindow.open($scope.map);
+    };
+
+    //scorro l'array dei poligoni e li rimuovo
+    $scope.deletePolygon = function () {
+        if($scope.polygons){
+            $scope.polygons.forEach(function (p) {
+                p.setMap(null);
+            });
+        }
     };
 
 }]);

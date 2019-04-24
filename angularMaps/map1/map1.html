@@ -25,9 +25,28 @@
             <div id="map" class="map"></div>
             <div class="container">
                 <div class="row">
-                    <input type="text" class="form-control w-25" ng-model="search.name" placeholder="Search..">
-                    <button class="btn btn-sm btn-outline-dark m-1" ng-repeat="c in cities | filter:search as filtered" ng-click="openInfoWindow(c)">{{c.name}}</button>
+                    <div class="col-2 pt-1">
+                        <input type="text" class="form-control" ng-model="search.name" placeholder="Search..">
+                    </div>
+                    <div class="col-10 pt-1 text-center">
+                        <button class="btn btn-sm btn-outline-dark m-1" ng-repeat="c in cities | filter:search as filtered" ng-click="cityInfo(c)">{{c.name}}</button>
+                    </div>
                 </div>
+                <div class="row mt-2">
+                    <label class="col-2 text-center" for="polygon" class="col-sm-2 control-label">Select cities:</label>
+                    <div class="col-3 offset-1 text-center">
+                        <select id="polygon"
+                                class="form-control"
+                                ng-model="selectedCities"
+                                multiple="true"
+                                ng-options="c.name for c in cities"
+                                style="height:25vh">
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-outline-success mt-1" ng-disabled="selectedCities.length < 3" ng-click="drawPolygon()">&nbsp;Draw Polygon&nbsp;</button>
+                        <button class="btn btn-outline-danger mt-1" ng-click="deletePolygon()">Delete Polygon</button>
+                    </div>
             </div>
         </div>
     </div>

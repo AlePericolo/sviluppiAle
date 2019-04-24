@@ -1,4 +1,4 @@
-var mapApp = angular.module('mapApp', []);
+var mapApp = angular.module('mapApp', ['angularjs-dropdown-multiselect']);
 
 mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http) {
 
@@ -9,12 +9,12 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
     $scope.caricaDati = function () {
         //instanzio la mappa e la lego al div con id 'map'
         $scope.map = new google.maps.Map(document.getElementById('map'), {
-               zoom: 4.2,
+               zoom: 4.5,
                center: new google.maps.LatLng(48, 10), //italia
                mapTypeControl: true,
-               mapTypeId: 'roadmap'
+               mapTypeId: 'roadmap',
+               streetViewControl: true
         });
-
         $scope.type = $scope.map.mapTypeId;
 
         $scope.geolocalizza();
@@ -121,16 +121,31 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         }
     };
 
+    $scope.settings = {
+        showCheckAll: false,
+        showUncheckAll: false,
+        keyboardControls: true,
+        scrollable: true,
+        scrollableHeight: '30vh',
+        externalIdProp: '',
+        idProp: 'id',
+        displayProp: 'name',
+        buttonClasses: 'btn btn-outline-dark'
+    };
+
+
+
     //disegno un poligono prendento come vertici le coordinate delle città che ho selezionato
     $scope.drawPolygon = function () {
 
+        console.log($scope.selectedCities);
         var path = [];
-        var title = 'Polygon:';
+        var title = '';
         var coordinate = '';
         $scope.selectedCities.forEach(function (c) {
             var p = {lat: c.pos[0], lng: c.pos[1]};
             path.push(p);
-            title += ' ' + c.name;
+            title += c.name + ' ';
             coordinate += '<b>' + c.name + ':</b> ' + c.pos[0] + '&deg; ' + c.pos[1] + '&deg;<br>'
         });
 
@@ -176,5 +191,4 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
             });
         }
     };
-
 }]);

@@ -8,48 +8,51 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="lib/utility.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-dropdown-multiselect/1.11.8/angularjs-dropdown-multiselect.min.js"></script>
     <script type="text/javascript" src="map1Controller.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/map1.css">
 </head>
-<body>
-<div ng-controller="map1Controller" data-ng-init="init()">
-    <div class="container p-5">
+<body ng-controller="map1Controller" data-ng-init="init()">
+    <div class="container-fluid p-3">
         <h1 class="text-center">Europa</h1>
         <div class="input-group w-25">
             <div class="input-group-prepend"><label class="input-group-text" for="mapType">Map Type: </label></div>
             <select id="mapType" class="custom-select" ng-options="type for type in ['roadmap','satellite','hybrid','terrain']" ng-model="type" ng-change="map.setMapTypeId(type)"></select>
         </div>
         <div class="jumbotron p-3">
-            <div id="map" class="map"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-2 pt-1">
-                        <input type="text" class="form-control" ng-model="search.name" placeholder="Search..">
-                    </div>
-                    <div class="col-10 pt-1 text-center">
-                        <button class="btn btn-sm btn-outline-dark m-1" ng-repeat="c in cities | filter:search as filtered" ng-click="cityInfo(c)">{{c.name}}</button>
+            <div class="row">
+                <div class="col-9">
+                    <div id="map" class="map"></div>
+                    <div class="row pt-1">
+                        <div class="col-4">
+                            <div class="input-group">
+                                <div class="input-group-prepend"><label class="input-group-text" for="searchCity">Search City: </label></div>
+                                <input id="searchCity" type="text" class="form-control" ng-model="search.name">
+                            </div>
+                        </div>
+                        <div class="col-8 text-center">
+                            <button class="btn btn-sm btn-outline-dark m-1" ng-repeat="c in cities | filter:search as filtered" ng-click="cityInfo(c)">{{c.name}} </button>
+                        </div>
                     </div>
                 </div>
-                <div class="row mt-2">
-                    <label class="col-2 text-center" for="polygon" class="col-sm-2 control-label">Select cities:</label>
-                    <div class="col-3 offset-1 text-center">
-                        <select id="polygon"
-                                class="form-control"
-                                ng-model="selectedCities"
-                                multiple="true"
-                                ng-options="c.name for c in cities"
-                                style="height:25vh">
-                        </select>
+                <div class="col-3">
+                    <label class="col text-center" for="polygon">Select cities:</label>
+                    <div class="col text-center">
+                        <div ng-dropdown-multiselect="" options="cities" selected-model="selectedCities" extra-settings="settings" translation-texts="customText"></div>
+                        <!--<select id="polygon" class="form-control" ng-model="selectedCities" multiple="true" ng-options="c.name for c in cities" style="height:30vh"> </select>-->
+                        <ul>
+                            <li ng-repeat="c in selectedCities">{{c.name}}</li>
+                        </ul>
+                        {{selectedCities.name}}
                     </div>
-                    <div class="col-2">
-                        <button class="btn btn-outline-success mt-1" ng-disabled="selectedCities.length < 3" ng-click="drawPolygon()">&nbsp;Draw Polygon&nbsp;</button>
+                    <div class="col text-center">
+                        <button class="btn btn-outline-success mt-1" ng-disabled="selectedCities.length < 3" ng-click="drawPolygon()">&nbsp;Draw Polygon&nbsp; </button>
                         <button class="btn btn-outline-danger mt-1" ng-click="deletePolygon()">Delete Polygon</button>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>

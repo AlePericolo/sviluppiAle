@@ -1,4 +1,4 @@
-var mapApp = angular.module('mapApp', ['angularjs-dropdown-multiselect']);
+var mapApp = angular.module('mapApp', []);
 
 mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http) {
 
@@ -123,7 +123,6 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
 
     $scope.settings = {
         showCheckAll: false,
-        showUncheckAll: false,
         keyboardControls: true,
         scrollable: true,
         scrollableHeight: '30vh',
@@ -133,7 +132,10 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         buttonClasses: 'btn btn-outline-dark'
     };
 
-
+    $scope.customText = {
+        buttonDefaultText: 'Select Cities',
+        uncheckAll: 'Deselect all',
+    };
 
     //disegno un poligono prendento come vertici le coordinate delle città che ho selezionato
     $scope.drawPolygon = function () {
@@ -191,4 +193,7 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
             });
         }
     };
+
+    $('select').selectpicker();
 }]);
+

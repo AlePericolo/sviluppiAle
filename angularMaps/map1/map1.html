@@ -42,14 +42,17 @@
                     <select id="citiesSelect" class="selectpicker w-100"
                             multiple
                             data-live-search="true"
+                            data-live-search-placeholder="Search"
+                            data-live-search-style="startsWith"
                             title="Choose cities"
+                            data-header="Select 3 cities"
                             data-selected-text-format="count > 3"
-                            max-options="3"
+                            data-max-options="3"
                             data-actions-box="true"
                             ng-model="selectedCities" ng-options="c.name for c in cities">
                     </select>
                     <div class="col text-center">
-                        <button class="btn btn-outline-success mt-1" ng-disabled="selectedCities.length < 3" ng-click="drawPolygon()">&nbsp;Draw Polygon&nbsp; </button>
+                        <button class="btn btn-outline-success mt-1" ng-disabled="selectedCities.length != 3" ng-click="drawPolygon()">&nbsp;Draw Polygon&nbsp; </button>
                         <button class="btn btn-outline-danger mt-1" ng-click="deletePolygon()">Delete Polygon</button>
                     </div>
                 </div>

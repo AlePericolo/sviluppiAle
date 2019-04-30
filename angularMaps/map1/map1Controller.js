@@ -194,6 +194,6 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
         }
     };
 
-    $('select').selectpicker();
 }]);
 
+$('select').selectpicker();

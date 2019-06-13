@@ -1,6 +1,6 @@
 var mapApp = angular.module('mapApp', []);
 
-mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http) {
+mapApp.controller('map1Controller', ['$scope', '$http', '$compile', function ($scope, $http, $compile) {
 
     $scope.init = function () {
         $scope.caricaDati();
@@ -93,15 +93,28 @@ mapApp.controller('map1Controller', ['$scope', '$http', function ($scope, $http)
     //creo e apro infowindow in corrispondenza della città che passo (se ci sono infowindow aperti li chiudo)
     $scope.cityInfo = function (c) {
         infoWindow.close($scope.map);
+
+        var param = "'"+c.name+"'";
+        console.log(param);
+        var htmlElement = '<div class="infoWindow">' +
+                            '<h4>' + c.name + '</h4>' +
+                            '<div class="text-justify">' + c.desc + '</div><br><br>' +
+                            '<b>Latitudine:</b> ' + c.pos[0] + '&deg; <b>Longitudine:</b> ' + c.pos[1] + '&deg;<br><br>' +
+                            '<button class="btn btn-sm btn-info" ng-click="getInfo('+ param +')">more info</button>'+
+                          '</div>';
+        var compiledHtml = $compile(htmlElement)($scope);
+
         infoWindow = new google.maps.InfoWindow({
             position: new google.maps.LatLng(c.pos[0], c.pos[1]),
-            content: '<h3>' + c.name + '</h3>' +
-                     '<div class="text-justify">' + c.desc + '</div>' +
-                     '<p><a href="https://it.wikipedia.org/w/index.php?title=' + c.name + '" target="_blank"> More Info</a></p>' +
-                     '<b>Latitudine:</b> ' + c.pos[0] + '&deg; <b>Longitudine:</b> ' + c.pos[1] + '&deg;',
+            content: compiledHtml[0],
             maxWidth: 400
         });
         infoWindow.open($scope.map);
+    };
+
+    $scope.getInfo = function (param) {
+        console.log(param);
+        window.open('https://it.wikipedia.org/w/index.php?title=' + param ,'_blank');
     };
 
     //monitoro il filtro sulle città in pagina appena cambia chiamo l'update

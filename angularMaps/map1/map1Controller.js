@@ -95,7 +95,8 @@ mapApp.controller('map1Controller', ['$scope', '$http', '$compile', function ($s
         infoWindow.close($scope.map);
 
         var param = "'"+c.name+"'";
-        console.log(param);
+        //console.log(param);
+
         var htmlElement = '<div class="infoWindow">' +
                             '<h4>' + c.name + '</h4>' +
                             '<div class="text-justify">' + c.desc + '</div><br><br>' +
@@ -113,7 +114,7 @@ mapApp.controller('map1Controller', ['$scope', '$http', '$compile', function ($s
     };
 
     $scope.getInfo = function (param) {
-        console.log(param);
+        //console.log(param);
         window.open('https://it.wikipedia.org/w/index.php?title=' + param ,'_blank');
     };
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { Articolo }  from './articolo'
 
 @Component({
@@ -43,7 +43,7 @@ export class ArticoloComponent implements OnInit {
 
   incrementaApprezzamenti(a) {
     a.likes = a.likes + 1;
-    alert("Grazie per aver espresso il tuo apprezzamento per l'articolo! \n Il numero di apprezzamenti raggiunti è " + a.likes);
+    alert("Grazie per aver espresso il tuo apprezzamento per l'articolo: " + a.titolo + " \n Il numero di apprezzamenti raggiunti è " + a.likes);
   }
 
 }

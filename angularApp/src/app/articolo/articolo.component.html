@@ -19,6 +19,15 @@
 </p>
 
 <h1>ARTCOLO 3</h1>
-<p>{{articolo3.titolo}}</p>
-<p>{{articolo3.autore}}</p>
-<p>{{articolo3.pagine}}</p>
+<p>
+	<input type="text" [(ngModel)]="articolo3.titolo" />
+	{{articolo3.titolo}}
+</p>
+<p>
+	<input type="text" [(ngModel)]="articolo3.autore" />
+	{{articolo3.autore}}
+</p>
+<p>
+	<input type="number" [(ngModel)]="articolo3.pagine" />
+	{{articolo3.pagine}}
+</p>

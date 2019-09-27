@@ -1,0 +1,31 @@
+<div class="container container-fluid">
+<form #articoloForm="ngForm">
+    <h1>NEW ARTICOLO</h1>
+    <div class="form-group">
+        <label for="txtTitolo">Titolo</label>
+        <input type="text" id="txtTitolo" required
+        [(ngModel)]="newArticolo.titolo" name="titolo"
+        class="form-control" placeholder="Titolo">
+    </div>
+    <div class="form-group">
+        <label for="txtAutore">Autore</label>
+        <input type="text" id="txtAutore" required 
+        [(ngModel)]="newArticolo.autore" name="autore"
+        class="form-control" placeholder="Autore">
+    </div>
+    <div class="form-group">
+        <label for="txtTesto">Testo</label>
+        <textarea id="txtTesto" required 
+        [(ngModel)]="newArticolo.testo" name="testo"
+        class="form-control" placeholder="Testo"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="nPagine">Pagine</label>
+        <input type="number" id="nPagine" 
+        [(ngModel)]="newArticolo.pagine" name="pagine"
+        required class="form-control" placeholder="Num. Pagine">
+    </div>
+    <button type="submit" [disabled]="!articoloForm.valid" class="btn btn-default btn-success" (click)="salvaArticolo()">Salva</button>
+  </form>
+  {{app}}
+</div>

@@ -1,23 +1,22 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Articolo} from '../articolo/articolo';
 
 @Component({
-  selector: 'articolo-form',
-  templateUrl: './articolo-form.component.html',
-  styleUrls: ['./articolo-form.component.css']
+  selector: 'gestione-articolo',
+  templateUrl: './gestione-articolo.component.html',
+  styleUrls: ['./gestione-articolo.component.css']
 })
 
 export class ArticoloFormComponent {
 
-  newArticolo: Articolo
+  @Input() articolo: Articolo;
+
   articoloForm: FormGroup
-  @Output() submit = new EventEmitter<Articolo>();
+  //@Output() submit = new EventEmitter<Articolo>();
   
   constructor(fb: FormBuilder) { 
     
-    this.newArticolo = new Articolo();
-
     this.articoloForm = fb.group({
       titolo: ["", [Validators.required]],
       autore: ["",  [Validators.required]],
@@ -26,23 +25,25 @@ export class ArticoloFormComponent {
     });
     
     this.articoloForm.valueChanges.subscribe(value => {
-      this.newArticolo.titolo = value.titolo;
-      this.newArticolo.autore = value.autore;
-      this.newArticolo.testo = value.testo;
-      this.newArticolo.pagine = value.pagine;
+      this.articolo.titolo = value.titolo;
+      this.articolo.autore = value.autore;
+      this.articolo.testo = value.testo;
+      this.articolo.pagine = value.pagine;
     });
 
   }
 
   ngOnInit() {
-    console.log(this.newArticolo);
+    console.log(this.articolo);
   }
 
+  /*
   salvaArticolo(){
     console.log(this.newArticolo);
     this.submit.emit(this.newArticolo)
     this.newArticolo = new Articolo();
   }
+  */
 
   visualizzaArticolo() {
     console.log(this.articoloForm.value);

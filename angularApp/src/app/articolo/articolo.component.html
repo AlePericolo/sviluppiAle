@@ -1,39 +1,24 @@
-<div class="container-fluid">
-<div class="row">
-	<div class="col-6">
-		<div class="pl-5">
-		<h1>ARTCOLO 1</h1>
-		<p>{{articolo1.titolo}}</p>
-		<p>{{articolo1.autore}}</p>
-		<p>{{articolo1.testo}}</p>
-		<p>{{articolo1.pagine}}</p>
-		<p>
-			Voti: {{articolo1.likes}}
-			<button (click)="incrementaApprezzamenti(articolo1)" >Mi piace</button>
-		</p>
-		</div>
-		<!--
-		<h1>ARTCOLO 2</h1>
-		<p>{{articolo2.titolo}}</p>
-		<p>{{articolo2.autore}}</p>
-		<p>{{articolo2.testo}}</p>
-		<p>{{articolo2.pagine}}</p>
-		<p>
-			Voti: {{articolo2.likes}}
-			<button (click)="incrementaApprezzamenti(articolo2)" >Mi piace</button>
-		</p>
-		-->
-	</div>
-	<div class="col-6">
-		<ul>
-			<li *ngFor="let articolo of elencoArticoli">
-				<span *ngIf="articolo.pagine > 5">
-					<b>{{articolo.titolo}}</b> di {{articolo.autore}}
-				</span>
-			</li>
-		</ul>
-	</div>
+<div class="container ">
+	<table class="table">
+		<thead>
+			<th>Titolo</th>
+			<th>Autore</th>
+			<th>Testo</th>
+			<th>Pagine</th>
+			<th>Likes</th>
+			<th><button class="btn btn-sm btn-success" (click)="gestisciArticolo()">new</button></th>
+		</thead>
+		<tbody>
+			<tr *ngFor="let art of elencoArticoli">
+				<td>{{art.titolo}}</td>
+				<td>{{art.autore}}</td>
+				<td>{{art.testo}}</td>
+				<td>{{art.pagine}}</td>
+				<td>{{art.likes}}</td>
+				<td><button class="btn btn-sm btn-warning" (click)="gestisciArticolo(art)">modify</button></td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 	
-
-<articolo-form (submit)="addArticolo($event)"></articolo-form>
+<gestione-articolo *ngIf="mostraGestioneArticolo" [articolo]="articolo"></gestione-articolo>

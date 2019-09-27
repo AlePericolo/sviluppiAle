@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ArticoloComponent } from './articolo/articolo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ArticoloFormComponent } from './articolo-form/articolo-form.component';
+import { ArticoloFormComponent } from './gestione-articolo/gestione-articolo.component';
 
 @NgModule({
   declarations: [AppComponent, ArticoloComponent, ArticoloFormComponent],

@@ -1,7 +1,13 @@
 <div class="content" role="main">
-    <h1>{{ title }} app is running!!!</h1>
+    <h1>{{title}}</h1>
 </div>
 
-<articolo [articolo1]="articolo1"></articolo>
+<div class="col-6 offset-3" *ngIf="!elencoArticoli.length > 0">
+    <div class="alert alert-danger text-center">
+        <strong>Attenzione!</strong> Nessun articolo presente.
+    </div>
+</div>
+
+<articolo *ngIf="elencoArticoli.length > 0" [elencoArticoli]="elencoArticoli"></articolo>
 
 <router-outlet></router-outlet>

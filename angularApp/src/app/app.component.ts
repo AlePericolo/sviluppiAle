@@ -1,30 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import {ArticoloComponent} from './articolo/articolo.component'
-import { Articolo } from './articolo/articolo';
+import { Component } from '@angular/core';
+import { ArticoliService } from './articoli.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'main',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [ArticoliService]
 })
+
 export class AppComponent {
   
-  title = 'angularApp';
+  title = 'ELENCO ARTICOLI ';
 
-  articolo1;
+  elencoArticoli;
 
-  constructor() {
-
-      this.articolo1 = new Articolo()
-
-      console.log(this.articolo1);
-
-      this.articolo1.titolo = "Articolo 1 - Angular";
-      this.articolo1.autore = "Alessandro Pericolo";
-      this.articolo1.testo = "Creato articolo 1";
-      this.articolo1.pagine = 100,
-
-      console.log(this.articolo1);
+  constructor(private articoliService: ArticoliService) {
+      this.elencoArticoli = articoliService.getArticoli();
     };
+
+  addArticolo(articolo){
+    this.articoliService.addArticoli(articolo);
+  }
 
 }

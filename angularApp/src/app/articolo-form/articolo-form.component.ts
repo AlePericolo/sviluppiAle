@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Articolo} from '../articolo/articolo';
 
 @Component({
@@ -6,13 +7,31 @@ import { Articolo} from '../articolo/articolo';
   templateUrl: './articolo-form.component.html',
   styleUrls: ['./articolo-form.component.css']
 })
+
 export class ArticoloFormComponent {
 
-  @Output() submit = new EventEmitter<Articolo>();
   newArticolo: Articolo
-
-  constructor() { 
+  articoloForm: FormGroup
+  @Output() submit = new EventEmitter<Articolo>();
+  
+  constructor(fb: FormBuilder) { 
+    
     this.newArticolo = new Articolo();
+
+    this.articoloForm = fb.group({
+      titolo: ["", [Validators.required]],
+      autore: ["",  [Validators.required]],
+      testo: ["", [Validators.required]],
+      pagine: [undefined, [Validators.required]]
+    });
+    
+    this.articoloForm.valueChanges.subscribe(value => {
+      this.newArticolo.titolo = value.titolo;
+      this.newArticolo.autore = value.autore;
+      this.newArticolo.testo = value.testo;
+      this.newArticolo.pagine = value.pagine;
+    });
+
   }
 
   ngOnInit() {
@@ -24,5 +43,9 @@ export class ArticoloFormComponent {
     this.submit.emit(this.newArticolo)
     this.newArticolo = new Articolo();
   }
+
+  visualizzaArticolo() {
+    console.log(this.articoloForm.value);
+ }
 
 }

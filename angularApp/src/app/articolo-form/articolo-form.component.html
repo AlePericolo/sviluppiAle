@@ -1,31 +1,30 @@
 <div class="container container-fluid">
-<form #articoloForm="ngForm">
+<form [formGroup]="articoloForm">
     <h1>NEW ARTICOLO</h1>
     <div class="form-group">
-        <label for="txtTitolo">Titolo</label>
-        <input type="text" id="txtTitolo" required
-        [(ngModel)]="newArticolo.titolo" name="titolo"
+        <label for="titolo">Titolo</label>
+        <input type="text"  formControlName="titolo"
         class="form-control" placeholder="Titolo">
     </div>
     <div class="form-group">
-        <label for="txtAutore">Autore</label>
-        <input type="text" id="txtAutore" required 
-        [(ngModel)]="newArticolo.autore" name="autore"
+        <label for="autore">Autore</label>
+        <input type="text" formControlName="autore"
         class="form-control" placeholder="Autore">
     </div>
     <div class="form-group">
         <label for="txtTesto">Testo</label>
-        <textarea id="txtTesto" required 
-        [(ngModel)]="newArticolo.testo" name="testo"
+        <textarea id="txtTesto" formControlName="testo"
         class="form-control" placeholder="Testo"></textarea>
     </div>
     <div class="form-group">
         <label for="nPagine">Pagine</label>
-        <input type="number" id="nPagine" 
-        [(ngModel)]="newArticolo.pagine" name="pagine"
+        <input type="number" formControlName="pagine"
         required class="form-control" placeholder="Num. Pagine">
     </div>
-    <button type="submit" [disabled]="!articoloForm.valid" class="btn btn-default btn-success" (click)="salvaArticolo()">Salva</button>
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-default btn-success mr-2" (click)="salvaArticolo()">Salva</button>
+        <button type="button" class="btn btn-default btn-info ml-2" (click)="visualizzaArticolo()">Invia</button>
+    </div>
   </form>
   {{app}}
 </div>

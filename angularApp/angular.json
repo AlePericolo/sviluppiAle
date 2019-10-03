@@ -23,9 +23,8 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.css",
-              "node_modules/font-awesome/css/font-awesome.min.css"
+            "styles": [ 
+              "src/styles.css"
             ],
             "scripts": []
           },

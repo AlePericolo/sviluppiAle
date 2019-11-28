@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>React</title>
+		<script src="https://fb.me/react-with-addons-0.14.0.js"></script>
+		<script src="https://fb.me/react-dom-0.14.0.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+	</head>
+	<body>
+		<div id="helloworld"></div>
+        <script type="text/babel">
+            var HelloWorld = React.createClass({
+                render: function() {
+                    return <p>Hello <strong>React</strong>!</p>;
+                }
+            });
+            ReactDOM.render(<HelloWorld />, document.getElementById("helloworld"));
+        </script>
+        <hr>
+        <h2>Passaggio parametro a classe</h2>
+        <div id="login"></div>
+        <script type="text/babel">
+            var LoggedUser = React.createClass({
+                render: function() {
+                    return <p>
+                           Benvenuto <strong>{this.props.user.fullName().toUpperCase()}</strong>,
+                           sei collegato come <em>{this.props.user.userName}</em>.
+                           </p>
+                    }
+            });
+            var userInfo = {
+                userName  : 'Peril',
+                firstName : 'Alessandro',
+                lastName  : 'Pericolo',
+                fullName  : function() {
+                        return this.firstName + ' ' + this.lastName;
+                }
+            };
+            ReactDOM.render(<LoggedUser user={userInfo}/>, document.getElementById("login"));
+            </script>
+            <hr>
+            <h2>Azione</h2>
+            <div id="like"></div>
+            <script type="text/babel">
+                var LikeButton = React.createClass({
+                    getInitialState: function() {
+                        return { liked: false };
+                    },
+                    render: function() {
+                    if (this.state.liked)
+                        return <div>Ti piace!</div>
+                    else
+                        return <a href="#" onClick={this.doLike}>Mi piace</a>
+                    },
+                    doLike: function() {
+                        this.setState({ liked: true });
+                    }
+                });
+                ReactDOM.render(<LikeButton />, document.getElementById("like"));
+            </script>
+            <hr>
+            <h2>ReactFragment</h2>
+            <div id="container"></div>
+            <script type="text/babel">
+            var articleElement =
+                <article className='container'>
+                    <h1 style={{fontSize: 'larger'}}>Titolo principale</h1>
+                    <p className='text-info'>Testo del primo paragrafo</p>
+                    <p className='text-info'>Testo del secondo paragrafo</p>
+                </article>;
+            ReactDOM.render(articleElement, document.getElementById('container'));
+            </script>
+            <hr>
+            <h2>Cronometro</h2>
+            <div id="cronometro"></div>
+            <script type="text/babel">
+            var Timer = React.createClass({
+                doTick: function () {
+                    this.setState({ counter: this.state.counter + 1 });
+                },
+                resetCounter: function () {
+                this.setState({ counter: 0 });
+                },
+                componentDidMount: function () {
+                    this.tickInterval = setInterval(this.doTick, 1000);
+                },
+                componentWillUnmount: function () {
+                    clearInterval(this.tickInterval);
+                },
+                getInitialState: function () {
+                    return { counter: 0 }
+                },
+                render: function () {
+                    return (
+                        <div className="well">
+                            <button type="button"
+                                title="Clic per resettare il timer"
+                                onClick={this.resetCounter}>Reset
+                            </button>
+                            &nbsp;
+                            <span className="glyphicon glyphicon-time"></span>
+                            &nbsp;
+                            <strong>{this.state.counter}</strong>
+                        </div>
+                    );
+                }
+            });
+            ReactDOM.render(<Timer />, document.getElementById('cronometro'));
+            </script>
+	</body>
+</html>

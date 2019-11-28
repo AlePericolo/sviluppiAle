@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Spindox</title>
+</head>
+<body>
+<h1>Watch in console..</h1>
+<script>
+
+    function sum(a,b){
+        var add = function (b){return a+b;};
+        if(b)
+            return add(b);
+        return add;
+    }
+
+    console.log(sum(2,3));
+    console.log(sum(2)(3));
+
+
+    var list = new Array(10000000).fill('item');
+
+    var getItem = function() {
+        if (list.pop()) {
+            console.log(list.pop());
+            setTimeout( getItem, 0 );
+        }
+    };
+    getItem();
+
+
+</script>
+
+</body>
+</html>
